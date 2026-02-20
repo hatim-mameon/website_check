@@ -590,6 +590,9 @@
       overflow: hidden;
       border: 1px solid rgba(45,107,255,0.3);
       box-shadow: 0 0 20px rgba(45,107,255,0.25), 0 0 60px rgba(45,107,255,0.15), 0 0 120px rgba(45,107,255,0.08);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .about-video {
       width: 100%;
@@ -677,6 +680,86 @@
     }
 
     /* ── FOOTER ── */
+    /* ── CONTACT SECTION ── */
+    .contact-section {
+      background: var(--bg);
+      padding: 60px 40px;
+      display: none;
+    }
+    .contact-section.open {
+      display: block;
+    }
+    .contact-card {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(7, 10, 18, 0.72);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(45,107,255,0.3);
+      border-radius: 16px;
+      padding: 48px 56px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      box-shadow: 0 0 20px rgba(45,107,255,0.25), 0 0 60px rgba(45,107,255,0.15), 0 0 120px rgba(45,107,255,0.08);
+    }
+    .contact-heading {
+      font-size: 1.6rem;
+      color: var(--white);
+      white-space: nowrap;
+    }
+    .contact-form {
+      flex: 1;
+    }
+    .contact-form-group label {
+      font-size: 0.9rem;
+      color: var(--blue);
+      font-weight: 500;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .contact-input-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .contact-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: var(--font-body);
+      outline: none;
+      color: var(--white);
+      background: rgba(255,255,255,0.05);
+    }
+    .contact-input::placeholder {
+      color: var(--gray-dark);
+    }
+    .contact-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 8px rgba(45,107,255,0.3);
+    }
+    .contact-btn {
+      white-space: nowrap;
+    }
+    .contact-note {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--blue);
+    }
+    @media (max-width: 640px) {
+      .contact-card {
+        flex-direction: column;
+        padding: 32px 24px;
+        gap: 20px;
+        text-align: center;
+      }
+      .contact-input-row {
+        flex-direction: column;
+      }
+    }
+
     .footer {
       padding: 28px 40px;
       border-top: 1px solid rgba(255,255,255,0.06);
@@ -729,13 +812,15 @@
       .testimonial-card { flex: 0 0 320px; max-width: 320px; min-height: 280px; }
     }
 
+    @media (max-width: 960px) {
+      .nav-center { display: none; }
+      .nav-toggle { display: block; }
+    }
     @media (max-width: 640px) {
       .nav { height: 60px; }
       .nav-logo-icon { height: 40px; }
       .nav-logo-wordmark { height: 22px; }
       .nav-btn { padding: 6px 12px; font-size: 0.75rem; }
-      .nav-center { display: none; }
-      .nav-toggle { display: block; }
       .hero-content { padding: 80px 20px; }
       .hero-left h1 { font-size: 2.4rem; white-space: normal; }
       .product-content { padding: 0 20px; }
@@ -791,18 +876,18 @@
   <!-- ── NAV ── -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="https://app.mameon.com" class="nav-btn">Log in / Sign Up</a>
-      <div class="nav-center">
-        <a href="#product">Product</a>
-        <a href="#customers">Customers</a>
-        <a href="#about">About</a>
-        <a href="whatyouget.html">What You Can Make</a>
-        <a href="privacy.html">Privacy Policy</a>
-      </div>
       <a href="#" class="nav-logo">
         <img src="logo.png" alt="mameon logo" class="nav-logo-icon" />
         <img src="wordmark.png" alt="mameon" class="nav-logo-wordmark" />
       </a>
+      <div class="nav-center">
+        <a href="#product">Product</a>
+        <a href="#customers">Customers</a>
+        <a href="#about">How It Works</a>
+        <a href="whatyouget.html">What You Can Make</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+      <a href="https://app.mameon.com" class="nav-btn">Log in / Sign Up</a>
       <button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -816,7 +901,7 @@
     </button>
     <a href="#product" onclick="toggleMenu()">Product</a>
     <a href="#customers" onclick="toggleMenu()">Customers</a>
-    <a href="#about" onclick="toggleMenu()">About</a>
+    <a href="#about" onclick="toggleMenu()">How It Works</a>
     <a href="whatyouget.html" onclick="toggleMenu()">What You Can Make</a>
     <a href="privacy.html" onclick="toggleMenu()">Privacy Policy</a>
     <a href="https://app.mameon.com" class="nav-btn" onclick="toggleMenu()">Log in / Sign Up</a>
@@ -909,12 +994,12 @@
   <section class="testimonials" id="customers">
     <div class="testimonials-inner">
       <div class="testimonials-header">
-        <h2 class="testimonials-title">Loved by our customers!</h2>
+        <h2 class="testimonials-title">Loved by our customers</h2>
       </div>
       <div class="testimonials-scroll-wrapper">
         <div class="testimonials-track" id="testimonialsTrack">
           <div class="glass-card testimonial-card">
-            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/></svg>
+            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
             <p class="quote-text">"The team at mameon quickly provided several versions of our Aromyx video and it looks great and has been very effective with prospective customers! The process was super easy and the turnaround time was remarkably short. If you've ever made a traditional cumbersome product or company video, you will love this new process."</p>
             <div class="author-info">
               <div class="author-details">
@@ -925,7 +1010,7 @@
             </div>
           </div>
           <div class="glass-card testimonial-card">
-            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/></svg>
+            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
             <p class="quote-text">"We've been using mameon to support our digital media campaigns, and the experience has been seamless. Their AI-driven storytelling tools have helped us communicate our mission with greater clarity and consistency, while significantly improving efficiency in our content creation process. mameon has added real strategic value to our brand communications."</p>
             <div class="author-info">
               <div class="author-details">
@@ -936,7 +1021,7 @@
             </div>
           </div>
           <div class="glass-card testimonial-card">
-            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/></svg>
+            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
             <p class="quote-text">"It was so easy to create social media campaigns in minutes, mameon understands the brand immediately. And from there creating campaigns was simple!"</p>
             <div class="author-info">
               <div class="author-details">
@@ -947,7 +1032,7 @@
             </div>
           </div>
           <div class="glass-card testimonial-card">
-            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/></svg>
+            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
             <p class="quote-text">"mameon has helped us elevate our digital storytelling. mameon makes it easier to transform complex messaging into clear, engaging campaigns delivered quickly and professionally. It's been an invaluable addition to our communications toolkit."</p>
             <div class="author-info">
               <div class="author-details">
@@ -1049,7 +1134,7 @@
       <h2>Ready to tell your story?</h2>
       <div class="cta-buttons" id="ctaButtons">
         <a href="https://app.mameon.com" class="btn-primary">Log in / Sign Up →</a>
-        <a href="#" class="btn-secondary">
+        <a href="#contactSection" class="btn-secondary" onclick="openContact(event)">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           Talk to us
         </a>
@@ -1058,6 +1143,23 @@
   </section>
 
   <!-- ══════════ FOOTER ══════════ -->
+  <!-- ══════════ CONTACT SECTION ══════════ -->
+  <section class="contact-section" id="contactSection">
+    <div class="contact-card">
+      <h2 class="contact-heading">Want to learn more?</h2>
+      <div class="contact-form">
+        <div class="contact-form-group">
+          <label for="contactEmail">Enter your email:</label>
+          <div class="contact-input-row">
+            <input type="email" id="contactEmail" placeholder="your@email.com" class="contact-input" />
+            <button class="btn-primary contact-btn" onclick="window.location.href='mailto:hello@mameon.com?subject=I want to learn more!'">Learn More Today! →</button>
+          </div>
+          <p class="contact-note">We'll get back to you within 24 hrs!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-left">
@@ -1069,9 +1171,8 @@
       </div>
       <div class="footer-links">
         <a href="privacy.html">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Security</a>
-        <a href="#">Contact</a>
+        <a href="privacy.html">Terms</a>
+        <a href="#contactSection" onclick="openContact(event)">Contact</a>
       </div>
     </div>
   </footer>
@@ -1080,6 +1181,16 @@
     gsap.registerPlugin(ScrollTrigger);
 
     // ── MOBILE MENU ──
+    function openContact(e) {
+      e.preventDefault();
+      const section = document.getElementById('contactSection');
+      section.classList.add('open');
+      setTimeout(() => {
+        section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        document.getElementById('contactEmail').focus();
+      }, 50);
+    }
+
     function toggleMenu() {
       document.getElementById('mobileMenu').classList.toggle('open');
     }
