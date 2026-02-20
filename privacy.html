@@ -63,7 +63,7 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 1000;
-      height: 60px;
+      height: 80px;
       display: flex;
       align-items: center;
       background: rgba(7, 10, 18, 0.85);
@@ -81,10 +81,19 @@
       justify-content: space-between;
     }
     .nav-logo {
-      font-family: var(--font-heading);
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-logo-icon {
+      height: 70px;
+      width: auto;
+      object-fit: contain;
+    }
+    .nav-logo-wordmark {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
     }
     .nav-center {
       display: flex;
@@ -111,7 +120,10 @@
       transition: background 0.2s;
       cursor: pointer;
     }
-    .nav-btn:hover { background: var(--blue-hover); }
+    .nav-btn {
+      box-shadow: 0 0 12px rgba(45,107,255,0.3), 0 0 30px rgba(45,107,255,0.15);
+    }
+    .nav-btn:hover { background: var(--blue-hover); box-shadow: 0 0 20px rgba(45,107,255,0.4), 0 0 50px rgba(45,107,255,0.2); }
     .nav-toggle {
       display: none;
       background: none;
@@ -263,7 +275,17 @@
     .footer-links a:hover { color: var(--white); }
 
     /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .nav { height: 70px; }
+      .nav-logo-icon { height: 50px; }
+      .nav-logo-wordmark { height: 30px; }
+      .nav-btn { padding: 8px 16px; font-size: 0.8rem; }
+    }
     @media (max-width: 640px) {
+      .nav { height: 60px; }
+      .nav-logo-icon { height: 40px; }
+      .nav-logo-wordmark { height: 22px; }
+      .nav-btn { padding: 6px 12px; font-size: 0.75rem; }
       .nav-center { display: none; }
       .nav-toggle { display: block; }
       .privacy-page { padding: 100px 20px 60px; }
@@ -280,15 +302,18 @@
   <!-- ── NAV ── -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-logo">mameon</a>
+      <a href="https://app.mameon.com" class="nav-btn">Log in / Sign Up</a>
       <div class="nav-center">
         <a href="index.html#product">Product</a>
         <a href="index.html#customers">Customers</a>
         <a href="index.html#about">About</a>
-        <a href="whatyouget.html">What You Get</a>
+        <a href="whatyouget.html">What You Can Make</a>
         <a href="privacy.html" class="active">Privacy Policy</a>
       </div>
-      <a href="https://app.mameon.com" class="nav-btn">Log in / Sign Up</a>
+      <a href="index.html" class="nav-logo">
+        <img src="logo.png" alt="mameon logo" class="nav-logo-icon" />
+        <img src="wordmark.png" alt="mameon" class="nav-logo-wordmark" />
+      </a>
       <button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -303,7 +328,7 @@
     <a href="index.html#product" onclick="toggleMenu()">Product</a>
     <a href="index.html#customers" onclick="toggleMenu()">Customers</a>
     <a href="index.html#about" onclick="toggleMenu()">About</a>
-    <a href="whatyouget.html" onclick="toggleMenu()">What You Get</a>
+    <a href="whatyouget.html" onclick="toggleMenu()">What You Can Make</a>
     <a href="privacy.html" onclick="toggleMenu()">Privacy Policy</a>
     <a href="https://app.mameon.com" class="nav-btn" onclick="toggleMenu()">Log in / Sign Up</a>
   </div>
@@ -318,7 +343,7 @@
     <div class="privacy-section">
       <h2>Summary</h2>
       <ul>
-        <li>We will never give, sell, rent or borrow your information to anyone.</li>
+        <li>We will never give, sell, rent or loan your information to anyone.</li>
         <li>We will never spam you.</li>
         <li>We will never have direct access to your payment methods without your consent.</li>
         <li>You can opt out at any time.</li>
@@ -391,7 +416,10 @@
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-left">
-        <span class="nav-logo">mameon</span>
+        <span class="nav-logo">
+          <img src="logo.png" alt="mameon logo" class="nav-logo-icon" />
+          <img src="wordmark.png" alt="mameon" class="nav-logo-wordmark" />
+        </span>
         <span>&copy; 2026 mameon. All rights reserved.</span>
       </div>
       <div class="footer-links">
