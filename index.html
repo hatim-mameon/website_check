@@ -748,6 +748,19 @@
       font-size: 0.8rem;
       color: var(--blue);
     }
+    .contact-success {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .contact-success p {
+      font-size: 1.1rem;
+      color: var(--white);
+      font-weight: 500;
+    }
     @media (max-width: 640px) {
       .contact-card {
         flex-direction: column;
@@ -1147,16 +1160,23 @@
   <section class="contact-section" id="contactSection">
     <div class="contact-card">
       <h2 class="contact-heading">Want to learn more?</h2>
-      <div class="contact-form">
-        <div class="contact-form-group">
+      <form class="contact-form" id="contactForm" onsubmit="submitContact(event)">
+        <div class="contact-form-group" id="contactFormFields">
           <label for="contactEmail">Enter your email:</label>
           <div class="contact-input-row">
-            <input type="email" id="contactEmail" placeholder="your@email.com" class="contact-input" />
-            <button class="btn-primary contact-btn" onclick="window.location.href='mailto:hello@mameon.com?subject=I want to learn more!'">Learn More Today! →</button>
+            <input type="email" name="email" id="contactEmail" placeholder="your@email.com" class="contact-input" required />
+            <button type="submit" class="btn-primary contact-btn">Learn More Today! →</button>
           </div>
           <p class="contact-note">We'll get back to you within 24 hrs!</p>
         </div>
-      </div>
+        <div class="contact-success" id="contactSuccess" style="display:none;">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="23" stroke="var(--blue)" stroke-width="2" fill="rgba(45,107,255,0.1)"/>
+            <path d="M14 24l7 7 13-13" stroke="var(--blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+          <p>Your email has been sent, you'll hear from us soon</p>
+        </div>
+      </form>
     </div>
   </section>
 
@@ -1181,6 +1201,26 @@
     gsap.registerPlugin(ScrollTrigger);
 
     // ── MOBILE MENU ──
+    function submitContact(e) {
+      e.preventDefault();
+      const email = document.getElementById('contactEmail').value;
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('_subject', 'New contact from mameon website');
+      formData.append('_captcha', 'false');
+
+      fetch('https://formsubmit.co/ajax/hatim@mameon.com', {
+        method: 'POST',
+        body: formData
+      }).then(res => res.json()).then(data => {
+        document.getElementById('contactFormFields').style.display = 'none';
+        document.getElementById('contactSuccess').style.display = 'flex';
+      }).catch(() => {
+        document.getElementById('contactFormFields').style.display = 'none';
+        document.getElementById('contactSuccess').style.display = 'flex';
+      });
+    }
+
     function openContact(e) {
       e.preventDefault();
       const section = document.getElementById('contactSection');
