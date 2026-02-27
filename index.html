@@ -1188,7 +1188,7 @@
       </div>
       <div class="footer-links">
         <a href="privacy.html">Privacy</a>
-        <a href="privacy.html">Terms</a>
+        <a href="terms.html">Terms</a>
         <a href="#contactSection" onclick="openContact(event)">Contact</a>
       </div>
     </div>
@@ -1219,13 +1219,20 @@
     }
 
     function openContact(e) {
-      e.preventDefault();
+      if (e) e.preventDefault();
       const section = document.getElementById('contactSection');
+      if (!section) return;
       section.classList.add('open');
       setTimeout(() => {
         section.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        document.getElementById('contactEmail').focus();
+        const emailEl = document.getElementById('contactEmail');
+        if (emailEl) emailEl.focus();
       }, 50);
+    }
+
+    // If we land on index.html#contactSection from another page, open the contact panel.
+    if (window.location.hash === '#contactSection') {
+      openContact();
     }
 
     function toggleMenu() {
