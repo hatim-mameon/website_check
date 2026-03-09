@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mameon - What You Can Make</title>
+  <title>mameon - Video Tutorials</title>
   <link rel="icon" type="image/png" href="logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -166,20 +166,28 @@
     }
 
     /* ── PAGE CONTENT ── */
-    .wyg-page {
+    .tutorials-page {
       padding: 120px 40px 80px;
       max-width: 1000px;
       margin: 0 auto;
     }
 
-    .wyg-page h1 {
+    .tutorials-page h1 {
       font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 48px;
+      margin-bottom: 18px;
       text-align: center;
       text-transform: lowercase;
     }
 
-    .wyg-formats {
+    .tutorials-subline {
+      font-size: 0.95rem;
+      color: var(--gray);
+      text-align: center;
+      margin-bottom: 32px;
+      font-style: italic;
+    }
+
+    .tutorials-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 16px;
@@ -187,7 +195,7 @@
       margin-bottom: 56px;
     }
 
-    .wyg-format-tag {
+    .tutorials-tag {
       font-family: var(--font-mono);
       font-size: 0.85rem;
       color: var(--gray);
@@ -197,37 +205,11 @@
       padding: 10px 20px;
     }
 
-    .wyg-footnote {
-      font-size: 0.85rem;
-      color: var(--gray-dark);
-      font-style: italic;
-      margin-top: 0;
-      margin-bottom: 32px;
-      text-align: center;
-    }
-    .wyg-section {
-      margin-bottom: 56px;
-    }
-
-    .wyg-section h2 {
-      font-size: 1.5rem;
-      margin-bottom: 24px;
-      color: var(--white);
-    }
-
-    .wyg-section p {
-      font-size: 0.95rem;
-      color: var(--gray);
-      line-height: 1.8;
-      margin-bottom: 14px;
-    }
-
     /* ── VIDEO GRID ── */
     .video-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 24px;
-      margin-bottom: 56px;
     }
 
     .video-card {
@@ -254,67 +236,15 @@
 
     .video-card-body h3 {
       font-size: 1rem;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       color: var(--white);
       font-weight: 600;
     }
 
-    .video-card-body span {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--gray-dark);
-    }
-
-    /* ── TESTIMONIAL ── */
-    .testimonial {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--bg-card-border);
-      border-radius: 12px;
-      padding: 36px;
-      margin-bottom: 56px;
-    }
-
-    .testimonial blockquote {
-      font-size: 1.1rem;
-      color: var(--gray);
-      line-height: 1.8;
-      font-style: italic;
-      margin-bottom: 20px;
-    }
-
-    .testimonial .attribution {
+    .video-card-body p {
       font-size: 0.9rem;
-      color: var(--white);
-      font-weight: 600;
-    }
-
-    .testimonial .attribution span {
-      font-weight: 400;
-      color: var(--gray-dark);
-    }
-
-    /* ── CLOSING ── */
-    .wyg-closing {
-      text-align: center;
-      padding: 40px 0;
-    }
-
-    .wyg-closing p {
-      font-size: 1.1rem;
       color: var(--gray);
-      margin-bottom: 8px;
-    }
-
-    .wyg-closing .team {
-      font-family: var(--font-heading);
-      font-size: 1rem;
-      color: var(--gray-dark);
-    }
-
-    .wyg-divider {
-      border: none;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      margin: 40px 0;
+      line-height: 1.6;
     }
 
     /* ── FOOTER ── */
@@ -362,10 +292,9 @@
       .nav-logo-icon { height: 40px; }
       .nav-logo-wordmark { height: 22px; }
       .nav-btn { padding: 6px 12px; font-size: 0.75rem; }
-      .wyg-page { padding: 100px 20px 60px; }
-      .wyg-page h1 { font-size: 1.8rem; }
+      .tutorials-page { padding: 100px 20px 60px; }
+      .tutorials-page h1 { font-size: 1.8rem; }
       .video-grid { grid-template-columns: 1fr; }
-      .testimonial { padding: 24px; }
       .footer-inner { flex-direction: column; text-align: center; gap: 12px; }
       .footer-links { justify-content: center; }
     }
@@ -386,8 +315,8 @@
         <a href="index.html#product">Product</a>
         <a href="index.html#customers">Customers</a>
         <a href="index.html#about">How It Works</a>
-        <a href="whatyouget.html" class="active">What You Can Make</a>
-        <a href="video-tutorials.html">Video Tutorials</a>
+        <a href="whatyouget.html">What You Can Make</a>
+        <a href="video-tutorials.html" class="active">Video Tutorials</a>
       </div>
       <a href="https://app.mameon.com" class="nav-btn">Log in / Sign Up</a>
       <button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
@@ -409,134 +338,101 @@
     <a href="https://app.mameon.com" class="nav-btn" onclick="toggleMenu()">Log in / Sign Up</a>
   </div>
 
-  <!-- ══════════ PAGE CONTENT ══════════ -->
-  <div class="wyg-page">
-    <h1>sample ads made on mameon</h1>
-    <p class="wyg-footnote">scripts made instantly on mameon, editing over 48 hrs with mameon editors</p>
+  <!-- PAGE CONTENT -->
+  <div class="tutorials-page">
+    <h1>video tutorials</h1>
+    <p class="tutorials-subline">Guided walkthroughs for every workflow on mameon.</p>
 
-    <!-- Ad Format Tags -->
-    <div class="wyg-formats">
-      <div class="wyg-format-tag">3 x 10s ads &middot; square &amp; landscape</div>
-      <div class="wyg-format-tag">3 x 30s ads &middot; square &amp; landscape</div>
-      <div class="wyg-format-tag">3 x 60s ads &middot; square &amp; landscape</div>
+    <div class="tutorials-tags">
+      <div class="tutorials-tag">8 tutorials · product walkthroughs</div>
+      <div class="tutorials-tag">campaigns · brand · insights</div>
+      <div class="tutorials-tag">step-by-step videos</div>
     </div>
 
-    <!-- Video Samples - 10s Ads -->
-    <div class="wyg-section">
-      <h2>10 Second Ads</h2>
-    </div>
     <div class="video-grid">
       <div class="video-card">
-        <div class="video-card-body">
-          <h3>10s &middot; landscape</h3>
-        </div>
-        <video controls preload="metadata">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_10%20Sec_L.mp4" type="video/mp4">
+        <video controls preload="metadata" poster="videos/mameon.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/01.%20Intro.mp4" type="video/mp4">
         </video>
-      </div>
-      <div class="video-card">
         <div class="video-card-body">
-          <h3>10s &middot; square</h3>
+          <h3>Getting Started with mameon</h3>
+          <p>Learn how to set up your brand kit, create content, and launch your first campaign step by step in just a few minutes.</p>
         </div>
-        <video controls preload="metadata">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_10%20Sec_S.mp4" type="video/mp4">
-        </video>
       </div>
-      <div class="video-card">
-        <div class="video-card-body">
-          <h3>10s &middot; landscape (without text)</h3>
-        </div>
-        <video controls preload="metadata">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_10%20Sec_L_WOT.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
 
-    <!-- Video Samples - 30s Ads -->
-    <div class="wyg-section">
-      <h2>30 Second Ads</h2>
-    </div>
-    <div class="video-grid">
       <div class="video-card">
-        <div class="video-card-body">
-          <h3>30s &middot; landscape</h3>
-        </div>
-        <video controls preload="metadata" poster="ads_poster.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_30%20Sec_L.mp4" type="video/mp4">
+        <video controls preload="metadata" poster="videos/campaign.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/02.%20Your%20Campaigns.mp4" type="video/mp4">
         </video>
+        <div class="video-card-body">
+          <h3>Your First 5 Minutes on mameon</h3>
+          <p>A quick walkthrough of everything you need to know to go from login to live campaign with ease.</p>
+        </div>
       </div>
+
       <div class="video-card">
-        <div class="video-card-body">
-          <h3>30s &middot; square</h3>
-        </div>
-        <video controls preload="metadata" poster="ads_poster.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_30%20Sec_S.mp4" type="video/mp4">
+        <video controls preload="metadata" poster="videos/Your%20Brand%20Profile.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/04.%20Your%20Brand%20Profile.mp4" type="video/mp4">
         </video>
+        <div class="video-card-body">
+          <h3>Your Brand Profile</h3>
+          <p>Understand and manage your Brand Profile setup in mameon.</p>
+        </div>
       </div>
+
       <div class="video-card">
-        <div class="video-card-body">
-          <h3>30s &middot; landscape (without text)</h3>
-        </div>
-        <video controls preload="metadata" poster="ads_poster.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_30%20Sec_L_WOT.mp4" type="video/mp4">
+        <video controls preload="metadata" poster="videos/Your%20Info.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/06.%20Your%20Info.mp4" type="video/mp4">
         </video>
+        <div class="video-card-body">
+          <h3>Your Info</h3>
+          <p>A walkthrough of the Your Info section and key settings.</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Video Samples - 60s Ads -->
-    <div class="wyg-section">
-      <h2>60 Second Ads</h2>
-    </div>
-    <div class="video-grid">
       <div class="video-card">
-        <div class="video-card-body">
-          <h3>60s &middot; landscape</h3>
-        </div>
-        <video controls preload="metadata" poster="ads_poster.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_60%20Sec_L.mp4" type="video/mp4">
+        <video controls preload="metadata" poster="videos/Get%20Help.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/07.%20Get%20Help.mp4" type="video/mp4">
         </video>
+        <div class="video-card-body">
+          <h3>Get Help</h3>
+          <p>Overview of the Get Help section and available support.</p>
+        </div>
       </div>
+
       <div class="video-card">
-        <div class="video-card-body">
-          <h3>60s &middot; square</h3>
-        </div>
-        <video controls preload="metadata" poster="ads_poster.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_60%20Sec_S.mp4" type="video/mp4">
+        <video controls preload="metadata" poster="videos/Your%20Chief%20Storytelling%20Officer.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/08.%20Your%20Chief%20Storytelling%20Officer.mp4" type="video/mp4">
         </video>
+        <div class="video-card-body">
+          <h3>Your Chief Storytelling Officer</h3>
+          <p>How to use the Chief Storytelling Officer features.</p>
+        </div>
       </div>
+
       <div class="video-card">
-        <div class="video-card-body">
-          <h3>60s &middot; landscape (without text)</h3>
-        </div>
-        <video controls preload="metadata" poster="ads_poster.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_60%20Sec_L_WOT.mp4" type="video/mp4">
+        <video controls preload="metadata" poster="videos/Storytelling%20that%20Connects.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/09.%20Storytelling%20that%20Connects.mp4" type="video/mp4">
         </video>
+        <div class="video-card-body">
+          <h3>Storytelling that Connects</h3>
+          <p>Learn storytelling techniques that connect with your audience.</p>
+        </div>
       </div>
-    </div>
 
-    <hr class="wyg-divider" />
-
-    <!-- Testimonial -->
-    <div class="testimonial">
-      <blockquote>"If you've ever made a traditional cumbersome company video, you will love this new process."</blockquote>
-      <p class="attribution">Chris Hanson <span>&middot; Board Advisor at Aromyx</span></p>
-    </div>
-
-    <hr class="wyg-divider" />
-
-    <!-- Brand Statement -->
-    <div class="wyg-section">
-      <p>mameon is your comprehensive resource for advertising, communication, and customer connection. From social posts to podcasts, audio to video streaming advertisements, we've got you covered.</p>
-    </div>
-
-    <!-- Closing -->
-    <div class="wyg-closing">
-      <p>Happy connecting!</p>
-      <span class="team">&mdash; Team mameon</span>
+      <div class="video-card">
+        <video controls preload="metadata" poster="videos/Your%20Story%20is%20Worth%20Telling.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/10.%20Your%20Story%20is%20Worth%20Telling.mp4" type="video/mp4">
+        </video>
+        <div class="video-card-body">
+          <h3>Your Story is Worth Telling</h3>
+          <p>Why and how to tell your brand story effectively.</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- ══════════ FOOTER ══════════ -->
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-left">
