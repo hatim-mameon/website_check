@@ -917,7 +917,7 @@
           </div>
           <span class="step-number">01</span>
           <h4>Signup with your URL</h4>
-          <p>We read your site to learn your voice.</p>
+          <p>We learn your brand voice from your website.</p>
         </div>
         <div class="glass-card step-card">
           <div class="step-icon">
@@ -933,7 +933,7 @@
           </div>
           <span class="step-number">03</span>
           <h4>Publish everywhere</h4>
-          <p>Schedule and launch across social, email, and ads.</p>
+          <p>Schedule and launch social and advertising campaigns.</p>
         </div>
         <div class="glass-card step-card">
           <div class="step-icon">
@@ -1414,35 +1414,31 @@
     }
 
     // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-    //  HOW IT WORKS — scrubbed fade in/out (steps + video)
+    //  HOW IT WORKS — fade in only (steps)
     // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
     const howSteps = document.querySelector('.how-it-works-steps');
-    const howVideo = document.querySelector('.how-it-works-video');
-    if (howSteps && howVideo) {
+    if (howSteps) {
       const howTitle = howSteps.querySelector('.how-title');
       const howSub = howSteps.querySelector('.how-sub');
       const stepCards = howSteps.querySelectorAll('.step-card');
-      const aboutVideoWrap = document.getElementById('aboutVideoWrap');
 
-      if (howTitle && howSub && stepCards.length && aboutVideoWrap) {
-        const howTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: howSteps,
-            endTrigger: howVideo,
-            start: 'top 80%',
-            end: 'bottom 20%',
-            scrub: 0.6
-          }
+      if (howTitle) {
+        gsap.fromTo(howTitle, { y: 24, opacity: 0 }, {
+          y: 0, opacity: 1, duration: 0.6, ease: 'power2.out',
+          scrollTrigger: { trigger: howTitle, start: 'top 80%' }
         });
-
-        howTl.fromTo(howTitle, { y: 28, opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0);
-        howTl.fromTo(howSub, { y: 28, opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0.05);
-        howTl.fromTo(stepCards, { y: 28, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.08, ease: 'none' }, 0.1);
-        howTl.fromTo(aboutVideoWrap, { y: 40, opacity: 0, scale: 0.98 }, { y: 0, opacity: 1, scale: 1, ease: 'none' }, 0.35);
-
-        howTl.to([howTitle, howSub], { y: -20, opacity: 0, ease: 'none' }, 0.75);
-        howTl.to(stepCards, { y: -20, opacity: 0, stagger: 0.05, ease: 'none' }, 0.75);
-        howTl.to(aboutVideoWrap, { y: -20, opacity: 0, scale: 0.98, ease: 'none' }, 0.8);
+      }
+      if (howSub) {
+        gsap.fromTo(howSub, { y: 24, opacity: 0 }, {
+          y: 0, opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.1,
+          scrollTrigger: { trigger: howSub, start: 'top 80%' }
+        });
+      }
+      if (stepCards.length) {
+        gsap.fromTo(stepCards, { y: 40, opacity: 0 }, {
+          y: 0, opacity: 1, duration: 0.6, stagger: 0.15, ease: 'power2.out',
+          scrollTrigger: { trigger: stepCards[0], start: 'top 80%' }
+        });
       }
     }
 
@@ -1457,7 +1453,19 @@
       if (typeof scheduleBuildSnap === 'function') scheduleBuildSnap();
     });
 
-    // About video reveal handled by combined HOW IT WORKS timeline
+    // About video — no fade in, only fade out on leave
+    const aboutVideoWrap = document.getElementById('aboutVideoWrap');
+    if (aboutVideoWrap) {
+      ScrollTrigger.create({
+        trigger: aboutVideoWrap,
+        start: 'top 60%',
+        end: 'bottom 40%',
+        onEnter: () => gsap.set(aboutVideoWrap, { opacity: 1, y: 0, scale: 1 }),
+        onEnterBack: () => gsap.set(aboutVideoWrap, { opacity: 1, y: 0, scale: 1 }),
+        onLeave: () => gsap.to(aboutVideoWrap, { opacity: 0, y: -20, duration: 0.35, ease: 'power2.out' }),
+        onLeaveBack: () => gsap.to(aboutVideoWrap, { opacity: 0, y: 20, duration: 0.35, ease: 'power2.out' })
+      });
+    }
 
     // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
     //  CTA 鈥?scroll-triggered
