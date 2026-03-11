@@ -47,7 +47,7 @@
     button { font-family: inherit; cursor: pointer; border: none; }
     ul { list-style: none; }
 
-    /* ── GRAIN OVERLAY ── */
+    /* GRAIN OVERLAY */
     .grain-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -59,7 +59,7 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     }
 
-    /* ── NAV ── */
+    /* NAV */
     .nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -134,7 +134,7 @@
       cursor: pointer;
     }
 
-    /* ── MOBILE MENU ── */
+    /* MOBILE MENU */
     .mobile-menu {
       display: none;
       position: fixed;
@@ -165,7 +165,7 @@
       cursor: pointer;
     }
 
-    /* ── PAGE CONTENT ── */
+    /* PAGE CONTENT */
     .tutorials-page {
       padding: 120px 40px 80px;
       max-width: 1000px;
@@ -205,7 +205,7 @@
       padding: 10px 20px;
     }
 
-    /* ── VIDEO GRID ── */
+    /* VIDEO GRID */
     .video-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -247,7 +247,7 @@
       line-height: 1.6;
     }
 
-    /* ── FOOTER ── */
+    /* FOOTER */
     .footer {
       border-top: 1px solid rgba(255,255,255,0.06);
       padding: 32px 40px;
@@ -276,7 +276,7 @@
     }
     .footer-links a:hover { color: var(--white); }
 
-    /* ── RESPONSIVE ── */
+    /* RESPONSIVE */
     @media (max-width: 1024px) {
       .nav { height: 70px; }
       .nav-logo-icon { height: 50px; }
@@ -304,7 +304,7 @@
 
   <div class="grain-overlay"></div>
 
-  <!-- ── NAV ── -->
+  <!-- NAV -->
   <nav class="nav">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
@@ -344,12 +344,22 @@
     <p class="tutorials-subline">Guided walkthroughs for every workflow on mameon.</p>
 
     <div class="tutorials-tags">
-      <div class="tutorials-tag">8 tutorials · product walkthroughs</div>
-      <div class="tutorials-tag">campaigns · brand · insights</div>
+      <div class="tutorials-tag">9 tutorials - product walkthroughs</div>
+      <div class="tutorials-tag">campaigns - brand - insights</div>
       <div class="tutorials-tag">step-by-step videos</div>
     </div>
 
     <div class="video-grid">
+      <div class="video-card">
+        <video controls preload="metadata" poster="https://storage.googleapis.com/mameon-website-assets/00.%20How%20it%20Works.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/00.%20How%20it%20Works.mp4" type="video/mp4">
+        </video>
+        <div class="video-card-body">
+          <h3>How It Works</h3>
+          <p>See how you can simply, easily and inexpensively start creating campaigns on mameon in minutes. And, remember, campaign creation is free!</p>
+        </div>
+      </div>
+
       <div class="video-card">
         <video controls preload="metadata" poster="videos/mameon.png">
           <source src="https://storage.googleapis.com/mameon-website-assets/01.%20Intro.mp4" type="video/mp4">
@@ -457,3 +467,4 @@
   </script>
 </body>
 </html>
+
