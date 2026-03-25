@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mameon - Video Tutorials</title>
+  <title>mameon - Meet Our Team</title>
   <link rel="icon" type="image/png" href="logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -47,7 +47,6 @@
     button { font-family: inherit; cursor: pointer; border: none; }
     ul { list-style: none; }
 
-    /* GRAIN OVERLAY */
     .grain-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -59,7 +58,6 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     }
 
-    /* NAV */
     .nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -105,6 +103,7 @@
       color: var(--gray);
       font-weight: 500;
       transition: color 0.2s;
+      white-space: nowrap;
     }
     .nav-center a:hover { color: var(--white); }
     .nav-center a.active { color: var(--white); }
@@ -120,8 +119,6 @@
       border: none;
       transition: background 0.2s;
       cursor: pointer;
-    }
-    .nav-btn {
       box-shadow: 0 0 12px rgba(45,107,255,0.3), 0 0 30px rgba(45,107,255,0.15);
     }
     .nav-btn:hover { background: var(--blue-hover); box-shadow: 0 0 20px rgba(45,107,255,0.4), 0 0 50px rgba(45,107,255,0.2); }
@@ -134,7 +131,6 @@
       cursor: pointer;
     }
 
-    /* MOBILE MENU */
     .mobile-menu {
       display: none;
       position: fixed;
@@ -165,89 +161,119 @@
       cursor: pointer;
     }
 
-    /* PAGE CONTENT */
-    .tutorials-page {
+    .team-page {
       padding: 120px 40px 80px;
-      max-width: 1000px;
+      max-width: 1240px;
       margin: 0 auto;
     }
 
-    .tutorials-page h1 {
+    .team-title {
       font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       text-align: center;
-      text-transform: lowercase;
+      text-transform: none;
     }
 
-    .tutorials-subline {
-      font-size: 0.95rem;
+    .team-subline {
+      font-size: 1rem;
       color: var(--gray);
       text-align: center;
-      margin-bottom: 32px;
-      font-style: italic;
+      margin: 0 auto 46px;
+      max-width: 700px;
+      line-height: 1.7;
     }
 
-    .tutorials-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      justify-content: center;
-      margin-bottom: 56px;
-    }
-
-    .tutorials-tag {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--gray);
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--bg-card-border);
-      border-radius: 8px;
-      padding: 10px 20px;
-    }
-
-    /* VIDEO GRID */
-    .video-grid {
+    .team-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 24px;
     }
 
-    .video-card {
+    .team-card {
       background: rgba(255,255,255,0.03);
       border: 1px solid var(--bg-card-border);
-      border-radius: 12px;
+      border-radius: 14px;
+      padding: 28px 24px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 560px;
+    }
+
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
       overflow: hidden;
-      transition: border-color 0.3s;
-    }
-
-    .video-card:hover {
-      border-color: rgba(255,255,255,0.15);
-    }
-
-    .video-card video {
-      width: 100%;
-      display: block;
-      background: #000;
-    }
-
-    .video-card-body {
-      padding: 16px;
-    }
-
-    .video-card-body h3 {
-      font-size: 1rem;
-      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.05rem;
       color: var(--white);
-      font-weight: 600;
+      margin-bottom: 18px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: radial-gradient(circle at 30% 25%, rgba(45,107,255,0.7), rgba(45,107,255,0.2) 60%, rgba(255,255,255,0.08));
+      box-shadow: 0 8px 30px rgba(45,107,255,0.2);
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
-    .video-card-body p {
-      font-size: 0.9rem;
+    .team-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .role {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 1px solid rgba(45,107,255,0.35);
+      background: rgba(45,107,255,0.12);
+      color: #a9c4ff;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      letter-spacing: 0.03em;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .bio p {
+      font-size: 0.95rem;
       color: var(--gray);
-      line-height: 1.6;
+      line-height: 1.75;
+      margin-bottom: 14px;
+    }
+    .bio p:last-child { margin-bottom: 0; }
+
+    .linkedin-link {
+      margin-top: auto;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--bg-card-border);
+      background: rgba(255,255,255,0.04);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+      color: var(--gray);
+    }
+    .linkedin-link:hover {
+      border-color: rgba(45,107,255,0.55);
+      background: rgba(45,107,255,0.12);
+      color: #b5ccff;
     }
 
-    /* FOOTER */
     .footer {
       border-top: 1px solid rgba(255,255,255,0.06);
       padding: 32px 40px;
@@ -276,7 +302,11 @@
     }
     .footer-links a:hover { color: var(--white); }
 
-    /* RESPONSIVE */
+    @media (max-width: 1200px) {
+      .team-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
     @media (max-width: 1024px) {
       .nav { height: 70px; }
       .nav-logo-icon { height: 50px; }
@@ -287,14 +317,17 @@
       .nav-center { display: none; }
       .nav-toggle { display: block; }
     }
+    @media (max-width: 760px) {
+      .team-grid { grid-template-columns: 1fr; }
+      .team-card { min-height: auto; }
+    }
     @media (max-width: 640px) {
       .nav { height: 60px; }
       .nav-logo-icon { height: 40px; }
       .nav-logo-wordmark { height: 22px; }
       .nav-btn { padding: 6px 12px; font-size: 0.75rem; }
-      .tutorials-page { padding: 100px 20px 60px; }
-      .tutorials-page h1 { font-size: 1.8rem; }
-      .video-grid { grid-template-columns: 1fr; }
+      .team-page { padding: 100px 20px 60px; }
+      .team-title { font-size: 1.8rem; }
       .footer-inner { flex-direction: column; text-align: center; gap: 12px; }
       .footer-links { justify-content: center; }
     }
@@ -304,7 +337,6 @@
 
   <div class="grain-overlay"></div>
 
-  <!-- NAV -->
   <nav class="nav">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
@@ -316,8 +348,8 @@
         <a href="index.html#customers">Customers</a>
         <a href="index.html#about">How It Works</a>
         <a href="whatyouget.html">What You Can Make</a>
-        <a href="video-tutorials.html" class="active">Video Tutorials</a>
-        <a href="meet-our-team.html">Meet Our Team</a>
+        <a href="video-tutorials.html">Video Tutorials</a>
+        <a href="meet-our-team.html" class="active">Meet Our Team</a>
       </div>
       <a href="https://app.mameon.com" class="nav-btn">Log in / Sign Up for Free</a>
       <button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
@@ -326,7 +358,6 @@
     </div>
   </nav>
 
-  <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
     <button class="mobile-close" onclick="toggleMenu()">
       <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="6" x2="22" y2="22"/><line x1="22" y1="6" x2="6" y2="22"/></svg>
@@ -340,111 +371,61 @@
     <a href="https://app.mameon.com" class="nav-btn" onclick="toggleMenu()">Log in / Sign Up for Free</a>
   </div>
 
-  <!-- PAGE CONTENT -->
-  <div class="tutorials-page">
-    <h1>video tutorials</h1>
-    <p class="tutorials-subline">Guided walkthroughs for every workflow on mameon.</p>
+  <main class="team-page">
+    <h1 class="team-title">Meet Our Team</h1>
+    <p class="team-subline">We're a small crew with big hearts, and bigger ambition. We want to make storytelling effortless and we're just getting started!</p>
 
-    <div class="tutorials-tags">
-      <div class="tutorials-tag">9 tutorials - product walkthroughs</div>
-      <div class="tutorials-tag">campaigns - brand - insights</div>
-      <div class="tutorials-tag">step-by-step videos</div>
-    </div>
-
-    <div class="video-grid">
-      <div class="video-card">
-        <video controls preload="metadata" poster="https://storage.googleapis.com/mameon-website-assets/00.%20How%20it%20Works.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/00.%20How%20it%20Works.mp4" type="video/mp4">
-        </video>
-        <div class="video-card-body">
-          <h3>How It Works</h3>
-          <p>See how you can simply, easily and inexpensively start creating campaigns on mameon in minutes. And, remember, campaign creation is free!</p>
+    <section class="team-grid">
+      <article class="team-card">
+        <div class="avatar">
+          <img src="team/Jason.jpg" alt="Jason O'Mahony portrait" />
         </div>
-      </div>
-
-      <div class="video-card">
-        <video controls preload="metadata" poster="videos/mameon.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/01.%20Intro.mp4" type="video/mp4">
-        </video>
-        <div class="video-card-body">
-          <h3>Getting Started with mameon</h3>
-          <p>Learn how to set up your brand kit, create content, and launch your first campaign step by step in just a few minutes.</p>
+        <h3>JASON O'MAHONY</h3>
+        <span class="role">Founder &amp; CEO</span>
+        <div class="bio">
+          <p>Jason was born on the wild Atlantic coast of Ireland, and is a master storyteller.</p>
+          <p>He's made documentaries for PBS, was Head of Production at Udacity, and is a graduate of Stanford GSB.</p>
+          <p>He wants to build a world where every startup can connect and communicate with their customers as effectively as the biggest brands.</p>
         </div>
-      </div>
+        <a class="linkedin-link" href="https://www.linkedin.com/in/omahonyjason/" target="_blank" rel="noopener noreferrer" aria-label="Jason O'Mahony LinkedIn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.09H5.66V18H8.34V10.09ZM7 6.5A1.56 1.56 0 1 0 7 9.62A1.56 1.56 0 1 0 7 6.5ZM18.34 13.46C18.34 11.07 17.06 9.96 15.35 9.96C13.96 9.96 13.34 10.72 13 11.26V10.09H10.43V18H13.11V14.09C13.11 13.05 13.31 12.04 14.59 12.04C15.85 12.04 15.87 13.22 15.87 14.15V18H18.55V13.46H18.34Z"/></svg>
+        </a>
+      </article>
 
-      <div class="video-card">
-        <video controls preload="metadata" poster="videos/campaign.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/02.%20Your%20Campaigns.mp4" type="video/mp4">
-        </video>
-        <div class="video-card-body">
-          <h3>Your First 5 Minutes on mameon</h3>
-          <p>A quick walkthrough of everything you need to know to go from login to live campaign with ease.</p>
+      <article class="team-card">
+        <div class="avatar">
+          <img src="team/Wayne.jpg" alt="Wayne Gao portrait" />
         </div>
-      </div>
-
-      <div class="video-card">
-        <video controls preload="metadata" poster="videos/Your%20Brand%20Profile.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/04.%20Your%20Brand%20Profile.mp4" type="video/mp4">
-        </video>
-        <div class="video-card-body">
-          <h3>Your Brand Profile</h3>
-          <p>Understand and manage your Brand Profile setup in mameon.</p>
+        <h3>WAYNE GAO</h3>
+        <span class="role">CTO</span>
+        <div class="bio">
+          <p>With over 20 years of experience in software and systems development, Wayne is a CTO rock star!</p>
+          <p>He led AI-driven projects at bitHuman and AiFi, covering multimodal visual agents, autonomous checkout, synthetic data, and digital twin platforms.</p>
+          <p>He also holds 12 national patents in areas as diverse as smart home devices and computer vision!</p>
         </div>
-      </div>
+        <a class="linkedin-link" href="https://www.linkedin.com/in/wn80sr/" target="_blank" rel="noopener noreferrer" aria-label="Wayne Gao LinkedIn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.09H5.66V18H8.34V10.09ZM7 6.5A1.56 1.56 0 1 0 7 9.62A1.56 1.56 0 1 0 7 6.5ZM18.34 13.46C18.34 11.07 17.06 9.96 15.35 9.96C13.96 9.96 13.34 10.72 13 11.26V10.09H10.43V18H13.11V14.09C13.11 13.05 13.31 12.04 14.59 12.04C15.85 12.04 15.87 13.22 15.87 14.15V18H18.55V13.46H18.34Z"/></svg>
+        </a>
+      </article>
 
-      <div class="video-card">
-        <video controls preload="metadata" poster="videos/Your%20Info.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/06.%20Your%20Info.mp4" type="video/mp4">
-        </video>
-        <div class="video-card-body">
-          <h3>Your Info</h3>
-          <p>A walkthrough of the Your Info section and key settings.</p>
+      <article class="team-card">
+        <div class="avatar">
+          <img src="team/Dave.png" alt="Dave Spillane portrait" />
         </div>
-      </div>
-
-      <div class="video-card">
-        <video controls preload="metadata" poster="videos/Get%20Help.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/07.%20Get%20Help.mp4" type="video/mp4">
-        </video>
-        <div class="video-card-body">
-          <h3>Get Help</h3>
-          <p>Overview of the Get Help section and available support.</p>
+        <h3>DAVE SPILLANE</h3>
+        <span class="role">Chair of Board</span>
+        <div class="bio">
+          <p>Also hailing from Ireland, Dave holds a concurrent role at Catalyze Advisors and Point Arena LLC, where he helps run operations and finance.</p>
+          <p>Dave spent 12 years at Ernst &amp; Young before joining Facebook as its Chief Accounting Officer.</p>
+          <p>After helping to take Facebook public in 2012, Dave joined Stripe as its Chief Accountant.</p>
         </div>
-      </div>
+        <a class="linkedin-link" href="https://www.linkedin.com/in/davespillane/" target="_blank" rel="noopener noreferrer" aria-label="Dave Spillane LinkedIn">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.09H5.66V18H8.34V10.09ZM7 6.5A1.56 1.56 0 1 0 7 9.62A1.56 1.56 0 1 0 7 6.5ZM18.34 13.46C18.34 11.07 17.06 9.96 15.35 9.96C13.96 9.96 13.34 10.72 13 11.26V10.09H10.43V18H13.11V14.09C13.11 13.05 13.31 12.04 14.59 12.04C15.85 12.04 15.87 13.22 15.87 14.15V18H18.55V13.46H18.34Z"/></svg>
+        </a>
+      </article>
+    </section>
+  </main>
 
-      <div class="video-card">
-        <video controls preload="metadata" poster="videos/Your%20Chief%20Storytelling%20Officer.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/08.%20Your%20Chief%20Storytelling%20Officer.mp4" type="video/mp4">
-        </video>
-        <div class="video-card-body">
-          <h3>Your Chief Storytelling Officer</h3>
-          <p>How to use the Chief Storytelling Officer features.</p>
-        </div>
-      </div>
-
-      <div class="video-card">
-        <video controls preload="metadata" poster="videos/Storytelling%20that%20Connects.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/09.%20Storytelling%20that%20Connects.mp4" type="video/mp4">
-        </video>
-        <div class="video-card-body">
-          <h3>Storytelling that Connects</h3>
-          <p>Learn storytelling techniques that connect with your audience.</p>
-        </div>
-      </div>
-
-      <div class="video-card">
-        <video controls preload="metadata" poster="videos/Your%20Story%20is%20Worth%20Telling.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/10.%20Your%20Story%20is%20Worth%20Telling.mp4" type="video/mp4">
-        </video>
-        <div class="video-card-body">
-          <h3>Your Story is Worth Telling</h3>
-          <p>Why and how to tell your brand story effectively.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-left">
@@ -469,4 +450,3 @@
   </script>
 </body>
 </html>
-
