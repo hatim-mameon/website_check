@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mameon - Page Not Found</title>
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script>
+    (function() {
+      var defined = {
+        '/about': '/#about',
+        '/pricing': '/#pricing',
+        '/features': '/#product',
+        '/product': '/#product',
+        '/contact': '/#contactSection',
+        '/customers': '/#customers',
+        '/testimonials': '/#customers',
+        '/how-it-works': '/#about',
+        '/blog': '/',
+        '/privacy': '/privacy.html',
+        '/privacy-policy': '/privacy.html',
+        '/terms': '/terms.html',
+        '/terms-of-service': '/terms.html',
+        '/terms-and-conditions': '/terms.html',
+        '/signup': 'https://app.mameon.com',
+        '/sign-up': 'https://app.mameon.com',
+        '/login': 'https://app.mameon.com',
+        '/log-in': 'https://app.mameon.com',
+        '/index-v1.html': '/'
+      };
+      var path = window.location.pathname.replace(/\/+$/, '') || '/';
+      if (defined[path]) {
+        window.location.replace(defined[path]);
+      } else if (path.indexOf('/blog/') === 0) {
+        window.location.replace('/');
+      }
+    })();
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #070a12;
+      --blue: #2D6BFF;
+      --blue-hover: #1a5aee;
+      --white: #ffffff;
+      --gray: #A7B1C8;
+      --gray-dark: #6b7280;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 24px;
+      min-height: 100vh;
+    }
+
+    h1, h2 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .error-code {
+      font-family: var(--font-heading);
+      font-size: clamp(5rem, 15vw, 10rem);
+      font-weight: 700;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--blue) 0%, #6B8FFF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    p {
+      font-size: 1rem;
+      color: var(--gray);
+      line-height: 1.6;
+      max-width: 440px;
+      margin-bottom: 32px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 14px 32px;
+      background: var(--blue);
+      color: var(--white);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: var(--font-body);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 12px rgba(45,107,255,0.3), 0 0 30px rgba(45,107,255,0.15);
+    }
+
+    .btn:hover {
+      background: var(--blue-hover);
+      box-shadow: 0 0 20px rgba(45,107,255,0.4), 0 0 50px rgba(45,107,255,0.2);
+    }
+
+    .logo {
+      position: absolute;
+      top: 24px;
+      left: 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .logo img:first-child { height: 50px; }
+    .logo img:last-child { height: 30px; }
+
+    @media (max-width: 640px) {
+      .logo { left: 20px; top: 16px; }
+      .logo img:first-child { height: 36px; }
+      .logo img:last-child { height: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <a href="/" class="logo">
+    <img src="/logo.png" alt="mameon logo" />
+    <img src="/wordmark.png" alt="mameon" />
+  </a>
+  <div class="error-code">404</div>
+  <h1>Page not found</h1>
+  <p>The page you're looking for doesn't exist or has been moved. Let's get you back on track.</p>
+  <a href="/" class="btn">Back to mameon.com</a>
+</body>
+</html>

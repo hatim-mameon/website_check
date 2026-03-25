@@ -1,0 +1,143 @@
+name: mameon-website
+region: nyc
+
+static_sites:
+  - name: mameon-website
+    github:
+      repo: hatim-mameon/website_check
+      branch: main
+      deploy_on_push: true
+    source_dir: /
+    error_document: 404.html
+
+ingress:
+  rules:
+    # ── Old Unicorn Platform URL redirects (301) ──
+
+    # Section pages -> homepage anchors
+    - match:
+        path:
+          prefix: /about
+      redirect:
+        uri: /#about
+        redirect_code: 301
+    - match:
+        path:
+          prefix: /pricing
+      redirect:
+        uri: /#pricing
+        redirect_code: 301
+    - match:
+        path:
+          prefix: /features
+      redirect:
+        uri: /#product
+        redirect_code: 301
+    - match:
+        path:
+          prefix: /product
+      redirect:
+        uri: /#product
+        redirect_code: 301
+    - match:
+        path:
+          prefix: /contact
+      redirect:
+        uri: /#contactSection
+        redirect_code: 301
+    - match:
+        path:
+          prefix: /customers
+      redirect:
+        uri: /#customers
+        redirect_code: 301
+    - match:
+        path:
+          prefix: /testimonials
+      redirect:
+        uri: /#customers
+        redirect_code: 301
+    - match:
+        path:
+          prefix: /how-it-works
+      redirect:
+        uri: /#about
+        redirect_code: 301
+
+    # Blog catch-all -> homepage
+    - match:
+        path:
+          prefix: /blog
+      redirect:
+        uri: /
+        redirect_code: 301
+
+    # Clean URLs -> .html equivalents
+    - match:
+        path:
+          prefix: /privacy-policy
+      redirect:
+        uri: /privacy.html
+        redirect_code: 301
+    # NOTE: /privacy prefix would also match /privacy.html, so we use exact logic:
+    # DO App Platform matches longest prefix first, so /privacy.html is served
+    # as a static file before the /privacy prefix redirect fires.
+
+    # Terms variants
+    - match:
+        path:
+          prefix: /terms-of-service
+      redirect:
+        uri: /terms.html
+        redirect_code: 301
+    - match:
+        path:
+          prefix: /terms-and-conditions
+      redirect:
+        uri: /terms.html
+        redirect_code: 301
+
+    # Auth pages -> app subdomain
+    - match:
+        path:
+          prefix: /signup
+      redirect:
+        authority: app.mameon.com
+        uri: /
+        redirect_code: 301
+    - match:
+        path:
+          prefix: /sign-up
+      redirect:
+        authority: app.mameon.com
+        uri: /
+        redirect_code: 301
+    - match:
+        path:
+          prefix: /login
+      redirect:
+        authority: app.mameon.com
+        uri: /
+        redirect_code: 301
+    - match:
+        path:
+          prefix: /log-in
+      redirect:
+        authority: app.mameon.com
+        uri: /
+        redirect_code: 301
+
+    # Deleted old file
+    - match:
+        path:
+          prefix: /index-v1.html
+      redirect:
+        uri: /
+        redirect_code: 301
+
+    # ── Default: serve static site ──
+    - match:
+        path:
+          prefix: /
+      component:
+        name: mameon-website
