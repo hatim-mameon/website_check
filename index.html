@@ -1146,6 +1146,17 @@
               </div>
             </div>
           </div>
+          <div class="glass-card testimonial-card">
+            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
+            <p class="quote-text">"Running a startup or a small business isn't one hard thing. It's twenty easy things, ten medium things, and five impossibly hard things all at once. mameon looks after all aspects of social media and advertising for me. After setup it runs away in the background, getting our story in front of the right people, and allowing me to focus on all the other things that come with running a startup!"</p>
+            <div class="author-info">
+              <div class="author-details">
+                <div class="author-name">Cian Mahony</div>
+                <div class="author-role">Mara Botanics</div>
+                <img src="logos/Mara Botanics Transparent Logo.png" alt="Mara Botanics logo" class="author-logo" style="background:#f5f5f3;border-radius:6px;padding:4px;" />
+              </div>
+            </div>
+          </div>
         </div>
         <div class="testimonial-nav">
           <button class="testimonial-arrow testimonial-arrow-left" id="testimonialPrev" aria-label="Previous">
@@ -1385,15 +1396,33 @@
           scrollTrigger: {
             trigger: testimonialsSection,
             start: 'top 80%',
-            end: 'bottom 20%',
-            scrub: 0.6
+            end: 'bottom 24%',
+            scrub: 0.48
           }
         });
 
-        testimonialsTl.fromTo(testimonialsTitle, { y: 24, opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0);
-        testimonialsTl.fromTo(testimonialCards, { y: 24, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.08, ease: 'none' }, 0.05);
-        testimonialsTl.to(testimonialsTitle, { y: -20, opacity: 0, ease: 'none' }, 0.75);
-        testimonialsTl.to(testimonialCards, { y: -20, opacity: 0, stagger: 0.05, ease: 'none' }, 0.75);
+        testimonialsTl.fromTo(
+          testimonialsTitle,
+          { y: 18, opacity: 0.08 },
+          { y: 0, opacity: 1, duration: 0.22, ease: 'none' },
+          0
+        );
+        testimonialsTl.fromTo(
+          testimonialCards,
+          { y: 18, opacity: 0.08 },
+          { y: 0, opacity: 1, duration: 0.22, stagger: 0.05, ease: 'none' },
+          0.04
+        );
+        testimonialsTl.to(
+          testimonialsTitle,
+          { y: -14, opacity: 0.08, duration: 0.16, ease: 'none' },
+          0.82
+        );
+        testimonialsTl.to(
+          testimonialCards,
+          { y: -14, opacity: 0.08, duration: 0.16, stagger: 0.03, ease: 'none' },
+          0.82
+        );
       }
     }
 
