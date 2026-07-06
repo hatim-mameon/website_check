@@ -3,6 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5YZHC5Z63S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-5YZHC5Z63S');
+  </script>
+
   <title>mameon - Privacy Policy</title>
   <meta name="description" content="mameon privacy policy. We never sell, rent, or share your personal information. Learn how we collect, use, and protect your data." />
   <link rel="canonical" href="https://mameon.com/privacy.html" />
@@ -531,6 +541,19 @@
     function toggleMenu() {
       document.getElementById('mobileMenu').classList.toggle('open');
     }
+  </script>
+  <!-- GA4: track signup / login CTA clicks -->
+  <script>
+    document.querySelectorAll('a[href^="https://app.mameon.com"]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        gtag('event', 'signup_click', {
+          button_class: btn.className || 'unknown',
+          link_text: (btn.textContent || '').trim(),
+          page_location: window.location.pathname,
+          transport_type: 'beacon'
+        });
+      });
+    });
   </script>
 </body>
 </html>

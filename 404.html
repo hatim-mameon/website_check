@@ -3,6 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5YZHC5Z63S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-5YZHC5Z63S');
+  </script>
+
   <title>mameon - Page Not Found</title>
   <link rel="icon" type="image/png" href="/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -154,5 +164,18 @@
   <h1>Page not found</h1>
   <p>The page you're looking for doesn't exist or has been moved. Let's get you back on track.</p>
   <a href="/" class="btn">Back to mameon.com</a>
+  <!-- GA4: track signup / login CTA clicks -->
+  <script>
+    document.querySelectorAll('a[href^="https://app.mameon.com"]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        gtag('event', 'signup_click', {
+          button_class: btn.className || 'unknown',
+          link_text: (btn.textContent || '').trim(),
+          page_location: window.location.pathname,
+          transport_type: 'beacon'
+        });
+      });
+    });
+  </script>
 </body>
 </html>
