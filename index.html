@@ -953,7 +953,7 @@
         <a href="video-tutorials.html">Video Tutorials</a>
         <a href="meet-our-team.html">Meet Our Team</a>
       </div>
-      <a href="https://app.mameon.com" class="nav-btn">Log in / Sign Up for Free</a>
+      <a href="https://app.mameon.com" class="nav-btn" data-location="navbar">Log in / Sign Up for Free</a>
       <button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -971,7 +971,7 @@
     <a href="whatyouget.html" onclick="toggleMenu()">What You Can Make</a>
     <a href="video-tutorials.html" onclick="toggleMenu()">Video Tutorials</a>
     <a href="meet-our-team.html" onclick="toggleMenu()">Meet Our Team</a>
-    <a href="https://app.mameon.com" class="nav-btn" onclick="toggleMenu()">Log in / Sign Up for Free</a>
+    <a href="https://app.mameon.com" class="nav-btn" data-location="mobile-menu" onclick="toggleMenu()">Log in / Sign Up for Free</a>
   </div>
 
   <!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 HERO 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 -->
@@ -989,7 +989,7 @@
         <div class="glass-card hero-card">
           <h3>Launch Campaigns Faster.</h3>
           <p>Enter your URL. We learn your brand. We create campaigns that are ready to publish in minutes. Creating and launching campaigns is absolutely free!</p>
-          <a href="https://app.mameon.com" class="btn-primary full-width">Log in / Sign Up for Free</a>
+          <a href="https://app.mameon.com" class="btn-primary full-width" data-location="hero">Log in / Sign Up for Free</a>
         </div>
       </div>
     </div>
@@ -1096,7 +1096,7 @@
           </div>
           <div class="product-buttons">
             <a href="#about" class="btn-secondary">See how it works</a>
-            <a href="https://app.mameon.com" class="btn-primary">Log in / Sign Up for Free</a>
+            <a href="https://app.mameon.com" class="btn-primary" data-location="product-section">Log in / Sign Up for Free</a>
           </div>
         </div>
       </div>
@@ -1197,7 +1197,7 @@
     <div class="cta-inner" id="ctaContent">
       <h2>Create social and advertising campaigns for free. No credit card required.</h2>
       <div class="cta-buttons" id="ctaButtons">
-        <a href="https://app.mameon.com" class="btn-primary">Log in / Sign Up for Free</a>
+        <a href="https://app.mameon.com" class="btn-primary" data-location="footer-cta">Log in / Sign Up for Free</a>
         <a href="#contactSection" class="btn-secondary" onclick="openContact(event)">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           Talk to us
@@ -1661,16 +1661,16 @@
       scheduleBuildSnap();
     });
   </script>
-  <!-- GA4: track signup / login CTA clicks -->
+  <!-- GA4: track signup / login CTA clicks (delegated, so buttons added later are covered too) -->
   <script>
-    document.querySelectorAll('a[href^="https://app.mameon.com"]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        gtag('event', 'signup_click', {
-          button_class: btn.className || 'unknown',
-          link_text: (btn.textContent || '').trim(),
-          page_location: window.location.pathname,
-          transport_type: 'beacon'
-        });
+    document.addEventListener('click', function (e) {
+      if (!e.target || !e.target.closest) return;
+      var btn = e.target.closest('a[href^="https://app.mameon.com"]');
+      if (!btn) return;
+      gtag('event', 'signup_click', {
+        button_location: btn.dataset.location || 'unknown',
+        link_text: (btn.textContent || '').trim(),
+        transport_type: 'beacon'
       });
     });
   </script>

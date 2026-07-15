@@ -343,7 +343,7 @@
         <a href="video-tutorials.html">Video Tutorials</a>
         <a href="meet-our-team.html">Meet Our Team</a>
       </div>
-      <a href="https://app.mameon.com" class="nav-btn">Log in / Sign Up for Free</a>
+      <a href="https://app.mameon.com" class="nav-btn" data-location="navbar">Log in / Sign Up for Free</a>
       <button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -361,7 +361,7 @@
     <a href="whatyouget.html" onclick="toggleMenu()">What You Can Make</a>
     <a href="video-tutorials.html" onclick="toggleMenu()">Video Tutorials</a>
     <a href="meet-our-team.html" onclick="toggleMenu()">Meet Our Team</a>
-    <a href="https://app.mameon.com" class="nav-btn" onclick="toggleMenu()">Log in / Sign Up for Free</a>
+    <a href="https://app.mameon.com" class="nav-btn" data-location="mobile-menu" onclick="toggleMenu()">Log in / Sign Up for Free</a>
   </div>
 
   <!-- ══════════ PRIVACY CONTENT ══════════ -->
@@ -548,16 +548,16 @@
       document.getElementById('mobileMenu').classList.toggle('open');
     }
   </script>
-  <!-- GA4: track signup / login CTA clicks -->
+  <!-- GA4: track signup / login CTA clicks (delegated, so buttons added later are covered too) -->
   <script>
-    document.querySelectorAll('a[href^="https://app.mameon.com"]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        gtag('event', 'signup_click', {
-          button_class: btn.className || 'unknown',
-          link_text: (btn.textContent || '').trim(),
-          page_location: window.location.pathname,
-          transport_type: 'beacon'
-        });
+    document.addEventListener('click', function (e) {
+      if (!e.target || !e.target.closest) return;
+      var btn = e.target.closest('a[href^="https://app.mameon.com"]');
+      if (!btn) return;
+      gtag('event', 'signup_click', {
+        button_location: btn.dataset.location || 'unknown',
+        link_text: (btn.textContent || '').trim(),
+        transport_type: 'beacon'
       });
     });
   </script>
