@@ -1680,6 +1680,15 @@
         center: (st.start + ((st.end ?? st.start) - st.start) * 0.5) / maxScroll
       }));
 
+      // The partners strip sits above the first pinned section, so it owns no zone of
+      // its own — without this the hero's zone reaches back over it and you can neither
+      // linger on it going down nor scroll back up to it. Make the top of the page a
+      // snap target covering the strip.
+      const firstPin = pinned[0];
+      if (firstPin && firstPin.start > 0) {
+        zones.push({ start: 0, end: firstPin.start / maxScroll, center: 0 });
+      }
+
       if (howSteps) {
         const rect = howSteps.getBoundingClientRect();
         const sectionTop = window.scrollY + rect.top;
