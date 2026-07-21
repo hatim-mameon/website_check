@@ -448,30 +448,41 @@
       margin-bottom: 48px;
       font-style: italic;
     }
+    /* same continuous marquee as the partners strip */
     .testimonials-scroll-wrapper {
       position: relative;
       overflow: hidden;
-      padding: 0 40px;
+    }
+    .testimonials-viewport {
+      position: relative;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
     }
     .testimonials-track {
       display: flex;
-      gap: 28px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding-bottom: 8px;
-      cursor: grab;
+      width: max-content;
+      animation: testimonials-scroll 70s linear infinite;
     }
-    .testimonials-track:active { cursor: grabbing; }
-    .testimonials-track::-webkit-scrollbar { display: none; }
+    /* pause so a card can actually be read — hover on desktop, touch/hold on mobile */
+    .testimonials-viewport:hover .testimonials-track,
+    .testimonials-viewport:active .testimonials-track,
+    .testimonials-viewport:focus-within .testimonials-track { animation-play-state: paused; }
+    .testimonials-group {
+      display: flex;
+      align-items: stretch;
+      gap: 28px;
+      padding-right: 28px;
+    }
     .testimonial-card {
       flex: 0 0 380px;
       max-width: 380px;
       min-height: 320px;
-      scroll-snap-align: start;
       display: flex;
       flex-direction: column;
+    }
+    @keyframes testimonials-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
     .testimonial-card .quote-icon {
       color: var(--blue);
@@ -510,52 +521,9 @@
       opacity: 0.9;
       margin-top: 10px;
     }
-    .testimonial-nav {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      margin-top: 32px;
-    }
-    .testimonial-arrow {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.15);
-      background: rgba(255,255,255,0.05);
-      color: var(--white);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .testimonial-arrow:hover {
-      background: rgba(45,107,255,0.2);
-      border-color: rgba(45,107,255,0.4);
-      box-shadow: 0 0 12px rgba(45,107,255,0.3);
-    }
-    .testimonial-arrow:disabled {
-      opacity: 0.2;
-      cursor: default;
-      pointer-events: none;
-    }
-    .testimonial-dots {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .testimonial-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      transition: all 0.3s;
-      cursor: pointer;
-    }
-    .testimonial-dot.active {
-      background: var(--blue);
-      box-shadow: 0 0 8px rgba(45,107,255,0.5);
+    @media (prefers-reduced-motion: reduce) {
+      .testimonials-track { animation: none; }
+      .testimonials-viewport { overflow-x: auto; }
     }
 
     /* 鈹€鈹€ HOW IT WORKS 鈹€鈹€ */
@@ -908,7 +876,9 @@
       .product-buttons .btn-primary,
       .product-buttons .btn-secondary { width: 100%; }
       .cta-buttons { flex-direction: column; align-items: center; }
-      .testimonials-scroll-wrapper { padding: 0 20px; }
+      /* narrower cards travel a shorter loop, so shorten the cycle to match */
+      .testimonials-track { animation-duration: 46s; }
+      .testimonials-group { gap: 18px; padding-right: 18px; }
       .footer-inner { flex-direction: column; text-align: center; }
       .footer-links { justify-content: center; }
       .how-it-works, .cta { padding-left: 20px; padding-right: 20px; }
@@ -1179,71 +1149,123 @@
         <h2 class="testimonials-title">Loved by our customers</h2>
       </div>
       <div class="testimonials-scroll-wrapper">
-        <div class="testimonials-track" id="testimonialsTrack">
-          <div class="glass-card testimonial-card">
-            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-            <p class="quote-text">"The team at mameon quickly provided several versions of our Aromyx video and it looks great and has been very effective with prospective customers! The process was super easy and the turnaround time was remarkably short. If you've ever made a traditional cumbersome product or company video, you will love this new process."</p>
-            <div class="author-info">
-              <div class="author-details">
-                <div class="author-name">Chris Hanson</div>
-                <div class="author-role">Board Advisor, Aromyx</div>
-                <img src="logos/Aromyx-Logo - Copy.png" alt="Aromyx logo" class="author-logo" style="background:#fff;border-radius:6px;padding:4px;" />
+        <div class="testimonials-viewport">
+          <div class="testimonials-track" id="testimonialsTrack">
+            <div class="testimonials-group">
+              <div class="glass-card testimonial-card">
+                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
+                <p class="quote-text">"The team at mameon quickly provided several versions of our Aromyx video and it looks great and has been very effective with prospective customers! The process was super easy and the turnaround time was remarkably short. If you've ever made a traditional cumbersome product or company video, you will love this new process."</p>
+                <div class="author-info">
+                  <div class="author-details">
+                    <div class="author-name">Chris Hanson</div>
+                    <div class="author-role">Board Advisor, Aromyx</div>
+                    <img src="logos/Aromyx-Logo - Copy.png" alt="Aromyx logo" class="author-logo" style="background:#fff;border-radius:6px;padding:4px;" />
+                  </div>
+                </div>
+              </div>
+              <div class="glass-card testimonial-card">
+                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
+                <p class="quote-text">"We've been using mameon to support our digital media campaigns, and the experience has been seamless. Their AI-driven storytelling tools have helped us communicate our mission with greater clarity and consistency, while significantly improving efficiency in our content creation process. mameon has added real strategic value to our brand communications."</p>
+                <div class="author-info">
+                  <div class="author-details">
+                    <div class="author-name">Shane Hannan</div>
+                    <div class="author-role">CEO, Mesh Bioplastics</div>
+                    <img src="logos/MESH.jpeg" alt="Mesh Bioplastics logo" class="author-logo" style="background:#fff;border-radius:6px;padding:4px;" />
+                  </div>
+                </div>
+              </div>
+              <div class="glass-card testimonial-card">
+                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
+                <p class="quote-text">"It was so easy to create social media campaigns. We just pasted in our URL and mameon understood our brand immediately. From there creating campaigns was simple! And the best thing about mameon is that it was absolutely free."</p>
+                <div class="author-info">
+                  <div class="author-details">
+                    <div class="author-name">Peter O'Regan</div>
+                    <div class="author-role">CEO, Tigre</div>
+                    <img src="logos/TIGRE - Copy.png" alt="Tigre logo" class="author-logo" />
+                  </div>
+                </div>
+              </div>
+              <div class="glass-card testimonial-card">
+                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
+                <p class="quote-text">"mameon has helped us elevate our digital storytelling. mameon makes it easier to transform complex messaging into clear, engaging campaigns delivered quickly and professionally. It's been an invaluable addition to our communications toolkit."</p>
+                <div class="author-info">
+                  <div class="author-details">
+                    <div class="author-name">SPSV Pro Training</div>
+                    <div class="author-role">CEO, SPSV Pro Training</div>
+                    <img src="logos/SPSV.jpeg" alt="SPSV Pro Training logo" class="author-logo" style="background:#f5f5f3;border-radius:6px;padding:4px;" />
+                  </div>
+                </div>
+              </div>
+              <div class="glass-card testimonial-card">
+                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
+                <p class="quote-text">"Running a startup or a small business isn't one hard thing. It's twenty easy things, ten medium things, and five impossibly hard things all at once. mameon looks after all aspects of social media and advertising for me. After setup it runs away in the background, getting our story in front of the right people, and allowing me to focus on all the other things that come with running a startup!"</p>
+                <div class="author-info">
+                  <div class="author-details">
+                    <div class="author-name">Cian Mahony</div>
+                    <div class="author-role">Mara Botanics</div>
+                    <img src="logos/Mara Botanics Transparent Logo.png" alt="Mara Botanics logo" class="author-logo" style="background:#f5f5f3;border-radius:6px;padding:4px;" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="testimonials-group" aria-hidden="true">
+              <div class="glass-card testimonial-card">
+                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
+                <p class="quote-text">"The team at mameon quickly provided several versions of our Aromyx video and it looks great and has been very effective with prospective customers! The process was super easy and the turnaround time was remarkably short. If you've ever made a traditional cumbersome product or company video, you will love this new process."</p>
+                <div class="author-info">
+                  <div class="author-details">
+                    <div class="author-name">Chris Hanson</div>
+                    <div class="author-role">Board Advisor, Aromyx</div>
+                    <img src="logos/Aromyx-Logo - Copy.png" alt="" class="author-logo" style="background:#fff;border-radius:6px;padding:4px;" />
+                  </div>
+                </div>
+              </div>
+              <div class="glass-card testimonial-card">
+                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
+                <p class="quote-text">"We've been using mameon to support our digital media campaigns, and the experience has been seamless. Their AI-driven storytelling tools have helped us communicate our mission with greater clarity and consistency, while significantly improving efficiency in our content creation process. mameon has added real strategic value to our brand communications."</p>
+                <div class="author-info">
+                  <div class="author-details">
+                    <div class="author-name">Shane Hannan</div>
+                    <div class="author-role">CEO, Mesh Bioplastics</div>
+                    <img src="logos/MESH.jpeg" alt="" class="author-logo" style="background:#fff;border-radius:6px;padding:4px;" />
+                  </div>
+                </div>
+              </div>
+              <div class="glass-card testimonial-card">
+                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
+                <p class="quote-text">"It was so easy to create social media campaigns. We just pasted in our URL and mameon understood our brand immediately. From there creating campaigns was simple! And the best thing about mameon is that it was absolutely free."</p>
+                <div class="author-info">
+                  <div class="author-details">
+                    <div class="author-name">Peter O'Regan</div>
+                    <div class="author-role">CEO, Tigre</div>
+                    <img src="logos/TIGRE - Copy.png" alt="" class="author-logo" />
+                  </div>
+                </div>
+              </div>
+              <div class="glass-card testimonial-card">
+                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
+                <p class="quote-text">"mameon has helped us elevate our digital storytelling. mameon makes it easier to transform complex messaging into clear, engaging campaigns delivered quickly and professionally. It's been an invaluable addition to our communications toolkit."</p>
+                <div class="author-info">
+                  <div class="author-details">
+                    <div class="author-name">SPSV Pro Training</div>
+                    <div class="author-role">CEO, SPSV Pro Training</div>
+                    <img src="logos/SPSV.jpeg" alt="" class="author-logo" style="background:#f5f5f3;border-radius:6px;padding:4px;" />
+                  </div>
+                </div>
+              </div>
+              <div class="glass-card testimonial-card">
+                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
+                <p class="quote-text">"Running a startup or a small business isn't one hard thing. It's twenty easy things, ten medium things, and five impossibly hard things all at once. mameon looks after all aspects of social media and advertising for me. After setup it runs away in the background, getting our story in front of the right people, and allowing me to focus on all the other things that come with running a startup!"</p>
+                <div class="author-info">
+                  <div class="author-details">
+                    <div class="author-name">Cian Mahony</div>
+                    <div class="author-role">Mara Botanics</div>
+                    <img src="logos/Mara Botanics Transparent Logo.png" alt="" class="author-logo" style="background:#f5f5f3;border-radius:6px;padding:4px;" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="glass-card testimonial-card">
-            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-            <p class="quote-text">"We've been using mameon to support our digital media campaigns, and the experience has been seamless. Their AI-driven storytelling tools have helped us communicate our mission with greater clarity and consistency, while significantly improving efficiency in our content creation process. mameon has added real strategic value to our brand communications."</p>
-            <div class="author-info">
-              <div class="author-details">
-                <div class="author-name">Shane Hannan</div>
-                <div class="author-role">CEO, Mesh Bioplastics</div>
-                <img src="logos/MESH.jpeg" alt="Mesh Bioplastics logo" class="author-logo" style="background:#fff;border-radius:6px;padding:4px;" />
-              </div>
-            </div>
-          </div>
-          <div class="glass-card testimonial-card">
-            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-            <p class="quote-text">"It was so easy to create social media campaigns. We just pasted in our URL and mameon understood our brand immediately. From there creating campaigns was simple! And the best thing about mameon is that it was absolutely free."</p>
-            <div class="author-info">
-              <div class="author-details">
-                <div class="author-name">Peter O'Regan</div>
-                <div class="author-role">CEO, Tigre</div>
-                <img src="logos/TIGRE - Copy.png" alt="Tigre logo" class="author-logo" />
-              </div>
-            </div>
-          </div>
-          <div class="glass-card testimonial-card">
-            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-            <p class="quote-text">"mameon has helped us elevate our digital storytelling. mameon makes it easier to transform complex messaging into clear, engaging campaigns delivered quickly and professionally. It's been an invaluable addition to our communications toolkit."</p>
-            <div class="author-info">
-              <div class="author-details">
-                <div class="author-name">SPSV Pro Training</div>
-                <div class="author-role">CEO, SPSV Pro Training</div>
-                <img src="logos/SPSV.jpeg" alt="SPSV Pro Training logo" class="author-logo" style="background:#f5f5f3;border-radius:6px;padding:4px;" />
-              </div>
-            </div>
-          </div>
-          <div class="glass-card testimonial-card">
-            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-            <p class="quote-text">"Running a startup or a small business isn't one hard thing. It's twenty easy things, ten medium things, and five impossibly hard things all at once. mameon looks after all aspects of social media and advertising for me. After setup it runs away in the background, getting our story in front of the right people, and allowing me to focus on all the other things that come with running a startup!"</p>
-            <div class="author-info">
-              <div class="author-details">
-                <div class="author-name">Cian Mahony</div>
-                <div class="author-role">Mara Botanics</div>
-                <img src="logos/Mara Botanics Transparent Logo.png" alt="Mara Botanics logo" class="author-logo" style="background:#f5f5f3;border-radius:6px;padding:4px;" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial-nav">
-          <button class="testimonial-arrow testimonial-arrow-left" id="testimonialPrev" aria-label="Previous">
-            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-          </button>
-          <div class="testimonial-dots" id="testimonialDots"></div>
-          <button class="testimonial-arrow testimonial-arrow-right" id="testimonialNext" aria-label="Next">
-            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
         </div>
       </div>
     </div>
@@ -1505,75 +1527,6 @@
       }
     }
 
-    // Drag-to-scroll for testimonials track
-    (function() {
-      const track = document.getElementById('testimonialsTrack');
-      let isDown = false, startX, scrollLeft;
-      track.addEventListener('mousedown', e => { isDown = true; startX = e.pageX - track.offsetLeft; scrollLeft = track.scrollLeft; });
-      track.addEventListener('mouseleave', () => { isDown = false; });
-      track.addEventListener('mouseup', () => { isDown = false; });
-      track.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); track.scrollLeft = scrollLeft - (e.pageX - track.offsetLeft - startX) * 1.5; });
-    })();
-
-    // Testimonial arrow + dots navigation
-    (function() {
-      const track = document.getElementById('testimonialsTrack');
-      const prevBtn = document.getElementById('testimonialPrev');
-      const nextBtn = document.getElementById('testimonialNext');
-      const dotsContainer = document.getElementById('testimonialDots');
-      const cards = track.querySelectorAll('.testimonial-card');
-      const getCardWidth = () => cards[0].offsetWidth + 28;
-
-      // Calculate how many scroll positions exist
-      function getMaxSteps() {
-        const maxScroll = track.scrollWidth - track.clientWidth;
-        if (maxScroll <= 0) return 1;
-        return Math.ceil(maxScroll / getCardWidth()) + 1;
-      }
-
-      function buildDots() {
-        dotsContainer.innerHTML = '';
-        const steps = getMaxSteps();
-        for (let i = 0; i < steps; i++) {
-          const dot = document.createElement('span');
-          dot.className = 'testimonial-dot' + (i === 0 ? ' active' : '');
-          dot.addEventListener('click', () => {
-            const maxScroll = track.scrollWidth - track.clientWidth;
-            const target = i === steps - 1 ? maxScroll : i * getCardWidth();
-            track.scrollTo({ left: target, behavior: 'smooth' });
-          });
-          dotsContainer.appendChild(dot);
-        }
-      }
-
-      function updateControls() {
-        const maxScroll = track.scrollWidth - track.clientWidth;
-        prevBtn.disabled = track.scrollLeft <= 5;
-        nextBtn.disabled = track.scrollLeft >= maxScroll - 5;
-        // Update active dot
-        const steps = getMaxSteps();
-        const dots = dotsContainer.querySelectorAll('.testimonial-dot');
-        let activeIndex;
-        if (track.scrollLeft >= maxScroll - 5) {
-          activeIndex = steps - 1;
-        } else {
-          activeIndex = Math.round(track.scrollLeft / getCardWidth());
-        }
-        dots.forEach((d, i) => d.classList.toggle('active', i === activeIndex));
-      }
-
-      nextBtn.addEventListener('click', () => {
-        track.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
-      });
-      prevBtn.addEventListener('click', () => {
-        track.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
-      });
-
-      track.addEventListener('scroll', updateControls);
-      buildDots();
-      updateControls();
-      window.addEventListener('resize', () => { buildDots(); updateControls(); });
-    })();
 
     // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
     //  CONNECT 鈥?pinned, text scrolls in then out
@@ -1710,16 +1663,36 @@
       if (zones.length === 0) return;
       zones.sort((a, b) => a.start - b.start);
 
+      // Mark zones that butt directly against the one before them. Only those can hand
+      // back on an upward scroll — a non-adjacent neighbour is too far to jump to.
+      zones.forEach((z, i) => {
+        const prev = zones[i - 1];
+        z.prev = prev && Math.abs(z.start - prev.end) < 0.002 ? prev : null;
+      });
+
       snapTrigger = ScrollTrigger.create({
         snap: {
-          snapTo: progress => {
-            const inZone = zones.some(z => progress >= z.start - 0.02 && progress <= z.end + 0.02);
-            if (inZone) {
-              return zones.reduce((best, z) =>
-                Math.abs(z.center - progress) < Math.abs(best - progress) ? z.center : best
-              , zones[0]?.center ?? 0);
+          snapTo: (progress, self) => {
+            // Snap to the zone the scroll is actually inside. Picking the nearest centre
+            // instead put the hand-off at the midpoint between two centres — for the
+            // partners strip that sat ~160px past where the strip ends, so scrolling
+            // past it pulled you back to the top and scrolling back up pulled you down.
+            const inside = zones.find(z => progress >= z.start && progress <= z.end);
+            if (inside) {
+              // Scrolling up out of the early part of a zone hands back to the zone it
+              // butts against, so the short strip stays reachable from the tall hero pin.
+              if (self && self.direction < 0 && inside.prev && progress < inside.center) {
+                return inside.prev.center;
+              }
+              return inside.center;
             }
-            return progress;
+
+            // Outside every zone: only nudge if one is close, otherwise leave it alone.
+            const near = zones.filter(z => progress >= z.start - 0.02 && progress <= z.end + 0.02);
+            if (!near.length) return progress;
+            return near.reduce((best, z) =>
+              Math.abs(z.center - progress) < Math.abs(best - progress) ? z.center : best
+            , near[0].center);
           },
           duration: { min: 0.15, max: 0.35 },
           delay: 0,
