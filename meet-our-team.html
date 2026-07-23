@@ -22,14 +22,17 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #070a12;
-      --bg-card: #070a12b8;
-      --bg-card-border: rgba(255, 255, 255, 0.08);
+      --bg: #ffffff;
+      --bg-card: #f4f5f7;
+      --bg-card-border: rgba(16, 22, 35, 0.10);
       --blue: #2D6BFF;
       --blue-hover: #1a5aee;
+      --btn: #0f1420;
+      --btn-hover: #262c3a;
       --white: #ffffff;
-      --gray: #A7B1C8;
-      --gray-dark: #6b7280;
+      --gray: #545b69;
+      --gray-dark: #8b93a1;
+      --ink: #0f1420;
       --font-heading: 'Space Grotesk', sans-serif;
       --font-body: 'Inter', sans-serif;
       --font-mono: 'IBM Plex Mono', monospace;
@@ -40,7 +43,7 @@
     body {
       font-family: var(--font-body);
       background: var(--bg);
-      color: var(--white);
+      color: var(--ink);
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
       line-height: 1.6;
@@ -115,28 +118,28 @@
       transition: color 0.2s;
       white-space: nowrap;
     }
-    .nav-center a:hover { color: var(--white); }
-    .nav-center a.active { color: var(--white); }
+    .nav-center a:hover { color: var(--ink); }
+    .nav-center a.active { color: var(--ink); }
     .nav-btn {
       display: inline-flex;
       align-items: center;
       padding: 10px 22px;
-      background: var(--blue);
-      color: var(--white);
+      background: var(--btn);
+      color: #fff;
       border-radius: 8px;
       font-size: 0.9rem;
       font-weight: 600;
       border: none;
       transition: background 0.2s;
       cursor: pointer;
-      box-shadow: 0 0 12px rgba(45,107,255,0.3), 0 0 30px rgba(45,107,255,0.15);
+      box-shadow: 0 6px 16px rgba(16,22,35,0.16);
     }
-    .nav-btn:hover { background: var(--blue-hover); box-shadow: 0 0 20px rgba(45,107,255,0.4), 0 0 50px rgba(45,107,255,0.2); }
+    .nav-btn:hover { background: var(--btn-hover); box-shadow: 0 10px 24px rgba(16,22,35,0.24); }
     .nav-toggle {
       display: none;
       background: none;
       border: none;
-      color: var(--white);
+      color: var(--ink);
       padding: 4px;
       cursor: pointer;
     }
@@ -146,7 +149,7 @@
       position: fixed;
       inset: 0;
       z-index: 2000;
-      background: var(--bg);
+      background: rgba(7, 10, 18, 0.97);
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -160,14 +163,14 @@
       color: var(--gray);
       transition: color 0.2s;
     }
-    .mobile-menu a:hover { color: var(--white); }
+    .mobile-menu a:hover { color: var(--ink); }
     .mobile-close {
       position: absolute;
       top: 16px;
       right: 20px;
       background: none;
       border: none;
-      color: var(--white);
+      color: var(--ink);
       cursor: pointer;
     }
 
@@ -209,8 +212,9 @@
     }
 
     .team-card {
-      background: rgba(255,255,255,0.03);
+      background: var(--bg-card);
       border: 1px solid var(--bg-card-border);
+      box-shadow: 0 10px 30px rgba(16,22,35,0.06);
       border-radius: 14px;
       padding: 28px 24px 24px;
       text-align: center;
@@ -231,10 +235,10 @@
       font-family: var(--font-heading);
       font-weight: 700;
       font-size: 1.05rem;
-      color: var(--white);
+      color: var(--ink);
       margin-bottom: 18px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: radial-gradient(circle at 30% 25%, rgba(45,107,255,0.7), rgba(45,107,255,0.2) 60%, rgba(255,255,255,0.08));
+      border: 1px solid rgba(16,22,35,0.2);
+      background: radial-gradient(circle at 30% 25%, rgba(45,107,255,0.7), rgba(45,107,255,0.2) 60%, rgba(16,22,35,0.08));
       box-shadow: 0 8px 30px rgba(45,107,255,0.2);
     }
     .avatar img {
@@ -257,7 +261,7 @@
       border-radius: 999px;
       border: 1px solid rgba(45,107,255,0.35);
       background: rgba(45,107,255,0.12);
-      color: #a9c4ff;
+      color: var(--blue);
       padding: 4px 12px;
       font-size: 0.75rem;
       font-family: var(--font-mono);
@@ -280,7 +284,7 @@
       height: 34px;
       border-radius: 8px;
       border: 1px solid var(--bg-card-border);
-      background: rgba(255,255,255,0.04);
+      background: rgba(16,22,35,0.04);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -290,10 +294,11 @@
     .linkedin-link:hover {
       border-color: rgba(45,107,255,0.55);
       background: rgba(45,107,255,0.12);
-      color: #b5ccff;
+      color: var(--blue);
     }
 
     .footer {
+      background: #0b0f1a;
       border-top: 1px solid rgba(255,255,255,0.06);
       padding: 32px 40px;
     }
@@ -319,7 +324,7 @@
       color: var(--gray-dark);
       transition: color 0.2s;
     }
-    .footer-links a:hover { color: var(--white); }
+    .footer-links a:hover { color: var(--ink); }
 
     @media (max-width: 1200px) {
       /* two per row, same half-column trick so a lone final card centres */
@@ -356,6 +361,20 @@
       .footer-inner { flex-direction: column; text-align: center; gap: 12px; }
       .footer-links { justify-content: center; }
     }
+
+    /* light-theme chrome overrides */
+    .nav .nav-center a { color: rgba(255,255,255,0.72); }
+    .nav .nav-center a:hover, .nav .nav-center a.active { color: #fff; }
+    .nav-toggle { color: #fff; }
+    .mobile-menu a { color: rgba(255,255,255,0.78); }
+    .mobile-menu a:hover { color: #fff; }
+    .mobile-close { color: #fff; }
+    .footer .footer-links a { color: rgba(255,255,255,0.6); }
+    .footer .footer-links a:hover { color: #fff; }
+    .footer .footer-left span:last-child { color: rgba(255,255,255,0.6); }
+    /* Nav CTA sits on the dark nav bar -> inverse (light) button so it stands out */
+    .nav-btn { background: #fff; color: var(--ink); box-shadow: 0 2px 10px rgba(0,0,0,0.28); }
+    .nav-btn:hover { background: #e8eaee; color: var(--ink); box-shadow: 0 4px 14px rgba(0,0,0,0.34); }
   </style>
 </head>
 <body>

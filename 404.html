@@ -53,12 +53,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #070a12;
+      --bg: #ffffff;
       --blue: #2D6BFF;
       --blue-hover: #1a5aee;
+      --btn: #0f1420;
+      --btn-hover: #262c3a;
       --white: #ffffff;
-      --gray: #A7B1C8;
-      --gray-dark: #6b7280;
+      --gray: #545b69;
+      --gray-dark: #8b93a1;
+      --ink: #0f1420;
       --font-heading: 'Space Grotesk', sans-serif;
       --font-body: 'Inter', sans-serif;
     }
@@ -67,7 +70,7 @@
       height: 100%;
       font-family: var(--font-body);
       background: var(--bg);
-      color: var(--white);
+      color: var(--ink);
       -webkit-font-smoothing: antialiased;
     }
 
@@ -117,8 +120,8 @@
       display: inline-flex;
       align-items: center;
       padding: 14px 32px;
-      background: var(--blue);
-      color: var(--white);
+      background: var(--btn);
+      color: #fff;
       border-radius: 8px;
       font-size: 1rem;
       font-weight: 600;
@@ -127,12 +130,12 @@
       cursor: pointer;
       text-decoration: none;
       transition: background 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 12px rgba(45,107,255,0.3), 0 0 30px rgba(45,107,255,0.15);
+      box-shadow: 0 6px 16px rgba(16,22,35,0.16);
     }
 
     .btn:hover {
-      background: var(--blue-hover);
-      box-shadow: 0 0 20px rgba(45,107,255,0.4), 0 0 50px rgba(45,107,255,0.2);
+      background: var(--btn-hover);
+      box-shadow: 0 10px 24px rgba(16,22,35,0.24);
     }
 
     .logo {
