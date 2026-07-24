@@ -54,13 +54,21 @@
 
     :root {
       --bg: #ffffff;
-      --blue: #2D6BFF;
-      --blue-hover: #1a5aee;
-      --btn: #0f1420;
-      --btn-hover: #262c3a;
+      /* ── PRIMARY BLUE ──
+         Hue 221°, matching the ink/grey ramp (~220°) so the blue reads as the
+         saturated sibling of the neutrals rather than a bolted-on accent.
+         --blue carries white text at 5.2:1 (AA at every size). */
+      --blue: #2563EB;
+      --blue-hover: #1D4FD8;
+      --blue-deep: #16337F;   /* gradient floor + text on tints */
+      --blue-lift: #4C8BF9;   /* highlight end of gradients */
+      --blue-wash: #EFF4FE;   /* whisper tint for large sections */
+      --blue-edge: #D7E3FB;   /* border that sits on the wash */
+      --btn: #2563EB;
+      --btn-hover: #1D4FD8;
       --white: #ffffff;
       --gray: #545b69;
-      --gray-dark: #8b93a1;
+      --gray-dark: #656C7B;
       --ink: #0f1420;
       --font-heading: 'Space Grotesk', sans-serif;
       --font-body: 'Inter', sans-serif;
@@ -95,7 +103,7 @@
       font-size: clamp(5rem, 15vw, 10rem);
       font-weight: 700;
       line-height: 1;
-      background: linear-gradient(135deg, var(--blue) 0%, #6B8FFF 100%);
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-lift) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -130,12 +138,12 @@
       cursor: pointer;
       text-decoration: none;
       transition: background 0.2s, box-shadow 0.2s;
-      box-shadow: 0 6px 16px rgba(16,22,35,0.16);
+      box-shadow: 0 6px 18px rgba(37,99,235,0.26);
     }
 
     .btn:hover {
       background: var(--btn-hover);
-      box-shadow: 0 10px 24px rgba(16,22,35,0.24);
+      box-shadow: 0 10px 26px rgba(37,99,235,0.34);
     }
 
     .logo {
@@ -155,6 +163,23 @@
       .logo { left: 20px; top: 16px; }
       .logo img:first-child { height: 36px; }
       .logo img:last-child { height: 20px; }
+    }
+
+    /* ── FOCUS RING ──
+       There was no :focus-visible styling anywhere on the site, and the contact
+       input additionally set outline:none — keyboard users had no indicator at
+       all. The brand blue doubles as the ring; it inverts to white on the dark
+       chrome and the blue panels, where a blue ring would vanish. */
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+    }
+    .nav :focus-visible,
+    .mobile-menu :focus-visible,
+    .footer :focus-visible,
+    #hero .hero-card :focus-visible,
+    .cta-inner :focus-visible {
+      outline-color: #fff;
     }
   </style>
 </head>

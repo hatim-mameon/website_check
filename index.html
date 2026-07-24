@@ -45,6 +45,8 @@
   </script>
 
   <link rel="icon" type="image/png" href="logo.png" />
+  <!-- hero photograph is the LCP element — fetch it alongside the CSS, not after it -->
+  <link rel="preload" as="image" href="homepic.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -59,14 +61,22 @@
       --bg: #ffffff;
       --bg-card: #f4f5f7;
       --bg-card-border: rgba(16, 22, 35, 0.10);
-      --blue: #2D6BFF;
-      --blue-hover: #1a5aee;
-      --btn: #0f1420;
-      --btn-hover: #262c3a;
+      /* ── PRIMARY BLUE ──
+         Hue 221°, matching the ink/grey ramp (~220°) so the blue reads as the
+         saturated sibling of the neutrals rather than a bolted-on accent.
+         --blue carries white text at 5.2:1 (AA at every size). */
+      --blue: #2563EB;
+      --blue-hover: #1D4FD8;
+      --blue-deep: #16337F;   /* gradient floor + text on tints */
+      --blue-lift: #4C8BF9;   /* highlight end of gradients */
+      --blue-wash: #EFF4FE;   /* whisper tint for large sections */
+      --blue-edge: #D7E3FB;   /* border that sits on the wash */
+      --btn: #2563EB;
+      --btn-hover: #1D4FD8;
       --white: #ffffff;
       --ink: #0f1420;
       --gray: #545b69;
-      --gray-dark: #8b93a1;
+      --gray-dark: #656C7B;
       --font-heading: 'Space Grotesk', sans-serif;
       --font-body: 'Inter', sans-serif;
       --font-mono: 'IBM Plex Mono', monospace;
@@ -117,10 +127,10 @@
       height: 80px;
       display: flex;
       align-items: center;
-      background: rgba(7, 10, 18, 0.85);
+      background: rgba(10, 15, 34, 0.86);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(76,139,249,0.16);
     }
     .nav-inner {
       width: 100%;
@@ -289,11 +299,11 @@
       border: none;
       cursor: pointer;
       transition: all 0.3s;
-      box-shadow: 0 6px 16px rgba(16,22,35,0.16);
+      box-shadow: 0 6px 18px rgba(37,99,235,0.26);
     }
     .btn-primary:hover {
       background: var(--btn-hover);
-      box-shadow: 0 10px 24px rgba(16,22,35,0.24);
+      box-shadow: 0 10px 26px rgba(37,99,235,0.34);
       transform: scale(1.02);
     }
     .btn-primary.full-width { width: 100%; }
@@ -304,8 +314,11 @@
       gap: 8px;
       padding: 14px 28px;
       background: transparent;
-      color: var(--ink);
-      border: 1px solid rgba(16,22,35,0.18);
+      color: var(--blue-hover);
+      /* was rgba(16,22,35,0.18) = 1.47:1 against white, which read as a disabled
+         control and failed WCAG 1.4.11 (3:1 for UI boundaries). 0.70 alpha of the
+         brand blue lands at 3.02:1 and pairs the outline button with the solid one. */
+      border: 1px solid rgba(37,99,235,0.70);
       border-radius: 10px;
       font-size: 0.95rem;
       font-weight: 500;
@@ -314,8 +327,9 @@
       transition: all 0.3s;
     }
     .btn-secondary:hover {
-      border-color: rgba(16,22,35,0.35);
-      background: rgba(16,22,35,0.04);
+      border-color: var(--blue);
+      background: rgba(37,99,235,0.08);
+      color: var(--blue-deep);
     }
 
     /* 鈹€鈹€ MANIFESTO 鈹€鈹€ */
@@ -566,22 +580,22 @@
     }
     .how-it-works .step-card {
       padding: 20px 17px;
-      background-image: linear-gradient(135deg, rgba(45,107,255,0.22) 0%, rgba(45,107,255,0.08) 45%, rgba(7,10,18,0) 100%);
-      border-color: rgba(45,107,255,0.22);
+      background-image: linear-gradient(135deg, rgba(37,99,235,0.22) 0%, rgba(37,99,235,0.08) 45%, rgba(37,99,235,0) 100%);
+      border-color: rgba(37,99,235,0.22);
     }
     .how-it-works .step-card:hover {
-      background-image: linear-gradient(135deg, rgba(45,107,255,0.32) 0%, rgba(45,107,255,0.12) 45%, rgba(7,10,18,0) 100%);
-      border-color: rgba(45,107,255,0.4);
+      background-image: linear-gradient(135deg, rgba(37,99,235,0.32) 0%, rgba(37,99,235,0.12) 45%, rgba(37,99,235,0) 100%);
+      border-color: rgba(37,99,235,0.4);
     }
     .how-it-works .steps-grid {
       gap: 12px;
     }
-    .step-card:hover { border-color: rgba(45,107,255,0.2); }
+    .step-card:hover { border-color: rgba(37,99,235,0.2); }
     .step-icon {
       width: 48px;
       height: 48px;
       border-radius: 12px;
-      background: rgba(45,107,255,0.15);
+      background: rgba(37,99,235,0.15);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -595,7 +609,7 @@
       margin-bottom: 12px;
       margin-left: auto;
     }
-    .step-card:hover .step-icon { background: rgba(45,107,255,0.25); }
+    .step-card:hover .step-icon { background: rgba(37,99,235,0.25); }
     .step-number {
       position: absolute;
       top: 16px;
@@ -637,8 +651,8 @@
       margin-bottom: 24px;
       border-radius: 16px;
       overflow: hidden;
-      border: 1px solid rgba(45,107,255,0.3);
-      box-shadow: 0 0 20px rgba(45,107,255,0.25), 0 0 60px rgba(45,107,255,0.15), 0 0 120px rgba(45,107,255,0.08);
+      border: 1px solid rgba(37,99,235,0.3);
+      box-shadow: 0 0 20px rgba(37,99,235,0.25), 0 0 60px rgba(37,99,235,0.15), 0 0 120px rgba(37,99,235,0.08);
       width: min(520px, 46vw);
       max-width: 100%;
       margin-left: auto;
@@ -726,13 +740,13 @@
       margin: 0 auto;
       background: #ffffff;
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(45,107,255,0.3);
+      border: 1px solid rgba(37,99,235,0.3);
       border-radius: 16px;
       padding: 48px 56px;
       display: flex;
       align-items: center;
       gap: 40px;
-      box-shadow: 0 0 20px rgba(45,107,255,0.25), 0 0 60px rgba(45,107,255,0.15), 0 0 120px rgba(45,107,255,0.08);
+      box-shadow: 0 0 20px rgba(37,99,235,0.25), 0 0 60px rgba(37,99,235,0.15), 0 0 120px rgba(37,99,235,0.08);
     }
     .contact-heading {
       font-size: 1.6rem;
@@ -769,7 +783,7 @@
     }
     .contact-input:focus {
       border-color: var(--blue);
-      box-shadow: 0 0 8px rgba(45,107,255,0.3);
+      box-shadow: 0 0 8px rgba(37,99,235,0.3);
     }
     .contact-btn {
       white-space: nowrap;
@@ -806,8 +820,8 @@
 
     .footer {
       padding: 28px 40px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      background: #0b0f1a;
+      border-top: 1px solid rgba(76,139,249,0.14);
+      background: #0A0F22;
     }
     .footer-inner {
       max-width: 1400px;
@@ -894,7 +908,7 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(7, 10, 18, 0.97);
+      background: rgba(10, 15, 34, 0.97);
       backdrop-filter: blur(20px);
       z-index: 999;
       flex-direction: column;
@@ -1011,7 +1025,6 @@
     .footer .footer-links a:hover { color: #fff; }
 
     /* Hero is now imageless — soft light background, dark copy */
-    #hero { background: linear-gradient(180deg, #ffffff 0%, #f4f6f9 100%); }
     #hero .hero-left h1 { color: var(--ink); }
     #hero .hero-left p  { color: var(--gray); }
     .glass-card h3 { color: var(--ink); }
@@ -1026,13 +1039,63 @@
       box-shadow: 0 10px 30px rgba(16,22,35,0.06);
     }
     .contact-card { box-shadow: 0 18px 50px rgba(16,22,35,0.10); }
-    /* ── HERO SOCIAL-POST SCENE ── */
-    #hero .social-scene { position: absolute; inset: 0; overflow: hidden; }
+    /* ── HERO SOCIAL-POST SCENE (UNUSED) ──
+       A curated left-hand subset survives the photo: the scrim renders the left
+       column as near-white, so these read as a clean UI layer over it rather than
+       fake post cards fighting a photo of real ones. The right-side pieces
+       (pc-a / chip-li / ep-a) are gone — they sat over the photograph itself. */
+    #hero .social-scene {
+      position: absolute; inset: 0; overflow: hidden;
+      /* MUST outrank .hero-bg-wrap::after. The scrim is a pseudo-element, so it
+         paints after its siblings — at 0.97 white on the left it would otherwise
+         erase exactly the pieces we are keeping. GSAP's scale on .hero-bg-wrap
+         makes it a stacking context, so this z-index resolves against the scrim. */
+      z-index: 2;
+    }
+    /* ── HERO PHOTOGRAPH ── */
+    #hero .hero-photo {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      /* the subject (hands, laid-out cards) sits centre-right, so bias the crop
+         that way — at tall/narrow viewports a centred crop loses it off-frame */
+      object-position: 68% 50%;
+    }
     #hero .hero-bg-wrap::after {
       content: ""; position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(115% 85% at 32% 52%,
-        rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.55) 42%, rgba(255,255,255,0) 100%);
+      background:
+        /* Legibility by construction, not by measurement. Worst case is the scrim
+           over pure black, so alpha alone sets a contrast floor: 0.84 is the
+           minimum that holds --gray (16.8px, needs 4.5:1). The copy column runs
+           to 46% of the viewport at 1280-2560px and to 53% at ~1025px, where the
+           flex row is most compressed — so the scrim stays >=0.88 out to 56%,
+           giving >=5.17:1 at every breakpoint no matter what the crop lands on.
+           90deg not a tilted angle: a tilt makes the stop positions drift with
+           vertical position, which would eat that margin unpredictably. */
+        linear-gradient(90deg,
+          rgba(255,255,255,0.97) 0%,
+          rgba(255,255,255,0.93) 38%,
+          rgba(255,255,255,0.88) 56%,
+          rgba(255,255,255,0.46) 70%,
+          rgba(255,255,255,0.24) 86%,
+          rgba(255,255,255,0.20) 100%),
+        /* the photo is warm wood and cream against a cool blue palette. A light
+           blue wash pulls it into the family without desaturating it — warm and
+           cool stay complementary, they just stop looking unrelated. */
+        linear-gradient(180deg, rgba(37,99,235,0.05), rgba(37,99,235,0.11)),
+        /* settles the bottom edge into the white section that follows */
+        linear-gradient(180deg, rgba(255,255,255,0) 72%, rgba(255,255,255,0.85) 100%);
     }
+    /* Stacked layout: the copy and the blue card cover most of the frame, so the
+       photo steps back to a texture rather than competing with the type. */
+    @media (max-width: 1024px) {
+      #hero .hero-bg-wrap::after {
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.93), rgba(255,255,255,0.95)),
+          linear-gradient(180deg, rgba(37,99,235,0.05), rgba(37,99,235,0.10));
+      }
+    }
+
     #hero .social-scene > * { position: absolute; opacity: 0; }
     #hero .post-card {
       width: 230px; background: #fff; border: 1px solid var(--bg-card-border);
@@ -1040,14 +1103,14 @@
     }
     #hero .pc-head { display: flex; align-items: center; gap: 9px; }
     #hero .pc-avatar { width: 30px; height: 30px; border-radius: 50%; flex: none;
-      background: linear-gradient(135deg, var(--blue), #6b8fff); }
+      background: linear-gradient(135deg, var(--blue), var(--blue-lift)); }
     #hero .pc-lines { display: flex; flex-direction: column; gap: 5px; }
     #hero .pc-lines i { display: block; height: 7px; border-radius: 4px; background: rgba(16,22,35,0.12); }
     #hero .pc-lines i:first-child { width: 74px; }
     #hero .pc-lines i:last-child { width: 44px; background: rgba(16,22,35,0.07); }
     #hero .pc-badge { width: 22px; height: 22px; margin-left: auto; }
     #hero .pc-media { height: 96px; border-radius: 11px; margin-top: 11px;
-      background: linear-gradient(135deg, rgba(45,107,255,0.20), rgba(45,107,255,0.05)); }
+      background: linear-gradient(135deg, rgba(37,99,235,0.20), rgba(37,99,235,0.05)); }
     #hero .pc-text { font-size: 13px; line-height: 1.5; color: var(--ink); margin: 11px 2px; font-weight: 500; }
     #hero .pc-foot { display: flex; align-items: center; gap: 6px; margin-top: 11px; }
     #hero .pc-count { font-family: var(--font-mono); font-size: 11px; color: var(--gray); margin-right: 8px; }
@@ -1058,13 +1121,14 @@
       border: 1px solid var(--bg-card-border); border-radius: 999px; padding: 7px 13px;
       font-family: var(--font-mono); font-size: 11px; color: var(--gray); box-shadow: 0 12px 30px rgba(16,22,35,0.10); }
 
-    #hero .pc-a    { top: 9%;  right: 7%;  animation: heroFadeIn .8s ease .05s forwards, floatA 9s   ease-in-out infinite; }
-    #hero .pc-b    { bottom: 9%; left: 4%; width: 214px; animation: heroFadeIn .8s ease .12s forwards, floatB 11s ease-in-out infinite; }
-    #hero .chip-fb { top: 20%; left: 3%;   animation: heroFadeIn .8s ease .18s forwards, floatB 8s   ease-in-out infinite; }
-    #hero .chip-li { bottom: 25%; right: 5%; animation: heroFadeIn .8s ease .24s forwards, floatA 10s ease-in-out infinite; }
-    #hero .chip-pin{ top: 12%; left: 33%;  animation: heroFadeIn .8s ease .30s forwards, floatA 7.5s ease-in-out infinite; }
-    #hero .ep-a    { top: 31%; right: 29%; animation: heroFadeIn .8s ease .36s forwards, floatB 8.5s ease-in-out infinite; }
-    #hero .ep-b    { bottom: 22%; left: 28%; animation: heroFadeIn .8s ease .42s forwards, floatA 9.5s ease-in-out infinite; }
+    /* Left-hand placements only, and deliberately kept out of the band the copy
+       occupies. The headline block centres at roughly 31%-69% of the viewport
+       height across 600-900px tall screens, so these sit above 21% or below 74%
+       and never collide with the type at any breakpoint. */
+    #hero .chip-pin{ top: 10%;   left: 27%; animation: heroFadeIn .8s ease .10s forwards, floatA 7.5s ease-in-out infinite; }
+    #hero .chip-fb { top: 15%;   left: 4%;  animation: heroFadeIn .8s ease .18s forwards, floatB 8s   ease-in-out infinite; }
+    #hero .ep-b    { bottom: 26%; left: 26%; animation: heroFadeIn .8s ease .26s forwards, floatA 9.5s ease-in-out infinite; }
+    #hero .pc-b    { bottom: 8%;  left: 3%; width: 200px; animation: heroFadeIn .8s ease .34s forwards, floatB 11s ease-in-out infinite; }
 
     @keyframes heroFadeIn { to { opacity: 1; } }
     @keyframes floatA { 0%,100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-15px) rotate(1.5deg); } }
@@ -1074,9 +1138,174 @@
     @media (prefers-reduced-motion: reduce) {
       #hero .social-scene > * { animation: heroFadeIn .6s ease forwards !important; }
     }
+    /* ─────────────  BLUE PRIMARY SURFACES  ─────────────
+       Exactly two solid-blue anchors — the hero card and the closing CTA — so the
+       page still reads as white with two deliberate points of emphasis. Everything
+       else stays neutral or takes a whisper-thin blue wash. */
+
+    /* Hero ground picks up the faintest blue so the card sits in-family */
+    #hero { background: linear-gradient(180deg, #ffffff 0%, var(--blue-wash) 100%); }
+
+    /* ── ANCHOR 1 — hero card ── */
+    #hero .hero-card {
+      position: relative;
+      /* --blue is the LIGHTEST stop on purpose: it is the palest ground that
+         still carries 15px body copy at AA (4.82:1 at 95% white). An earlier
+         version started at --blue-lift and washed the heading out to 2.8:1. */
+      background: linear-gradient(158deg, var(--blue) 0%, var(--blue-hover) 100%);
+      border: 1px solid rgba(255,255,255,0.18);
+      /* dimensionality comes from a 1px specular top edge, not an area wash —
+         an inset highlight lights the card without lifting the ground under text */
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.22),
+                  0 24px 60px rgba(22,51,127,0.28),
+                  0 2px 6px rgba(22,51,127,0.16);
+    }
+    #hero .hero-card > * { position: relative; z-index: 1; }
+    #hero .hero-card h3 { color: #fff; }
+    #hero .hero-card > p { color: rgba(255,255,255,0.95); }
+    /* on blue the CTA inverts to white — the highest-contrast element on the page */
+    #hero .hero-card .btn-primary {
+      background: #fff; color: var(--blue-hover);
+      box-shadow: 0 8px 22px rgba(11,26,64,0.26);
+    }
+    #hero .hero-card .btn-primary:hover {
+      background: #fff; color: var(--blue-deep);
+      box-shadow: 0 12px 30px rgba(11,26,64,0.34);
+    }
+
+    /* ── ANCHOR 2 — closing CTA callout ── */
+    .cta { padding: 100px 40px; }
+    .cta-inner {
+      position: relative;
+      /* same rule as the hero card — --blue is the lightest permissible ground */
+      background: linear-gradient(150deg, var(--blue) 0%, var(--blue-hover) 100%);
+      border-radius: 26px;
+      padding: 76px 56px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.22),
+                  0 30px 70px rgba(22,51,127,0.26);
+    }
+    .cta-inner > * { position: relative; z-index: 1; }
+    .cta h2 { color: #fff; }
+    .cta p  { color: rgba(255,255,255,0.95); }
+    .cta-buttons .btn-primary {
+      background: #fff; color: var(--blue-hover);
+      box-shadow: 0 8px 22px rgba(11,26,64,0.26);
+    }
+    .cta-buttons .btn-primary:hover {
+      background: #fff; color: var(--blue-deep);
+      box-shadow: 0 12px 30px rgba(11,26,64,0.34);
+    }
+    .cta-buttons .btn-secondary { color: #fff; border-color: rgba(255,255,255,0.45); }
+    .cta-buttons .btn-secondary:hover {
+      color: #fff; border-color: #fff; background: rgba(255,255,255,0.14);
+    }
+    @media (max-width: 640px) {
+      .cta { padding: 64px 20px; }
+      .cta-inner { padding: 44px 24px; border-radius: 20px; }
+    }
+
+    /* ── FULL-HEIGHT STATEMENT SECTIONS ──
+       Both were "plain dark screen + big type" in the old theme, which read as
+       cinematic. Converted straight to white they read as empty, because the
+       drama was coming from the colour field, not the typography. So #manifesto
+       takes over as the page's full-bleed colour moment, and #connect becomes a
+       gradient bridge that lands you back on white for the CTA. */
+    .statement-bg { position: absolute; inset: 0; overflow: hidden; }
+
+    .statement-bg--blue {
+      background: linear-gradient(155deg, var(--blue) 0%, var(--blue-hover) 52%, var(--blue-deep) 100%);
+      /* SPATIAL half of the scroll blend: the field dissolves into the white page
+         at both ends instead of butting against it, so the entering and leaving
+         edges are a soft ramp rather than a hard horizontal line. Masking both
+         layers at once (ramp + dark pool) is why this sits here and not in the
+         gradient itself. 10% keeps the fade clear of the centred type — the
+         content block occupies roughly the middle 40% at every breakpoint. */
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+      mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+    }
+    /* depth comes from a soft DARK pool, not a light one. A light overlay can
+       only lower contrast for white type — a 12% white radial here dropped the
+       12.8px caption to 3.8:1. Darkening is safe anywhere in the field, so the
+       worst case stays the --blue stop itself: 5.17:1 heading, 4.65:1 caption. */
+    .statement-bg--blue::after {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(78% 62% at 16% 94%, rgba(11,26,64,0.30), rgba(11,26,64,0) 66%);
+    }
+    #manifesto .manifesto-heading { color: #fff; }
+    /* near-white, not a dimmed tint: at 12.8px this caption needs 4.5:1, so its
+       hierarchy is carried by size and tracking rather than by lowering contrast */
+    #manifesto .manifesto-sub { color: rgba(255,255,255,0.92); }
+
+    /* #connect is a soft blue swell that starts and ends on pure white, so it
+       joins seamlessly to the (now white-fading) blue field above and to the
+       white CTA section below — same both-ends logic as the mask above. */
+    .statement-bg--wash {
+      background: linear-gradient(180deg, #ffffff 0%, var(--blue-wash) 48%, #ffffff 100%);
+    }
+    .statement-bg--wash::after {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(58% 44% at 50% 58%, rgba(37,99,235,0.09), rgba(37,99,235,0) 70%);
+    }
+    #connect .connect-heading .accent { color: var(--blue); }
+
+    /* short viewports: the content block takes up proportionally more of the
+       screen, so pull the fades in to keep the type off the semi-transparent
+       edges where the blue lightens toward white */
+    @media (max-height: 700px) {
+      .statement-bg--blue {
+        -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+        mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+      }
+    }
+
+    /* a short rule gives the centred type something to sit under, so the
+       sections read as composed rather than as text floating in a void */
+    .statement-rule {
+      display: block;
+      width: 56px; height: 3px;
+      border-radius: 2px;
+      margin: 0 auto 30px;
+      background: var(--blue);
+    }
+    #manifesto .statement-rule { background: rgba(255,255,255,0.85); }
+    @media (max-width: 640px) {
+      .statement-rule { width: 42px; height: 2px; margin-bottom: 20px; }
+    }
+
+    /* ── SUPPORTING BLUE — wash only, never solid, so the anchors stay dominant ── */
+    .partners { background: var(--blue-wash); border-bottom-color: var(--blue-edge); }
+    .partner { background: #fff; border-color: var(--blue-edge); }
+    .partner:hover {
+      background: #fff;
+      border-color: rgba(37,99,235,0.34);
+      box-shadow: 0 8px 20px rgba(37,99,235,0.14);
+    }
+    /* testimonials stay neutral grey on purpose — a third blue block would flatten the hierarchy */
+
     /* Nav CTA sits on the dark nav bar -> inverse (light) button so it stands out */
-    .nav-btn { background: #fff; color: var(--ink); box-shadow: 0 2px 10px rgba(0,0,0,0.28); }
-    .nav-btn:hover { background: #e8eaee; color: var(--ink); box-shadow: 0 4px 14px rgba(0,0,0,0.34); }
+    .nav-btn { background: #fff; color: var(--blue-hover); box-shadow: 0 2px 10px rgba(0,0,0,0.30); }
+    .nav-btn:hover { background: var(--blue-wash); color: var(--blue-deep); box-shadow: 0 4px 14px rgba(0,0,0,0.36); }
+    /* the same pill also renders inside the mobile menu, where `.mobile-menu a`
+       (0,1,1) outranks `.nav-btn` (0,1,0) and would paint the label white-on-white */
+    .mobile-menu .nav-btn { color: var(--blue-hover); }
+    .mobile-menu .nav-btn:hover { color: var(--blue-deep); }
+
+    /* ── FOCUS RING ──
+       There was no :focus-visible styling anywhere on the site, and the contact
+       input additionally set outline:none — keyboard users had no indicator at
+       all. The brand blue doubles as the ring; it inverts to white on the dark
+       chrome and the blue panels, where a blue ring would vanish. */
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+    }
+    .nav :focus-visible,
+    .mobile-menu :focus-visible,
+    .footer :focus-visible,
+    #hero .hero-card :focus-visible,
+    .cta-inner :focus-visible {
+      outline-color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -1150,20 +1379,21 @@
   <!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 HERO 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 -->
   <section class="section-pinned" id="hero">
     <div class="hero-bg-wrap">
-      <div class="social-scene" aria-hidden="true">
+      <!-- The abstract floating-post "social-scene" that used to sit here has been
+           replaced by this photograph: it showed stylised digital post cards, which
+           is the same message the photo carries literally, so running both was
+           redundant. .social-scene styles are retained below in case you want it
+           back — the markup is recoverable from git. -->
+      <img class="hero-photo" src="homepic.jpg" alt="Printed social posts, a storyboard and a campaign plan laid out across a desk" fetchpriority="high" decoding="async" />
 
-        <div class="post-card pc-a">
-          <div class="pc-head">
-            <span class="pc-avatar"></span>
-            <span class="pc-lines"><i></i><i></i></span>
-            <img class="pc-badge" src="platforms/instagram.svg" alt="" />
-          </div>
-          <div class="pc-media"></div>
-          <div class="pc-foot">
-            <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.4-4.55-9.9-9.24C.75 8.4 2.4 5 5.7 5c2 0 3.3 1.15 4.3 2.45C11 6.15 12.3 5 14.3 5c3.3 0 4.95 3.4 3.6 6.76C19.4 16.45 12 21 12 21z"/></svg><span class="pc-count">2.4k</span>
-            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z"/></svg><span class="pc-count">180</span>
-          </div>
-        </div>
+      <!-- Floating UI layer, kept from the pre-photo hero. Left side only: the
+           scrim holds that column at ~0.93-0.97 white, so these read as crisp
+           cards on a clean panel instead of clutter over the photograph. -->
+      <div class="social-scene" aria-hidden="true">
+        <img class="chip chip-pin" src="platforms/pinterest.svg" alt="" />
+        <img class="chip chip-fb"  src="platforms/facebook.svg" alt="" />
+
+        <span class="eng-pill ep-b"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z"/></svg> 214</span>
 
         <div class="post-card pc-b">
           <div class="pc-head">
@@ -1177,14 +1407,6 @@
             <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.4-4.55-9.9-9.24C.75 8.4 2.4 5 5.7 5c2 0 3.3 1.15 4.3 2.45C11 6.15 12.3 5 14.3 5c3.3 0 4.95 3.4 3.6 6.76C19.4 16.45 12 21 12 21z"/></svg><span class="pc-count">1.1k</span>
           </div>
         </div>
-
-        <img class="chip chip-fb"  src="platforms/facebook.svg" alt="" />
-        <img class="chip chip-li"  src="platforms/linkedin.svg" alt="" />
-        <img class="chip chip-pin" src="platforms/pinterest.svg" alt="" />
-
-        <span class="eng-pill ep-a"><svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.4-4.55-9.9-9.24C.75 8.4 2.4 5 5.7 5c2 0 3.3 1.15 4.3 2.45C11 6.15 12.3 5 14.3 5c3.3 0 4.95 3.4 3.6 6.76C19.4 16.45 12 21 12 21z"/></svg> 3.2k</span>
-        <span class="eng-pill ep-b"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z"/></svg> 214</span>
-
       </div>
     </div>
     <div class="hero-content">
@@ -1389,9 +1611,12 @@
 
 
   <!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 MANIFESTO 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 -->
+  <!-- the page's one full-bleed colour moment: replaces the old "plain dark
+       screen", which is what made this section land before the light rework -->
   <section class="section-pinned" id="manifesto">
-    <div style="position:absolute;inset:0;background:#f6f7f9;"></div>
+    <div class="statement-bg statement-bg--blue"></div>
     <div class="manifesto-content">
+      <span class="statement-rule" aria-hidden="true"></span>
       <h2 class="manifesto-heading">You can use mameon to create social media & advertising campaigns. And you can publish your campaigns </br>across every platform.</h2>
       <p class="sub manifesto-sub">Facebook, Instagram, Google ads, even audio ads, you can use mameon to do it all.</p>
     </div>
@@ -1401,9 +1626,10 @@
 
   <!-- CONNECT -->
   <section class="section-pinned" id="connect">
-    <div style="position:absolute;inset:0;background:#f6f7f9;"></div>
+    <div class="statement-bg statement-bg--wash"></div>
     <div class="manifesto-content">
-      <h2 class="connect-heading">The best brands have full marketing teams. With mameon, you do too.</h2>
+      <span class="statement-rule" aria-hidden="true"></span>
+      <h2 class="connect-heading">The best brands have full marketing teams. <span class="accent">With mameon, you do too.</span></h2>
     </div>
   </section>
 
@@ -1439,7 +1665,7 @@
         </div>
         <div class="contact-success" id="contactSuccess" style="display:none;">
           <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-            <circle cx="24" cy="24" r="23" stroke="var(--blue)" stroke-width="2" fill="rgba(45,107,255,0.1)"/>
+            <circle cx="24" cy="24" r="23" stroke="var(--blue)" stroke-width="2" fill="rgba(37,99,235,0.1)"/>
             <path d="M14 24l7 7 13-13" stroke="var(--blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
           </svg>
           <p>Your email has been sent, you'll hear from us soon</p>
@@ -1554,9 +1780,11 @@
     //  MANIFESTO 鈥?pinned, text scrolls in then out
     // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
     const manifesto = document.getElementById('manifesto');
-    // No bg image for manifesto - plain dark screen
+    // full-bleed blue colour field, no bg image
     const manifestoH2 = manifesto.querySelector('.manifesto-heading');
     const manifestoSub = manifesto.querySelector('.manifesto-sub');
+    const manifestoRule = manifesto.querySelector('.statement-rule');
+    const manifestoField = manifesto.querySelector('.statement-bg--blue');
 
     const manifestoTl = gsap.timeline({
       scrollTrigger: {
@@ -1567,9 +1795,28 @@
         scrub: 0.6
       }
     });
+    // TEMPORAL half of the scroll blend. The section is pinned, so a purely
+    // spatial gradient would hang motionless in the viewport for the whole pin.
+    // Ramping the field's opacity against the white page is what makes the blue
+    // flood in and drain out *with* the scroll. Short ramps (0.25) and a long
+    // hold (0.25 -> 0.95) keep it saturated for most of the pin rather than
+    // spending the whole section mid-fade. It also hides the entry seam: the
+    // section slides up while still white, so there is no hard edge to see.
+    // immediateRender:false on the second tween matters more here than it does
+    // for the text: two fromTo's on the same property would otherwise both apply
+    // their "from" at build time, flashing a full-screen blue field before
+    // ScrollTrigger's first update corrects it.
+    manifestoTl.fromTo(manifestoField, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'none' }, 0);
+    manifestoTl.fromTo(manifestoField, { opacity: 1 },
+      { opacity: 0, duration: 0.25, ease: 'none', immediateRender: false }, 0.95);
+
+    // the rule leads the heading in and leaves with it — otherwise it would sit
+    // there on its own while the copy is still faded out
+    manifestoTl.fromTo(manifestoRule, { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, ease: 'none' }, 0);
     manifestoTl.fromTo(manifestoH2, { y: '35vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0);
     manifestoTl.fromTo(manifestoSub, { y: '6vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0.1);
 
+    manifestoTl.fromTo(manifestoRule, { opacity: 1 }, { opacity: 0, ease: 'power2.in' }, 0.7);
     manifestoTl.fromTo(manifestoH2, { y: 0, opacity: 1 }, { y: '-20vh', opacity: 0, ease: 'power2.in' }, 0.7);
     manifestoTl.fromTo(manifestoSub, { y: 0, opacity: 1 }, { y: '-6vh', opacity: 0, ease: 'power2.in' }, 0.7);
 
@@ -1650,6 +1897,7 @@
     const connect = document.getElementById('connect');
     if (connect) {
       const connectH2 = connect.querySelector('.connect-heading');
+      const connectRule = connect.querySelector('.statement-rule');
 
       const connectTl = gsap.timeline({
         scrollTrigger: {
@@ -1660,7 +1908,9 @@
           scrub: 0.6
         }
       });
+      connectTl.fromTo(connectRule, { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, ease: 'none' }, 0);
       connectTl.fromTo(connectH2, { y: '60vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0);
+      connectTl.fromTo(connectRule, { opacity: 1 }, { opacity: 0, ease: 'power2.in' }, 0.7);
       connectTl.fromTo(connectH2, { y: 0, opacity: 1 }, { y: '-40vh', opacity: 0, ease: 'power2.in' }, 0.7);
     }
 

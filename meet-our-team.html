@@ -25,13 +25,21 @@
       --bg: #ffffff;
       --bg-card: #f4f5f7;
       --bg-card-border: rgba(16, 22, 35, 0.10);
-      --blue: #2D6BFF;
-      --blue-hover: #1a5aee;
-      --btn: #0f1420;
-      --btn-hover: #262c3a;
+      /* ── PRIMARY BLUE ──
+         Hue 221°, matching the ink/grey ramp (~220°) so the blue reads as the
+         saturated sibling of the neutrals rather than a bolted-on accent.
+         --blue carries white text at 5.2:1 (AA at every size). */
+      --blue: #2563EB;
+      --blue-hover: #1D4FD8;
+      --blue-deep: #16337F;   /* gradient floor + text on tints */
+      --blue-lift: #4C8BF9;   /* highlight end of gradients */
+      --blue-wash: #EFF4FE;   /* whisper tint for large sections */
+      --blue-edge: #D7E3FB;   /* border that sits on the wash */
+      --btn: #2563EB;
+      --btn-hover: #1D4FD8;
       --white: #ffffff;
       --gray: #545b69;
-      --gray-dark: #8b93a1;
+      --gray-dark: #656C7B;
       --ink: #0f1420;
       --font-heading: 'Space Grotesk', sans-serif;
       --font-body: 'Inter', sans-serif;
@@ -78,10 +86,10 @@
       height: 80px;
       display: flex;
       align-items: center;
-      background: rgba(7, 10, 18, 0.85);
+      background: rgba(10, 15, 34, 0.86);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(76,139,249,0.16);
     }
     .nav-inner {
       width: 100%;
@@ -149,7 +157,7 @@
       position: fixed;
       inset: 0;
       z-index: 2000;
-      background: rgba(7, 10, 18, 0.97);
+      background: rgba(10, 15, 34, 0.97);
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -238,8 +246,8 @@
       color: var(--ink);
       margin-bottom: 18px;
       border: 1px solid rgba(16,22,35,0.2);
-      background: radial-gradient(circle at 30% 25%, rgba(45,107,255,0.7), rgba(45,107,255,0.2) 60%, rgba(16,22,35,0.08));
-      box-shadow: 0 8px 30px rgba(45,107,255,0.2);
+      background: radial-gradient(circle at 30% 25%, rgba(37,99,235,0.7), rgba(37,99,235,0.2) 60%, rgba(16,22,35,0.08));
+      box-shadow: 0 8px 30px rgba(37,99,235,0.2);
     }
     .avatar img {
       width: 100%;
@@ -259,8 +267,8 @@
       align-items: center;
       justify-content: center;
       border-radius: 999px;
-      border: 1px solid rgba(45,107,255,0.35);
-      background: rgba(45,107,255,0.12);
+      border: 1px solid rgba(37,99,235,0.35);
+      background: rgba(37,99,235,0.12);
       color: var(--blue);
       padding: 4px 12px;
       font-size: 0.75rem;
@@ -292,14 +300,14 @@
       color: var(--gray);
     }
     .linkedin-link:hover {
-      border-color: rgba(45,107,255,0.55);
-      background: rgba(45,107,255,0.12);
+      border-color: rgba(37,99,235,0.55);
+      background: rgba(37,99,235,0.12);
       color: var(--blue);
     }
 
     .footer {
-      background: #0b0f1a;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      background: #0A0F22;
+      border-top: 1px solid rgba(76,139,249,0.14);
       padding: 32px 40px;
     }
     .footer-inner {
@@ -373,8 +381,29 @@
     .footer .footer-links a:hover { color: #fff; }
     .footer .footer-left span:last-child { color: rgba(255,255,255,0.6); }
     /* Nav CTA sits on the dark nav bar -> inverse (light) button so it stands out */
-    .nav-btn { background: #fff; color: var(--ink); box-shadow: 0 2px 10px rgba(0,0,0,0.28); }
-    .nav-btn:hover { background: #e8eaee; color: var(--ink); box-shadow: 0 4px 14px rgba(0,0,0,0.34); }
+    .nav-btn { background: #fff; color: var(--blue-hover); box-shadow: 0 2px 10px rgba(0,0,0,0.30); }
+    .nav-btn:hover { background: var(--blue-wash); color: var(--blue-deep); box-shadow: 0 4px 14px rgba(0,0,0,0.36); }
+    /* the same pill also renders inside the mobile menu, where `.mobile-menu a`
+       (0,1,1) outranks `.nav-btn` (0,1,0) and would paint the label white-on-white */
+    .mobile-menu .nav-btn { color: var(--blue-hover); }
+    .mobile-menu .nav-btn:hover { color: var(--blue-deep); }
+
+    /* ── FOCUS RING ──
+       There was no :focus-visible styling anywhere on the site, and the contact
+       input additionally set outline:none — keyboard users had no indicator at
+       all. The brand blue doubles as the ring; it inverts to white on the dark
+       chrome and the blue panels, where a blue ring would vanish. */
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+    }
+    .nav :focus-visible,
+    .mobile-menu :focus-visible,
+    .footer :focus-visible,
+    #hero .hero-card :focus-visible,
+    .cta-inner :focus-visible {
+      outline-color: #fff;
+    }
   </style>
 </head>
 <body>
