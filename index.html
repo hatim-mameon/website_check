@@ -54,7 +54,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
-    /* 鈹€鈹€ RESET 鈹€鈹€ */
+    /* -- RESET -- */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -107,7 +107,7 @@
     button { font-family: inherit; cursor: pointer; border: none; }
     ul { list-style: none; }
 
-    /* 鈹€鈹€ GRAIN OVERLAY 鈹€鈹€ */
+    /* -- GRAIN OVERLAY -- */
     .grain-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -119,7 +119,7 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     }
 
-    /* 鈹€鈹€ NAV 鈹€鈹€ */
+    /* -- NAV -- */
     .nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -193,11 +193,18 @@
       cursor: pointer;
     }
 
-    /* 鈹€鈹€ PINNED SECTIONS 鈹€鈹€ */
+    /* -- PINNED SECTIONS -- */
     .section-pinned {
       position: relative;
+      /* 100vh first as the fallback for browsers without dynamic units; dvh then
+         wins where supported so the pinned height tracks the mobile URL bar
+         collapsing instead of jumping. */
       height: 100vh;
-      width: 100vw;
+      height: 100dvh;
+      /* 100vw counts the scrollbar and can force a sliver of horizontal scroll;
+         100% is the padding-box width and avoids it. Body already clips overflow-x,
+         but this removes the cause rather than masking it. */
+      width: 100%;
       overflow: hidden;
     }
     .bg-image {
@@ -228,7 +235,7 @@
       overflow: hidden;
     }
 
-    /* 鈹€鈹€ HERO 鈹€鈹€ */
+    /* -- HERO -- */
     .hero-content {
       position: relative;
       z-index: 10;
@@ -262,7 +269,7 @@
       width: 380px;
     }
 
-    /* 鈹€鈹€ GLASS CARD 鈹€鈹€ */
+    /* -- GLASS CARD -- */
     .glass-card {
       border-radius: 14px;
       border: 1px solid var(--bg-card-border);
@@ -283,7 +290,7 @@
       margin-bottom: 28px;
     }
 
-    /* 鈹€鈹€ BUTTONS 鈹€鈹€ */
+    /* -- BUTTONS -- */
     .btn-primary {
       display: inline-flex;
       align-items: center;
@@ -332,7 +339,7 @@
       color: var(--blue-deep);
     }
 
-    /* 鈹€鈹€ MANIFESTO 鈹€鈹€ */
+    /* -- MANIFESTO -- */
     .manifesto-content {
       position: relative;
       z-index: 10;
@@ -361,7 +368,7 @@
       font-weight: 500;
     }
 
-    /* 鈹€鈹€ PRODUCT 鈹€鈹€ */
+    /* -- PRODUCT -- */
     .product-content {
       position: relative;
       z-index: 10;
@@ -418,7 +425,7 @@
     .product-buttons .btn-primary,
     .product-buttons .btn-secondary { font-size: 0.9rem; padding: 12px 24px; }
 
-    /* 鈹€鈹€ SPEED 鈹€鈹€ */
+    /* -- SPEED -- */
     .speed-content {
       position: relative;
       z-index: 10;
@@ -445,7 +452,7 @@
       letter-spacing: 0.08em;
     }
 
-    /* 鈹€鈹€ TESTIMONIALS 鈹€鈹€ */
+    /* -- TESTIMONIALS -- */
     .testimonials {
       position: relative;
       background: var(--bg);
@@ -543,7 +550,7 @@
       .testimonials-viewport { overflow-x: auto; }
     }
 
-    /* 鈹€鈹€ HOW IT WORKS 鈹€鈹€ */
+    /* -- HOW IT WORKS -- */
     .how-it-works {
       position: relative;
       background: var(--bg);
@@ -646,7 +653,7 @@
       margin: 0;
     }
 
-    /* 鈹€鈹€ ABOUT VIDEO 鈹€鈹€ */
+    /* -- ABOUT VIDEO -- */
     .about-video-wrap {
       margin-bottom: 24px;
       border-radius: 16px;
@@ -696,7 +703,7 @@
       }
     }
 
-    /* 鈹€鈹€ CTA 鈹€鈹€ */
+    /* -- CTA -- */
     .cta {
       position: relative;
       background: var(--bg);
@@ -725,8 +732,8 @@
       flex-wrap: wrap;
     }
 
-    /* 鈹€鈹€ FOOTER 鈹€鈹€ */
-    /* 鈹€鈹€ CONTACT SECTION 鈹€鈹€ */
+    /* -- FOOTER -- */
+    /* -- CONTACT SECTION -- */
     .contact-section {
       background: var(--bg);
       padding: 60px 40px;
@@ -852,7 +859,7 @@
     }
     .footer-links a:hover { color: var(--ink); }
 
-    /* 鈹€鈹€ RESPONSIVE 鈹€鈹€ */
+    /* -- RESPONSIVE -- */
     @media (max-width: 1024px) {
       .nav { height: 70px; }
       .nav-logo-icon { height: 50px; }
@@ -879,7 +886,9 @@
       .nav { height: 60px; }
       .nav-logo-icon { height: 40px; }
       .nav-logo-wordmark { height: 22px; }
-      .nav-btn { padding: 6px 12px; font-size: 0.75rem; }
+      /* keep the label small, but hold the tappable area at the 44px min: extra
+         padding + min-height expand the hit target without a chunkier pill */
+      .nav-btn { padding: 8px 14px; font-size: 0.75rem; min-height: 44px; }
       /* keep the hero inside one viewport on small phones — .section-pinned clips overflow */
       .hero-content { padding: calc(var(--nav-h) + 14px) 20px 22px; gap: 20px; }
       .hero-left h1 { font-size: 1.95rem; margin-bottom: 12px; white-space: normal; }
@@ -903,7 +912,7 @@
       .testimonial-card { flex: 0 0 280px; max-width: 280px; }
     }
 
-    /* 鈹€鈹€ MOBILE MENU 鈹€鈹€ */
+    /* -- MOBILE MENU -- */
     .mobile-menu {
       display: none;
       position: fixed;
@@ -1204,41 +1213,19 @@
       .cta-inner { padding: 44px 24px; border-radius: 20px; }
     }
 
-    /* ── FULL-HEIGHT STATEMENT SECTIONS ──
-       Both were "plain dark screen + big type" in the old theme, which read as
-       cinematic. Converted straight to white they read as empty, because the
-       drama was coming from the colour field, not the typography. So #manifesto
-       takes over as the page's full-bleed colour moment, and #connect becomes a
-       gradient bridge that lands you back on white for the CTA. */
+    /* ── STATEMENT SECTION (#connect) ──
+       #manifesto used to be a full-bleed blue field here; it is now a blue card
+       (reusing .cta/.cta-inner, see the CTA rules above). #connect remains a
+       full-height statement — a soft blue swell that starts and ends on white. */
     .statement-bg { position: absolute; inset: 0; overflow: hidden; }
 
-    .statement-bg--blue {
-      background: linear-gradient(155deg, var(--blue) 0%, var(--blue-hover) 52%, var(--blue-deep) 100%);
-      /* SPATIAL half of the scroll blend: the field dissolves into the white page
-         at both ends instead of butting against it, so the entering and leaving
-         edges are a soft ramp rather than a hard horizontal line. Masking both
-         layers at once (ramp + dark pool) is why this sits here and not in the
-         gradient itself. 10% keeps the fade clear of the centred type — the
-         content block occupies roughly the middle 40% at every breakpoint. */
-      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
-      mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
-    }
-    /* depth comes from a soft DARK pool, not a light one. A light overlay can
-       only lower contrast for white type — a 12% white radial here dropped the
-       12.8px caption to 3.8:1. Darkening is safe anywhere in the field, so the
-       worst case stays the --blue stop itself: 5.17:1 heading, 4.65:1 caption. */
-    .statement-bg--blue::after {
-      content: ""; position: absolute; inset: 0;
-      background: radial-gradient(78% 62% at 16% 94%, rgba(11,26,64,0.30), rgba(11,26,64,0) 66%);
-    }
-    #manifesto .manifesto-heading { color: #fff; }
-    /* near-white, not a dimmed tint: at 12.8px this caption needs 4.5:1, so its
-       hierarchy is carried by size and tracking rather than by lowering contrast */
-    #manifesto .manifesto-sub { color: rgba(255,255,255,0.92); }
+    /* #manifesto reuses the CTA card; only tweak needed is dropping the trailing
+       paragraph's CTA margin so the card doesn't carry dead space with no buttons */
+    .manifesto-cta .cta-inner p { margin-bottom: 0; }
 
     /* #connect is a soft blue swell that starts and ends on pure white, so it
-       joins seamlessly to the (now white-fading) blue field above and to the
-       white CTA section below — same both-ends logic as the mask above. */
+       joins seamlessly to the white sections on either side (the blue-card
+       manifesto above and the white CTA section below). */
     .statement-bg--wash {
       background: linear-gradient(180deg, #ffffff 0%, var(--blue-wash) 48%, #ffffff 100%);
     }
@@ -1246,20 +1233,11 @@
       content: ""; position: absolute; inset: 0;
       background: radial-gradient(58% 44% at 50% 58%, rgba(37,99,235,0.09), rgba(37,99,235,0) 70%);
     }
-    #connect .connect-heading .accent { color: var(--blue); }
-
-    /* short viewports: the content block takes up proportionally more of the
-       screen, so pull the fades in to keep the type off the semi-transparent
-       edges where the blue lightens toward white */
-    @media (max-height: 700px) {
-      .statement-bg--blue {
-        -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
-        mask-image: linear-gradient(180deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
-      }
-    }
+    /* whole heading reads as one black statement — no blue emphasis on the tail */
+    #connect .connect-heading .accent { color: var(--ink); }
 
     /* a short rule gives the centred type something to sit under, so the
-       sections read as composed rather than as text floating in a void */
+       section reads as composed rather than as text floating in a void */
     .statement-rule {
       display: block;
       width: 56px; height: 3px;
@@ -1267,7 +1245,6 @@
       margin: 0 auto 30px;
       background: var(--blue);
     }
-    #manifesto .statement-rule { background: rgba(255,255,255,0.85); }
     @media (max-width: 640px) {
       .statement-rule { width: 42px; height: 2px; margin-bottom: 20px; }
     }
@@ -1313,7 +1290,7 @@
   <!-- GRAIN -->
   <div class="grain-overlay"></div>
 
-  <!-- 鈹€鈹€ NAV 鈹€鈹€ -->
+  <!-- -- NAV -- -->
   <nav class="nav">
     <div class="nav-inner">
       <a href="#" class="nav-logo">
@@ -1376,7 +1353,7 @@
     </div>
   </section>
 
-  <!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 HERO 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 -->
+  <!-- ===== HERO ===== -->
   <section class="section-pinned" id="hero">
     <div class="hero-bg-wrap">
       <!-- The abstract floating-post "social-scene" that used to sit here has been
@@ -1480,7 +1457,7 @@
 
 
 
-  <!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 TESTIMONIALS 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 -->
+  <!-- ===== TESTIMONIALS ===== -->
   <section class="testimonials" id="customers">
     <div class="testimonials-inner">
       <div class="testimonials-header">
@@ -1610,15 +1587,11 @@
   </section>
 
 
-  <!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 MANIFESTO 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 -->
-  <!-- the page's one full-bleed colour moment: replaces the old "plain dark
-       screen", which is what made this section land before the light rework -->
-  <section class="section-pinned" id="manifesto">
-    <div class="statement-bg statement-bg--blue"></div>
-    <div class="manifesto-content">
-      <span class="statement-rule" aria-hidden="true"></span>
-      <h2 class="manifesto-heading">You can use mameon to create social media & advertising campaigns. And you can publish your campaigns </br>across every platform.</h2>
-      <p class="sub manifesto-sub">Facebook, Instagram, Google ads, even audio ads, you can use mameon to do it all.</p>
+  <!-- ===== MANIFESTO — a blue card on white, reusing the CTA panel styling ===== -->
+  <section class="cta manifesto-cta">
+    <div class="cta-inner" id="manifestoContent">
+      <h2>You can use mameon to create social media &amp; advertising campaigns. And you can publish your campaigns across every platform.</h2>
+      <p>Facebook, Instagram, Google ads, even audio ads, you can use mameon to do it all.</p>
     </div>
   </section>
 
@@ -1635,7 +1608,7 @@
 
   <!-- HOW IT WORKS -->
 
-  <!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 CTA 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 -->
+  <!-- ===== CTA ===== -->
   <section class="cta">
     <div class="cta-inner" id="ctaContent">
       <h2>Create social and advertising campaigns for free. No credit card required.</h2>
@@ -1649,8 +1622,8 @@
     </div>
   </section>
 
-  <!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 FOOTER 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 -->
-  <!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 CONTACT SECTION 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲 -->
+  <!-- ===== FOOTER ===== -->
+  <!-- ===== CONTACT SECTION ===== -->
   <section class="contact-section" id="contactSection">
     <div class="contact-card">
       <h2 class="contact-heading">Want to learn more?</h2>
@@ -1694,7 +1667,7 @@
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    // 鈹€鈹€ MOBILE MENU 鈹€鈹€
+    // -- MOBILE MENU --
     function submitContact(e) {
       e.preventDefault();
       const email = document.getElementById('contactEmail').value;
@@ -1736,9 +1709,9 @@
       document.getElementById('mobileMenu').classList.toggle('open');
     }
 
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-    //  HERO 鈥?pinned, content exits on scroll
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+    // ===================
+    //  HERO - pinned, content exits on scroll
+    // ===================
     const heroSection = document.getElementById('hero');
     const heroBgWrap = heroSection.querySelector('.hero-bg-wrap');
     const heroItems = heroSection.querySelectorAll('.animate-item');
@@ -1776,54 +1749,18 @@
       });
     }
 
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-    //  MANIFESTO 鈥?pinned, text scrolls in then out
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-    const manifesto = document.getElementById('manifesto');
-    // full-bleed blue colour field, no bg image
-    const manifestoH2 = manifesto.querySelector('.manifesto-heading');
-    const manifestoSub = manifesto.querySelector('.manifesto-sub');
-    const manifestoRule = manifesto.querySelector('.statement-rule');
-    const manifestoField = manifesto.querySelector('.statement-bg--blue');
-
-    const manifestoTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: manifesto,
-        start: 'top top',
-        end: '+=130%',
-        pin: true,
-        scrub: 0.6
-      }
-    });
-    // TEMPORAL half of the scroll blend. The section is pinned, so a purely
-    // spatial gradient would hang motionless in the viewport for the whole pin.
-    // Ramping the field's opacity against the white page is what makes the blue
-    // flood in and drain out *with* the scroll. Short ramps (0.25) and a long
-    // hold (0.25 -> 0.95) keep it saturated for most of the pin rather than
-    // spending the whole section mid-fade. It also hides the entry seam: the
-    // section slides up while still white, so there is no hard edge to see.
-    // immediateRender:false on the second tween matters more here than it does
-    // for the text: two fromTo's on the same property would otherwise both apply
-    // their "from" at build time, flashing a full-screen blue field before
-    // ScrollTrigger's first update corrects it.
-    manifestoTl.fromTo(manifestoField, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'none' }, 0);
-    manifestoTl.fromTo(manifestoField, { opacity: 1 },
-      { opacity: 0, duration: 0.25, ease: 'none', immediateRender: false }, 0.95);
-
-    // the rule leads the heading in and leaves with it — otherwise it would sit
-    // there on its own while the copy is still faded out
-    manifestoTl.fromTo(manifestoRule, { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, ease: 'none' }, 0);
-    manifestoTl.fromTo(manifestoH2, { y: '35vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0);
-    manifestoTl.fromTo(manifestoSub, { y: '6vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0.1);
-
-    manifestoTl.fromTo(manifestoRule, { opacity: 1 }, { opacity: 0, ease: 'power2.in' }, 0.7);
-    manifestoTl.fromTo(manifestoH2, { y: 0, opacity: 1 }, { y: '-20vh', opacity: 0, ease: 'power2.in' }, 0.7);
-    manifestoTl.fromTo(manifestoSub, { y: 0, opacity: 1 }, { y: '-6vh', opacity: 0, ease: 'power2.in' }, 0.7);
+    // ===================
+    //  MANIFESTO - blue card (reuses .cta/.cta-inner). No longer pinned, so it
+    //  drops out of the snap system automatically (that filters on st.vars.pin).
+    //  Intentionally NO scroll entrance: it's a static content card, and gating a
+    //  content section's visibility on a ScrollTrigger is a needless failure mode
+    //  (a mis-fire leaves the whole card blank). It renders visible, full stop.
+    // ===================
 
 
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-    //  SPEED 鈥?pinned, text scrolls in then out
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+    // ===================
+    //  SPEED - pinned, text scrolls in then out
+    // ===================
     const speed = document.getElementById('pricing');
     if (speed) {
       const speedBg = speed.querySelector('.speed-bg-wrap');
@@ -1847,9 +1784,9 @@
       speedTl.fromTo(speedBg, { scale: 1 }, { scale: 1.05, ease: 'none' }, 0.7);
     }
 
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+    // ===================
     //  TESTIMONIALS — scrubbed fade in/out
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+    // ===================
     const testimonialsSection = document.querySelector('.testimonials');
     if (testimonialsSection) {
       const testimonialsTitle = testimonialsSection.querySelector('.testimonials-title');
@@ -1891,9 +1828,9 @@
     }
 
 
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-    //  CONNECT 鈥?pinned, text scrolls in then out
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+    // ===================
+    //  CONNECT - pinned, text scrolls in then out
+    // ===================
     const connect = document.getElementById('connect');
     if (connect) {
       const connectH2 = connect.querySelector('.connect-heading');
@@ -1914,9 +1851,9 @@
       connectTl.fromTo(connectH2, { y: 0, opacity: 1 }, { y: '-40vh', opacity: 0, ease: 'power2.in' }, 0.7);
     }
 
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+    // ===================
     //  HOW IT WORKS — fade in only (steps)
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+    // ===================
     const howSteps = document.querySelector('.how-it-works-steps');
     if (howSteps) {
       const howTitle = howSteps.querySelector('.how-title');
@@ -1967,21 +1904,27 @@
       });
     }
 
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
-    //  CTA 鈥?scroll-triggered
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+    // ===================
+    //  CTA - scroll-triggered
+    // ===================
+    // Play-once on enter, NOT scrub. This is the last content on the page — only
+    // the short footer follows — so a scrubbed reveal can never reach its
+    // completion point: at max scroll #ctaButtons' top only climbs to ~474px, but
+    // the old `end:'top 35%'` (~295px) demanded it climb higher, leaving the
+    // buttons permanently stuck at ~0.79 opacity. A one-shot tween on enter
+    // guarantees full reveal regardless of how little runway remains below it.
     gsap.fromTo('#ctaContent', { y: 30, opacity: 0 }, {
-      y: 0, opacity: 1, ease: 'power2.out',
-      scrollTrigger: { trigger: '#ctaContent', start: 'top 80%', end: 'top 20%', scrub: true }
+      y: 0, opacity: 1, duration: 0.7, ease: 'power2.out',
+      scrollTrigger: { trigger: '#ctaContent', start: 'top 82%' }
     });
     gsap.fromTo('#ctaButtons a', { scale: 0.98, opacity: 0 }, {
-      scale: 1, opacity: 1, stagger: 0.1, ease: 'power2.out',
-      scrollTrigger: { trigger: '#ctaButtons', start: 'top 85%', end: 'top 35%', scrub: true }
+      scale: 1, opacity: 1, stagger: 0.1, duration: 0.6, ease: 'power2.out',
+      scrollTrigger: { trigger: '#ctaButtons', start: 'top 88%' }
     });
 
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+    // ===================
     //  SNAP SCROLLING between pinned sections (rebuild after refresh)
-    // 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲
+    // ===================
     let snapTrigger;
     let snapBuildTimer;
 

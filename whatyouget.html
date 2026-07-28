@@ -402,7 +402,9 @@
       .nav { height: 60px; }
       .nav-logo-icon { height: 40px; }
       .nav-logo-wordmark { height: 22px; }
-      .nav-btn { padding: 6px 12px; font-size: 0.75rem; }
+      /* keep the label small, but hold the tappable area at the 44px min: extra
+         padding + min-height expand the hit target without a chunkier pill */
+      .nav-btn { padding: 8px 14px; font-size: 0.75rem; min-height: 44px; }
       .wyg-page { padding: 100px 20px 60px; }
       .wyg-page h1 { font-size: 1.8rem; }
       .video-grid { grid-template-columns: 1fr; }
