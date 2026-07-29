@@ -46,7 +46,7 @@
 
   <link rel="icon" type="image/png" href="logo.png" />
   <!-- hero photograph is the LCP element — fetch it alongside the CSS, not after it -->
-  <link rel="preload" as="image" href="homepic.jpg" />
+  <link rel="preload" as="image" href="home.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -80,7 +80,7 @@
       --font-heading: 'Space Grotesk', sans-serif;
       --font-body: 'Inter', sans-serif;
       --font-mono: 'IBM Plex Mono', monospace;
-      /* partners strip scrolls above the hero, clearing the fixed nav */
+      /* height of the fixed nav — the partners strip sits under it and pads clear */
       --nav-h: 80px;
     }
 
@@ -127,7 +127,7 @@
       height: 80px;
       display: flex;
       align-items: center;
-      background: rgba(10, 15, 34, 0.86);
+      background: rgba(4, 7, 20, 0.94);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid rgba(76,139,249,0.16);
@@ -235,6 +235,24 @@
       overflow: hidden;
     }
 
+    /* -- FIRST SCREEN (partners marquee, then hero) --
+       One viewport, split by flex rather than by arithmetic: the marquee is
+       sized by its own content (flex: none) and the hero absorbs whatever is
+       left. No --partners-h magic number to drift out of sync when the logo
+       tiles or title change size at a breakpoint. */
+    .first-screen {
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    /* beats .section-pinned's own 100dvh — inside the wrapper the hero is a flex
+       child, and min-height:0 lets it shrink below its content instead of
+       overflowing the viewport and pushing the marquee off-screen */
+    .first-screen > #hero { height: auto; flex: 1 1 auto; min-height: 0; }
+    .first-screen > .partners { flex: 0 0 auto; }
+
     /* -- HERO -- */
     .hero-content {
       position: relative;
@@ -243,6 +261,7 @@
       height: 100%;
       max-width: 1400px;
       margin: 0 auto;
+      /* no nav clearance needed — the partners strip above absorbs it */
       padding: 0 40px;
       display: flex;
       align-items: center;
@@ -472,25 +491,67 @@
       margin-bottom: 48px;
       font-style: italic;
     }
-    /* same continuous marquee as the partners strip */
+    /* Drag/swipe rail. Unlike the partners strip (a pure CSS transform marquee),
+       this one is a real horizontally-scrollable box: the auto-advance is JS
+       nudging scrollLeft, so the drift and the user's own dragging live in the
+       same coordinate system and can't fight each other. */
     .testimonials-scroll-wrapper {
       position: relative;
       overflow: hidden;
     }
     .testimonials-viewport {
       position: relative;
+      overflow-x: auto;
+      overflow-y: hidden;
+      /* a horizontal swipe here must not trigger the browser's back-navigation */
+      overscroll-behavior-x: contain;
+      cursor: grab;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
       mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+      /* the rail loops, so a scrollbar would show a meaningless thumb position */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
+    .testimonials-viewport::-webkit-scrollbar { display: none; }
+    .testimonials-viewport.is-dragging { cursor: grabbing; scroll-behavior: auto; }
+    /* a drag must not fire the click that a card's contents would otherwise take */
+    .testimonials-viewport.is-dragging * { pointer-events: none; }
     .testimonials-track {
       display: flex;
       width: max-content;
-      animation: testimonials-scroll 70s linear infinite;
     }
-    /* pause so a card can actually be read — hover on desktop, touch/hold on mobile */
-    .testimonials-viewport:hover .testimonials-track,
-    .testimonials-viewport:active .testimonials-track,
-    .testimonials-viewport:focus-within .testimonials-track { animation-play-state: paused; }
+
+    /* -- RAIL ARROWS --
+       Desktop affordance: touch users swipe, but a mouse user has no way to know
+       the rail moves until they try. Hidden from a11y tree — they duplicate the
+       keyboard scrolling the focusable viewport already provides. */
+    .tst-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid var(--bg-card-border);
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 0 8px 24px rgba(16,22,35,0.14);
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .tst-nav:hover {
+      background: var(--blue-wash);
+      box-shadow: 0 12px 30px rgba(16,22,35,0.20);
+    }
+    .tst-nav:active { transform: translateY(-50%) scale(0.94); }
+    .tst-prev { left: 16px; }
+    .tst-next { right: 16px; }
+    /* fingers, not buttons, on touch — and they'd sit on top of the cards */
+    @media (hover: none) { .tst-nav { display: none; } }
     .testimonials-group {
       display: flex;
       align-items: stretch;
@@ -503,10 +564,6 @@
       min-height: 320px;
       display: flex;
       flex-direction: column;
-    }
-    @keyframes testimonials-scroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
     }
     .testimonial-card .quote-icon {
       color: var(--blue);
@@ -545,10 +602,8 @@
       opacity: 0.9;
       margin-top: 10px;
     }
-    @media (prefers-reduced-motion: reduce) {
-      .testimonials-track { animation: none; }
-      .testimonials-viewport { overflow-x: auto; }
-    }
+    /* reduced-motion is handled in JS: the auto-advance simply never starts, and
+       the rail stays fully draggable. No CSS override needed. */
 
     /* -- HOW IT WORKS -- */
     .how-it-works {
@@ -587,11 +642,13 @@
     }
     .how-it-works .step-card {
       padding: 20px 17px;
-      background-image: linear-gradient(135deg, rgba(37,99,235,0.22) 0%, rgba(37,99,235,0.08) 45%, rgba(37,99,235,0) 100%);
+      /* 315deg, not 135deg: the wash now starts strong at the bottom-right and
+         fades out toward the top-left, the mirror of what it used to do */
+      background-image: linear-gradient(315deg, rgba(37,99,235,0.22) 0%, rgba(37,99,235,0.08) 45%, rgba(37,99,235,0) 100%);
       border-color: rgba(37,99,235,0.22);
     }
     .how-it-works .step-card:hover {
-      background-image: linear-gradient(135deg, rgba(37,99,235,0.32) 0%, rgba(37,99,235,0.12) 45%, rgba(37,99,235,0) 100%);
+      background-image: linear-gradient(315deg, rgba(37,99,235,0.32) 0%, rgba(37,99,235,0.12) 45%, rgba(37,99,235,0) 100%);
       border-color: rgba(37,99,235,0.4);
     }
     .how-it-works .steps-grid {
@@ -865,7 +922,7 @@
       .nav-logo-icon { height: 50px; }
       .nav-logo-wordmark { height: 30px; }
       .nav-btn { padding: 8px 16px; font-size: 0.8rem; }
-      .hero-content { flex-direction: column; justify-content: center; padding: calc(var(--nav-h) + 24px) 40px 40px; gap: 32px; }
+      .hero-content { flex-direction: column; justify-content: center; padding: 24px 40px 40px; gap: 32px; }
       /* stacked: let the block centre itself instead of stretching to the full height */
       .hero-left { flex: 0 0 auto; max-width: 100%; }
       .hero-left h1 { white-space: normal; }
@@ -890,7 +947,7 @@
          padding + min-height expand the hit target without a chunkier pill */
       .nav-btn { padding: 8px 14px; font-size: 0.75rem; min-height: 44px; }
       /* keep the hero inside one viewport on small phones — .section-pinned clips overflow */
-      .hero-content { padding: calc(var(--nav-h) + 14px) 20px 22px; gap: 20px; }
+      .hero-content { padding: 14px 20px 22px; gap: 20px; }
       .hero-left h1 { font-size: 1.95rem; margin-bottom: 12px; white-space: normal; }
       .hero-left p { font-size: 0.95rem; }
       .hero-card { padding: 24px 20px; }
@@ -902,8 +959,7 @@
       .product-buttons .btn-primary,
       .product-buttons .btn-secondary { width: 100%; }
       .cta-buttons { flex-direction: column; align-items: center; }
-      /* narrower cards travel a shorter loop, so shorten the cycle to match */
-      .testimonials-track { animation-duration: 46s; }
+      /* the rail now drifts at a fixed px/sec, so no per-breakpoint cycle to tune */
       .testimonials-group { gap: 18px; padding-right: 18px; }
       .footer-inner { flex-direction: column; text-align: center; }
       .footer-links { justify-content: center; }
@@ -917,7 +973,7 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(10, 15, 34, 0.97);
+      background: rgba(4, 7, 20, 0.98);
       backdrop-filter: blur(20px);
       z-index: 999;
       flex-direction: column;
@@ -944,8 +1000,11 @@
     }
     /* ── PARTNERS MARQUEE ── */
     .partners {
-      /* height follows the content — a fixed height clipped the logos on short screens */
-      padding: calc(var(--nav-h) + 26px) 0 26px;
+      /* height follows the content — a fixed height clipped the logos on short
+         screens. Kept tight: this band shares the first viewport with the hero,
+         so every pixel here is a pixel the hero copy does not get. The top pad
+         also clears the fixed nav, which overlays this strip. */
+      padding: calc(var(--nav-h) + 22px) 0 22px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -960,7 +1019,7 @@
       text-transform: uppercase;
       color: var(--gray);
       text-align: center;
-      margin-bottom: 34px;
+      margin-bottom: 22px;
     }
     .partners-viewport {
       position: relative;
@@ -1011,7 +1070,7 @@
     }
     @media (max-width: 640px) {
       :root { --nav-h: 60px; }
-      .partners { padding: calc(var(--nav-h) + 18px) 0 18px; }
+      .partners { padding: calc(var(--nav-h) + 16px) 0 16px; }
       .partners-title { font-size: 0.95rem; letter-spacing: 0.18em; margin-bottom: 18px; }
       .partners-group { gap: 36px; padding-right: 36px; }
       .partner { width: 60px; height: 60px; border-radius: 15px; }
@@ -1048,27 +1107,24 @@
       box-shadow: 0 10px 30px rgba(16,22,35,0.06);
     }
     .contact-card { box-shadow: 0 18px 50px rgba(16,22,35,0.10); }
-    /* ── HERO SOCIAL-POST SCENE (UNUSED) ──
-       A curated left-hand subset survives the photo: the scrim renders the left
-       column as near-white, so these read as a clean UI layer over it rather than
-       fake post cards fighting a photo of real ones. The right-side pieces
-       (pc-a / chip-li / ep-a) are gone — they sat over the photograph itself. */
-    #hero .social-scene {
-      position: absolute; inset: 0; overflow: hidden;
-      /* MUST outrank .hero-bg-wrap::after. The scrim is a pseudo-element, so it
-         paints after its siblings — at 0.97 white on the left it would otherwise
-         erase exactly the pieces we are keeping. GSAP's scale on .hero-bg-wrap
-         makes it a stacking context, so this z-index resolves against the scrim. */
-      z-index: 2;
-    }
     /* ── HERO PHOTOGRAPH ── */
     #hero .hero-photo {
       position: absolute; inset: 0;
-      width: 100%; height: 100%;
+      height: 100%;
       object-fit: cover;
-      /* the subject (hands, laid-out cards) sits centre-right, so bias the crop
-         that way — at tall/narrow viewports a centred crop loses it off-frame */
-      object-position: 68% 50%;
+      /* Shave the right edge — the bright window and brick wall, no subject.
+         It has to be done by over-widening rather than with object-position,
+         because the hero box is WIDER than the photo's 1.83 aspect: `cover` then
+         overflows vertically and the horizontal half of object-position has
+         nothing left to slide. Anchored left (inset sets left:0, and width wins
+         over right when both are specified), so the surplus hangs off the right
+         and .hero-bg-wrap's overflow:hidden clips it. */
+      width: 110%;
+      /* X still bites at tall/narrow viewports, where cover overflows sideways
+         instead — keep biasing toward the subject at centre-right. Y sits above
+         centre so the wider frame's deeper vertical crop takes sky and window
+         tops rather than the top of her head. */
+      object-position: 62% 45%;
     }
     #hero .hero-bg-wrap::after {
       content: ""; position: absolute; inset: 0; pointer-events: none;
@@ -1105,48 +1161,6 @@
       }
     }
 
-    #hero .social-scene > * { position: absolute; opacity: 0; }
-    #hero .post-card {
-      width: 230px; background: #fff; border: 1px solid var(--bg-card-border);
-      border-radius: 16px; box-shadow: 0 20px 45px rgba(16,22,35,0.12); padding: 14px;
-    }
-    #hero .pc-head { display: flex; align-items: center; gap: 9px; }
-    #hero .pc-avatar { width: 30px; height: 30px; border-radius: 50%; flex: none;
-      background: linear-gradient(135deg, var(--blue), var(--blue-lift)); }
-    #hero .pc-lines { display: flex; flex-direction: column; gap: 5px; }
-    #hero .pc-lines i { display: block; height: 7px; border-radius: 4px; background: rgba(16,22,35,0.12); }
-    #hero .pc-lines i:first-child { width: 74px; }
-    #hero .pc-lines i:last-child { width: 44px; background: rgba(16,22,35,0.07); }
-    #hero .pc-badge { width: 22px; height: 22px; margin-left: auto; }
-    #hero .pc-media { height: 96px; border-radius: 11px; margin-top: 11px;
-      background: linear-gradient(135deg, rgba(37,99,235,0.20), rgba(37,99,235,0.05)); }
-    #hero .pc-text { font-size: 13px; line-height: 1.5; color: var(--ink); margin: 11px 2px; font-weight: 500; }
-    #hero .pc-foot { display: flex; align-items: center; gap: 6px; margin-top: 11px; }
-    #hero .pc-count { font-family: var(--font-mono); font-size: 11px; color: var(--gray); margin-right: 8px; }
-    #hero .ico { width: 15px; height: 15px; color: var(--blue); flex: none; }
-    #hero .chip { width: 54px; height: 54px; padding: 13px; background: #fff; object-fit: contain;
-      border: 1px solid var(--bg-card-border); border-radius: 15px; box-shadow: 0 12px 30px rgba(16,22,35,0.10); }
-    #hero .eng-pill { display: inline-flex; align-items: center; gap: 6px; background: #fff;
-      border: 1px solid var(--bg-card-border); border-radius: 999px; padding: 7px 13px;
-      font-family: var(--font-mono); font-size: 11px; color: var(--gray); box-shadow: 0 12px 30px rgba(16,22,35,0.10); }
-
-    /* Left-hand placements only, and deliberately kept out of the band the copy
-       occupies. The headline block centres at roughly 31%-69% of the viewport
-       height across 600-900px tall screens, so these sit above 21% or below 74%
-       and never collide with the type at any breakpoint. */
-    #hero .chip-pin{ top: 10%;   left: 27%; animation: heroFadeIn .8s ease .10s forwards, floatA 7.5s ease-in-out infinite; }
-    #hero .chip-fb { top: 15%;   left: 4%;  animation: heroFadeIn .8s ease .18s forwards, floatB 8s   ease-in-out infinite; }
-    #hero .ep-b    { bottom: 26%; left: 26%; animation: heroFadeIn .8s ease .26s forwards, floatA 9.5s ease-in-out infinite; }
-    #hero .pc-b    { bottom: 8%;  left: 3%; width: 200px; animation: heroFadeIn .8s ease .34s forwards, floatB 11s ease-in-out infinite; }
-
-    @keyframes heroFadeIn { to { opacity: 1; } }
-    @keyframes floatA { 0%,100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-15px) rotate(1.5deg); } }
-    @keyframes floatB { 0%,100% { transform: translateY(0) rotate(1.5deg); }  50% { transform: translateY(-13px) rotate(-1.5deg); } }
-
-    @media (max-width: 900px) { #hero .social-scene { display: none; } }
-    @media (prefers-reduced-motion: reduce) {
-      #hero .social-scene > * { animation: heroFadeIn .6s ease forwards !important; }
-    }
     /* ─────────────  BLUE PRIMARY SURFACES  ─────────────
        Exactly two solid-blue anchors — the hero card and the closing CTA — so the
        page still reads as white with two deliberate points of emphasis. Everything
@@ -1320,6 +1334,11 @@
     <a href="https://app.mameon.com" class="nav-btn" data-location="mobile-menu" onclick="toggleMenu()">Log in / Sign Up for Free</a>
   </div>
 
+  <!-- ===== FIRST SCREEN — platform marquee under the nav, then the hero. The two
+       share one viewport and pin as a single unit, so the logos stay welded above
+       the headline instead of scrolling away from it ===== -->
+  <div class="first-screen" id="firstScreen">
+
   <!-- ── PARTNERS ── -->
   <section class="partners" id="partners">
     <h2 class="partners-title">Publish on all platforms...</h2>
@@ -1356,35 +1375,11 @@
   <!-- ===== HERO ===== -->
   <section class="section-pinned" id="hero">
     <div class="hero-bg-wrap">
-      <!-- The abstract floating-post "social-scene" that used to sit here has been
-           replaced by this photograph: it showed stylised digital post cards, which
-           is the same message the photo carries literally, so running both was
-           redundant. .social-scene styles are retained below in case you want it
-           back — the markup is recoverable from git. -->
-      <img class="hero-photo" src="homepic.jpg" alt="Printed social posts, a storyboard and a campaign plan laid out across a desk" fetchpriority="high" decoding="async" />
-
-      <!-- Floating UI layer, kept from the pre-photo hero. Left side only: the
-           scrim holds that column at ~0.93-0.97 white, so these read as crisp
-           cards on a clean panel instead of clutter over the photograph. -->
-      <div class="social-scene" aria-hidden="true">
-        <img class="chip chip-pin" src="platforms/pinterest.svg" alt="" />
-        <img class="chip chip-fb"  src="platforms/facebook.svg" alt="" />
-
-        <span class="eng-pill ep-b"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z"/></svg> 214</span>
-
-        <div class="post-card pc-b">
-          <div class="pc-head">
-            <span class="pc-avatar"></span>
-            <span class="pc-lines"><i></i><i></i></span>
-            <img class="pc-badge" src="platforms/x.svg" alt="" />
-          </div>
-          <p class="pc-text">Just launched our new campaign ✨</p>
-          <div class="pc-foot">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg><span class="pc-count">92</span>
-            <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.4-4.55-9.9-9.24C.75 8.4 2.4 5 5.7 5c2 0 3.3 1.15 4.3 2.45C11 6.15 12.3 5 14.3 5c3.3 0 4.95 3.4 3.6 6.76C19.4 16.45 12 21 12 21z"/></svg><span class="pc-count">1.1k</span>
-          </div>
-        </div>
-      </div>
+      <!-- The photograph is the whole hero background. A floating "social-scene"
+           layer (Pinterest/Facebook chips, an engagement pill and a fake post
+           card) used to sit on top of it; both said the same thing, so the
+           overlay is gone — markup and styles are recoverable from git. -->
+      <img class="hero-photo" src="home.jpg" alt="A woman at a sunlit desk taking notes beside a laptop showing a social media dashboard" fetchpriority="high" decoding="async" />
     </div>
     <div class="hero-content">
       <div class="hero-left">
@@ -1402,6 +1397,7 @@
     </div>
   </section>
 
+  </div><!-- /.first-screen -->
 
   <section class="how-it-works how-it-works-steps" id="about">
     <div class="how-inner">
@@ -1464,7 +1460,13 @@
         <h2 class="testimonials-title">Loved by our customers</h2>
       </div>
       <div class="testimonials-scroll-wrapper">
-        <div class="testimonials-viewport">
+        <button class="tst-nav tst-prev" id="testimonialsPrev" type="button" aria-hidden="true" tabindex="-1">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="tst-nav tst-next" id="testimonialsNext" type="button" aria-hidden="true" tabindex="-1">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <div class="testimonials-viewport" id="testimonialsViewport" tabindex="0" role="region" aria-label="Customer testimonials, scrollable">
           <div class="testimonials-track" id="testimonialsTrack">
             <div class="testimonials-group">
               <div class="glass-card testimonial-card">
@@ -1710,16 +1712,20 @@
     }
 
     // ===================
-    //  HERO - pinned, content exits on scroll
+    //  FIRST SCREEN - pinned, hero content exits on scroll
+    //  The PIN is on the wrapper, not #hero: the marquee shares this viewport, so
+    //  pinning the hero alone would hold it still while the logos scrolled out
+    //  from under it. Pinning the pair keeps them welded for the whole exit.
     // ===================
     const heroSection = document.getElementById('hero');
+    const firstScreen = document.getElementById('firstScreen') || heroSection;
     const heroBgWrap = heroSection.querySelector('.hero-bg-wrap');
     const heroItems = heroSection.querySelectorAll('.animate-item');
     const heroCard = heroSection.querySelector('.hero-card');
 
     const heroTl = gsap.timeline({
       scrollTrigger: {
-        trigger: heroSection,
+        trigger: firstScreen,
         start: 'top top',
         end: '+=130%',
         pin: true,
@@ -1735,19 +1741,14 @@
     heroTl.fromTo(heroCard, { y: 0, opacity: 1 }, { y: '22vh', opacity: 0, ease: 'power2.in' }, 0.7);
     heroTl.fromTo(heroBgWrap, { scale: 1 }, { scale: 1.06, ease: 'none' }, 0.7);
 
-    // ── PARTNERS — fades out as it scrolls away, handing off to the pinned hero ──
-    const partnersSection = document.getElementById('partners');
-    if (partnersSection) {
-      gsap.fromTo(partnersSection, { opacity: 1, y: 0 }, {
-        opacity: 0, y: -40, ease: 'power2.in',
-        scrollTrigger: {
-          trigger: partnersSection,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 0.6
-        }
-      });
-    }
+    // ── PARTNERS — no scroll animation, by design. It used to fade OUT as it
+    //    scrolled off the top, handing over to the pinned hero; now that it sits
+    //    BELOW the hero that handoff is meaningless. An entrance fade was tried
+    //    and reverted: it starts the strip at opacity 0, and directly under a
+    //    section pinned for +=130% the trigger did not reliably fire, leaving the
+    //    logos invisible. Same rule as the manifesto card below — a content band
+    //    renders visible, full stop. Its logos already animate on their own via
+    //    the CSS `partners-scroll` marquee. ──
 
     // ===================
     //  MANIFESTO - blue card (reuses .cta/.cta-inner). No longer pinned, so it
@@ -1826,6 +1827,138 @@
         );
       }
     }
+
+    // ===================
+    //  TESTIMONIALS RAIL — drag / swipe / arrows, with a slow auto-drift
+    //  The track holds the cards twice (the second group is aria-hidden), so any
+    //  scrollLeft and scrollLeft ± half show identical pixels. Every wrap below
+    //  is that ± half, which is why the loop is seamless in both directions and
+    //  why overshooting the end mid-animation is harmless.
+    // ===================
+    (function initTestimonialsRail() {
+      const viewport = document.getElementById('testimonialsViewport');
+      const track = document.getElementById('testimonialsTrack');
+      if (!viewport || !track) return;
+
+      const prevBtn = document.getElementById('testimonialsPrev');
+      const nextBtn = document.getElementById('testimonialsNext');
+      const DRIFT_PX_PER_SEC = 32;   // fixed speed: independent of card width
+      const RESUME_AFTER_MS = 2500;  // quiet time before the drift creeps back in
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let paused = false;
+      let dragging = false;
+      let lastX = 0;
+      let moved = 0;
+      let resumeTimer = 0;
+      let lastFrame = 0;
+
+      // one loop = half the track, i.e. exactly one copy of the card set
+      const half = () => track.scrollWidth / 2;
+
+      // Rightward looping is automatic: past one copy, rewind by one copy.
+      // Held off during an arrow's smooth scroll — that animates toward an
+      // ABSOLUTE target, so rewinding underneath it would send the rail lurching
+      // a whole copy forward. Sitting briefly past the loop point is harmless:
+      // it is the duplicate group, pixel-identical, and gets normalised after.
+      let smoothUntil = 0;
+      function wrapRight() {
+        if (performance.now() < smoothUntil) return;
+        const h = half();
+        if (h > 0 && viewport.scrollLeft >= h) viewport.scrollLeft -= h;
+      }
+      // Leftward can't be detected after the fact — the browser clamps scrollLeft
+      // at 0, so there is no negative value to catch. Instead, guarantee a full
+      // copy of runway to the left BEFORE any gesture starts.
+      function ensureLeftRoom() {
+        const h = half();
+        if (h > 0 && viewport.scrollLeft < 1) viewport.scrollLeft += h;
+      }
+
+      function holdDrift(ms) {
+        paused = true;
+        clearTimeout(resumeTimer);
+        if (ms) resumeTimer = setTimeout(() => { paused = false; }, ms);
+      }
+
+      // ── auto-drift ──
+      function tick(now) {
+        const dt = lastFrame ? Math.min((now - lastFrame) / 1000, 0.1) : 0;
+        lastFrame = now;
+        if (!paused && !dragging && !document.hidden) {
+          viewport.scrollLeft += DRIFT_PX_PER_SEC * dt;
+          wrapRight();
+        }
+        requestAnimationFrame(tick);
+      }
+      if (!reduceMotion) requestAnimationFrame(tick);
+
+      // ── hover / focus: hold still so a card can actually be read ──
+      viewport.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') holdDrift(0); });
+      viewport.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') holdDrift(400); });
+      viewport.addEventListener('focusin', () => holdDrift(0));
+      viewport.addEventListener('focusout', () => holdDrift(400));
+
+      // ── native scrolling (touch swipe, trackpad, keyboard arrows) ──
+      // Touch is deliberately left to the browser: hijacking it with preventDefault
+      // is what breaks vertical page scrolling on a horizontal rail.
+      viewport.addEventListener('scroll', wrapRight, { passive: true });
+      viewport.addEventListener('touchstart', () => { holdDrift(0); ensureLeftRoom(); }, { passive: true });
+      viewport.addEventListener('touchend', () => holdDrift(RESUME_AFTER_MS), { passive: true });
+      viewport.addEventListener('keydown', () => holdDrift(RESUME_AFTER_MS));
+
+      // ── mouse drag-to-slide ──
+      viewport.addEventListener('pointerdown', e => {
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        dragging = true;
+        moved = 0;
+        lastX = e.clientX;
+        holdDrift(0);
+        ensureLeftRoom();
+        viewport.setPointerCapture(e.pointerId);
+        e.preventDefault(); // stops the browser's native image/text drag
+      });
+
+      viewport.addEventListener('pointermove', e => {
+        if (!dragging) return;
+        // per-frame delta, not an offset from the press point: a wrap mid-drag
+        // moves scrollLeft by a whole copy, which would make an absolute
+        // origin snap the rail back on the very next move
+        const dx = e.clientX - lastX;
+        lastX = e.clientX;
+        moved += Math.abs(dx);
+        // only claim the gesture once it reads as a drag, so a sloppy click still clicks
+        if (moved > 4) viewport.classList.add('is-dragging');
+        viewport.scrollLeft -= dx;
+        if (dx > 0) ensureLeftRoom(); else wrapRight();
+      });
+
+      function endDrag(e) {
+        if (!dragging) return;
+        dragging = false;
+        viewport.classList.remove('is-dragging');
+        if (viewport.hasPointerCapture?.(e.pointerId)) viewport.releasePointerCapture(e.pointerId);
+        holdDrift(RESUME_AFTER_MS);
+      }
+      viewport.addEventListener('pointerup', endDrag);
+      viewport.addEventListener('pointercancel', endDrag);
+
+      // ── arrows ── one card per press
+      function step(dir) {
+        const card = track.querySelector('.testimonial-card');
+        const group = track.querySelector('.testimonials-group');
+        const gap = (group && parseFloat(getComputedStyle(group).gap)) || 28;
+        holdDrift(RESUME_AFTER_MS);
+        if (dir < 0) ensureLeftRoom();
+        if (!reduceMotion) smoothUntil = performance.now() + 700;
+        viewport.scrollBy({
+          left: ((card?.offsetWidth || 380) + gap) * dir,
+          behavior: reduceMotion ? 'auto' : 'smooth'
+        });
+      }
+      prevBtn?.addEventListener('click', () => step(-1));
+      nextBtn?.addEventListener('click', () => step(1));
+    })();
 
 
     // ===================
