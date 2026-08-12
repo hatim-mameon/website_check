@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>mameon — redesign prototype 2</title>
+
+<!-- the loader paints the mark immediately, so fetch it at highest priority -->
+<link rel="preload" as="image" href="../logo.png" fetchpriority="high">
+<link rel="preload" as="image" href="../wordmark.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Marks that JS is alive. Reveal styles hang off this class, so if the
+     script or the GSAP CDN ever fails, every section renders fully visible. -->
+<script>document.documentElement.className += " js";</script>
+
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   Black primary, platinum secondary — with the blue hero retained.
+   ============================================================ */
+:root{
+  /* paper & ink */
+  --paper:        #F5F4F2;   /* neutral editorial paper */
+  --paper-pure:   #FFFFFF;
+  --ink:          #0A0A0B;   /* primary — dark black */
+  --ink-soft:     #55565A;
+  /* carries the footer and every quote attribution — must clear 4.5:1 on
+     both --paper and white, so it cannot go any lighter than this */
+  --ink-faint:    #6B6C70;   /* 4.77:1 on paper, 5.24:1 on white */
+
+  /* primary (black) + secondary (platinum) ramp */
+  --brand:        #0A0A0B;
+  --brand-deep:   #000000;
+  --brand-abyss:  #000000;
+  --brand-wash:   #F0EFED;   /* palest platinum */
+  --brand-edge:   #E5E4E2;   /* secondary — platinum */
+  /* recessed-but-legible tint for the oversized step numeral;
+     --brand-edge is too close to --paper to read at display size */
+  --brand-tint:   #C3C1BC;
+
+  /* signature gradient card */
+  --card-metal: radial-gradient(84% 66% at 50% 34%,
+                #55555A 0%, #232327 36%, #0B0B0D 70%, #000000 100%);
+  --hero-grad: radial-gradient(125% 100% at 60% 55%,
+                #7C9BD8 0%, #4C74C4 30%, #24427F 68%, #142A54 100%);
+  /* black counterpart, used by the closing panel */
+  --dark-grad: radial-gradient(125% 100% at 60% 55%,
+                #2C2C31 0%, #171719 32%, #08080A 70%, #000000 100%);
+
+  /* chrome */
+  --nav-surface:  rgba(245,244,242,.78);
+  --nav-border:   rgba(12,12,13,.10);
+  --nav-shadow:   rgba(12,12,13,.14);
+  --glass:        rgba(255,255,255,.14);
+  --glass-border: rgba(255,255,255,.22);
+  --hairline:     rgba(255,255,255,.32);
+
+  /* type */
+  --display: "Fraunces", Georgia, serif;
+  --body:    "Inter", system-ui, sans-serif;
+
+  --radius-xl: 28px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --gutter: clamp(20px, 4vw, 56px);
+
+  /* Carousel geometry. Single source of truth — the cards' translateZ reads
+     --ring-r directly, and the morph math measures these rather than
+     re-deriving them, so CSS and JS can never drift apart.
+     --ring-r must be >= (--card-w / 2) / tan(180deg/6) = 0.866 * --card-w. */
+  --card-w: 34vmin;
+  --card-h: 52vmin;
+  --ring-r: 33vmin;    /* min 29.4vmin */
+}
+@media (max-width:760px){
+  :root{
+    /* vmin-based cards collapse to ~133px on a phone. Switch to vw. */
+    --card-w: 62vw;
+    --card-h: 94vw;
+    --ring-r: 58vw;    /* min 53.7vw */
+  }
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--body); font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+h1,h2,h3{ font-family:var(--display); font-weight:400; margin:0; }
+p{ margin:0; }
+a{ color:inherit; text-decoration:none; }
+img{ max-width:100%; display:block; }
+
+/* subtle paper grain for depth */
+.grain::after{
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:2;
+  opacity:.16; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   LOADER
+   Hidden by default and only shown once JS is confirmed alive, so it can
+   never strand the page. Dismissed on load, with a hard timeout backstop.
+   ============================================================ */
+.loader{ display:none; }
+.js .loader{
+  /* flex, not grid: a grid's default align-content:stretch spreads the three
+     items across the full viewport height instead of stacking them */
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:14px;
+  position:fixed; inset:0; z-index:200;
+  background:var(--paper);
+  transition:opacity .55s ease, visibility .55s ease;
+}
+.js .loader.done{ opacity:0; visibility:hidden; }
+.loader-mark{
+  width:76px; height:76px;
+  animation:pulse 1.6s ease-in-out infinite;
+}
+.loader-word{ width:150px; height:auto; margin-top:-2px; }
+@keyframes pulse{
+  0%,100%{ transform:scale(1);    opacity:.9; }
+  50%    { transform:scale(1.05); opacity:1;  }
+}
+.loader-line{
+  width:132px; height:2px; border-radius:2px;
+  background:var(--brand-edge); overflow:hidden; margin-top:8px;
+}
+.loader-line i{
+  display:block; width:40%; height:100%; border-radius:2px;
+  background:var(--brand);
+  animation:sweep 1.15s cubic-bezier(.55,0,.35,1) infinite;
+}
+@keyframes sweep{
+  0%  { transform:translateX(-110%); }
+  100%{ transform:translateX(360%); }
+}
+/* motion-averse users get no loader at all */
+@media (prefers-reduced-motion:reduce){ .js .loader{ display:none; } }
+
+/* ============================================================
+   FLOATING PILL NAV
+   ============================================================ */
+.nav{
+  position:fixed; top:18px; left:50%; transform:translateX(-50%);
+  z-index:100; display:flex; align-items:center; gap:6px;
+  padding:7px 7px 7px 9px; border-radius:999px;
+  background:var(--nav-surface);
+  border:1px solid var(--nav-border);
+  box-shadow:0 10px 34px -12px var(--nav-shadow);
+  backdrop-filter:blur(18px) saturate(1.5);
+  -webkit-backdrop-filter:blur(18px) saturate(1.5);
+}
+/* The logo art is a pale silver gradient — near-invisible on paper.
+   brightness(0) flattens it to a solid ink silhouette. */
+.brand-ink{ filter:brightness(0); opacity:.9; }
+
+.nav-brand{
+  display:flex; align-items:center; gap:7px; flex:none;
+  padding:2px 6px 2px 2px; border-radius:999px;
+}
+.nav-brand:hover .brand-ink{ opacity:1; }
+.nav-mark-img{ width:32px; height:32px; }
+.nav-word{ width:70px; height:auto; }
+@media (max-width:420px){ .nav-word{ display:none; } }
+.nav a.link{
+  padding:8px 13px; border-radius:999px; font-size:14.5px;
+  color:var(--ink); white-space:nowrap; transition:background .18s ease;
+}
+.nav a.link:hover{ background:rgba(12,12,13,.06); }
+.nav a.cta{
+  padding:9px 17px; border-radius:999px; font-size:14.5px; font-weight:500;
+  background:var(--brand-deep); color:#fff; white-space:nowrap;
+  transition:background .18s ease;
+}
+.nav a.cta:hover{ background:var(--brand); }
+
+/* --- mobile menu --- */
+.nav-toggle{
+  display:none; width:38px; height:38px; flex:none; padding:0;
+  border:0; border-radius:999px; background:transparent; cursor:pointer;
+  align-items:center; justify-content:center;
+}
+.nav-toggle:hover{ background:rgba(12,12,13,.06); }
+.nav-toggle span{
+  display:block; width:16px; height:1.5px; background:var(--ink); border-radius:2px;
+  transition:transform .22s ease, opacity .22s ease;
+}
+.nav-toggle span + span{ margin-top:4px; }
+.nav-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(5.5px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-5.5px) rotate(-45deg); }
+
+.nav-panel{
+  position:absolute; top:calc(100% + 8px); left:0; right:0;
+  display:none; flex-direction:column; gap:2px; padding:8px;
+  border-radius:20px;
+  background:var(--nav-surface);
+  border:1px solid var(--nav-border);
+  box-shadow:0 14px 40px -14px var(--nav-shadow);
+  backdrop-filter:blur(18px) saturate(1.5);
+  -webkit-backdrop-filter:blur(18px) saturate(1.5);
+}
+.nav-panel.open{ display:flex; }
+.nav-panel a{
+  padding:11px 14px; border-radius:13px; font-size:15px; color:var(--ink);
+}
+.nav-panel a:hover, .nav-panel a:focus-visible{ background:rgba(12,12,13,.06); }
+
+@media (max-width:720px){
+  .nav a.link{ display:none; }
+  .nav-toggle{ display:flex; }
+}
+@media (min-width:721px){
+  .nav-panel{ display:none !important; }
+}
+
+/* visible keyboard focus everywhere — the pill nav sits on varied backdrops */
+a:focus-visible, button:focus-visible{
+  outline:2px solid var(--brand); outline-offset:3px; border-radius:8px;
+}
+.hero a:focus-visible, .hero button:focus-visible,
+.close-card button:focus-visible{ outline-color:#fff; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+/* The hero is an overlay on the shared stage; it fades out to uncover the
+   ring's front card, which is sitting behind it scaled up to cover. */
+.hero{
+  position:absolute; inset:14px; z-index:6; overflow:hidden;
+  border-radius:var(--radius-xl);
+  background:var(--hero-grad);
+  display:flex; flex-direction:column; justify-content:space-between;
+  padding:clamp(28px,5vw,64px);
+  color:#fff;
+}
+/* auto margins centre the copy in the space the footer leaves behind */
+.hero-inner{
+  position:relative; z-index:3; max-width:1180px; width:100%;
+  margin:auto auto 0;
+}
+.hero h1{
+  /* ramp reduced from 6.4rem — the keyword-bearing headline runs three lines */
+  font-size:clamp(2.3rem, 5.5vw, 4.9rem);
+  line-height:1.0; letter-spacing:-.03em; margin-bottom:clamp(22px,3.4vw,42px);
+  max-width:20ch;
+}
+.hero h1 .dim{ color:rgba(255,255,255,.42); }
+.hero-sub{
+  max-width:34ch; font-size:clamp(15px,1.15vw,17px);
+  color:rgba(255,255,255,.80); margin-bottom:26px;
+}
+.hero-btns{ display:flex; gap:11px; flex-wrap:wrap; }
+.btn{
+  padding:13px 24px; border-radius:11px; font-size:15px; font-weight:500;
+  border:1px solid transparent; cursor:pointer; transition:all .2s ease;
+  font-family:var(--body);
+}
+.btn-ghost{
+  background:var(--glass); border-color:var(--glass-border); color:#fff;
+  backdrop-filter:blur(10px);
+}
+.btn-ghost:hover{ background:rgba(255,255,255,.24); }
+.btn-solid{ background:#fff; color:var(--ink); }
+.btn-solid:hover{ background:var(--brand-wash); }
+
+.hero-foot{
+  position:relative; z-index:3; max-width:1180px; width:100%;
+  margin:clamp(36px,6vh,80px) auto 0;
+  padding-top:26px;
+  border-top:1px solid var(--hairline);
+  display:flex; align-items:center; justify-content:space-between;
+  gap:24px; flex-wrap:wrap;
+}
+.proof{
+  display:flex; align-items:center; gap:11px;
+  padding:6px 16px 6px 6px; border-radius:999px;
+  background:var(--glass); border:1px solid var(--glass-border);
+  backdrop-filter:blur(10px);
+  font-size:13.5px; color:#fff;
+}
+.avatars{ display:flex; }
+.avatars img{
+  width:30px; height:30px; border-radius:999px; object-fit:cover;
+  border:2px solid rgba(255,255,255,.85); margin-left:-9px;
+}
+.avatars img:first-child{ margin-left:0; }
+.hero-foot-note{
+  text-align:right; max-width:46ch; font-size:13.5px; line-height:1.6;
+  color:rgba(255,255,255,.70);
+}
+@media (max-width:760px){
+  .hero-foot-note{ text-align:left; }
+}
+
+/* ============================================================
+   SCROLL MARQUEE + 3D CARD CAROUSEL
+   ============================================================ */
+/* Track covers both acts: the hero->card morph, then the rotation.
+   At 460vh and MORPH_END 0.28 that is ~129vh of morph and ~55vh per card. */
+.stage{ position:relative; height:460vh; }
+.stage-pin{
+  position:sticky; top:0; height:100vh; overflow:hidden;
+  display:grid; place-items:center;
+}
+/* Everything the morph reveals starts hidden and is faded in by the timeline.
+   Scoped to .motion so a no-JS / no-GSAP render still shows the whole page. */
+.motion .marquee,
+.motion .stage-cta,
+.motion .ring-card > *{ opacity:0; }
+
+/* Fallback: without the timeline the hero must not sit on top of the ring
+   forever, so it returns to normal flow and the stage stops being a track. */
+html:not(.motion) .stage{ height:auto; }
+html:not(.motion) .stage-pin{ position:relative; height:auto; display:block; padding:14px 0; }
+html:not(.motion) .hero{ position:relative; inset:auto; min-height:calc(100vh - 28px); margin:0 14px 40px; }
+html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh; }
+
+.marquee{
+  position:absolute; top:50%; left:0; transform:translateY(-50%);
+  white-space:nowrap; z-index:1;
+  font-size:clamp(4rem,11vw,9.5rem); letter-spacing:-.04em;
+  font-weight:400; color:var(--ink); opacity:.92;
+  will-change:transform;
+}
+/* Brand logos ride inline with the marquee type. Sized in em so they scale
+   with the clamp()ed font, and given a fixed square box so the marquee's
+   scrollWidth is correct before the SVGs finish loading. */
+.marquee .mq{
+  display:inline-flex; align-items:center; gap:.24em; margin-right:.54em;
+  line-height:1;          /* tight em box so align-items lands on the glyphs,
+                             not on the taller default line box */
+}
+.marquee .mq img{ width:.72em; height:.72em; object-fit:contain; flex:none; }
+
+.ring-wrap{ position:relative; z-index:3; perspective:1400px; }
+.ring{
+  position:relative; width:var(--card-w); height:var(--card-h);
+  transform-style:preserve-3d; will-change:transform;
+}
+/* Zero-height probe: lets JS read --ring-r resolved to px in whatever unit
+   the current breakpoint uses, without duplicating the value in script. */
+.ring-probe{
+  position:absolute; width:var(--ring-r); height:0;
+  visibility:hidden; pointer-events:none;
+}
+.ring-card{
+  position:absolute; inset:0; border-radius:22px; overflow:hidden;
+  background:var(--card-metal);
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.45);
+  backface-visibility:hidden;
+  display:flex; flex-direction:column; justify-content:space-between;
+  padding:22px; color:#fff;
+}
+/* photo cards: image fills the face, with a scrim so the copy stays legible */
+.ring-card .card-img{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; z-index:0;
+}
+.ring-card.has-img::after{
+  content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(12,12,13,.55) 0%, rgba(12,12,13,.10) 34%, rgba(0,0,0,.88) 100%);
+}
+.ring-card > .kicker, .ring-card > div{ position:relative; z-index:2; }
+
+.ring-card .kicker{
+  font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+  color:rgba(255,255,255,.72); font-weight:500;
+}
+.ring-card h3{ font-size:clamp(1.25rem,2.4vmin,1.9rem); line-height:1.08; letter-spacing:-.02em; }
+.ring-card .cap{ font-size:12.5px; color:rgba(255,255,255,.72); margin-top:7px; }
+
+.stage-cta{
+  position:absolute; bottom:6vh; left:50%; transform:translateX(-50%); z-index:4;
+}
+.btn-dark{ background:var(--ink); color:#fff; }
+.btn-dark:hover{ background:var(--brand-deep); }
+
+/* ============================================================
+   GENERIC SECTIONS
+   ============================================================ */
+.sec{ padding:clamp(80px,12vh,150px) var(--gutter); }
+.wrap{ max-width:1180px; margin:0 auto; }
+.eyebrow{
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--brand); font-weight:600; margin-bottom:18px;
+}
+.sec h2{
+  font-size:clamp(2.1rem,4.6vw,3.9rem); line-height:1.03;
+  letter-spacing:-.03em; max-width:18ch;
+}
+.sec .lede{
+  margin-top:20px; max-width:52ch; font-size:clamp(15px,1.1vw,17.5px);
+  color:var(--ink-soft);
+}
+
+/* how it works — pinned counter */
+.steps{ position:relative; }
+.steps-grid{
+  display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
+  gap:clamp(32px,6vw,90px); align-items:start;
+}
+.steps-sticky{ position:sticky; top:22vh; }
+.step-num{
+  font-family:var(--display); font-size:clamp(5rem,14vw,11rem);
+  line-height:.8; letter-spacing:-.05em; color:var(--brand-tint);
+}
+.step{
+  padding:clamp(30px,5vh,58px) 0; border-bottom:1px solid rgba(12,12,13,.10);
+  opacity:.42; transition:opacity .45s ease;
+}
+.step.on{ opacity:1; }
+.step h3{ font-size:clamp(1.5rem,2.7vw,2.3rem); letter-spacing:-.02em; line-height:1.1; }
+.step p{ margin-top:12px; color:var(--ink-soft); max-width:44ch; font-size:15.5px; }
+.step .tag{
+  display:inline-block; margin-top:14px; font-size:11px; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase;
+  padding:5px 11px; border-radius:999px;
+  background:var(--brand-wash); color:var(--brand-deep);
+}
+@media (max-width:860px){
+  .steps-grid{ grid-template-columns:1fr; }
+  .steps-sticky{ position:static; }
+}
+
+/* testimonials */
+.quotes{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(310px,1fr));
+  gap:18px; margin-top:52px;
+}
+.quote{
+  background:var(--paper-pure); border:1px solid rgba(12,12,13,.09);
+  border-radius:var(--radius-lg); padding:28px;
+  display:flex; flex-direction:column; justify-content:space-between;
+}
+.quote p{ font-size:15px; line-height:1.65; color:var(--ink); }
+.quote .who{
+  margin-top:22px; padding-top:18px; border-top:1px solid rgba(12,12,13,.09);
+  display:flex; align-items:center; gap:11px;
+}
+.quote .who img{ width:38px; height:38px; border-radius:999px; object-fit:cover; }
+.quote .who b{ display:block; font-size:14px; font-weight:600; }
+.quote .who span{ font-size:12.5px; color:var(--ink-faint); }
+
+/* platform strip */
+.platforms{
+  display:flex; flex-wrap:wrap; gap:12px; margin-top:44px;
+}
+.platforms div{
+  width:52px; height:52px; border-radius:14px; background:var(--paper-pure);
+  border:1px solid rgba(12,12,13,.09); display:grid; place-items:center;
+}
+.platforms img{ width:24px; height:24px; }
+
+/* closing CTA — the gradient card again, full width */
+.close-card{
+  position:relative; overflow:hidden; margin:0 14px 14px;
+  border-radius:var(--radius-xl); background:var(--brand-abyss);
+  padding:clamp(56px,11vh,132px) clamp(28px,5vw,64px); color:#fff;
+  text-align:center;
+}
+/* separate layer so the gradient can parallax without moving the copy */
+.close-bg{
+  position:absolute; inset:-16% 0; z-index:0;
+  background:var(--dark-grad); will-change:transform;
+}
+.close-card h2{
+  position:relative; z-index:3; margin:0 auto;
+  font-size:clamp(2.2rem,5.6vw,4.6rem); line-height:1.02; letter-spacing:-.03em;
+  max-width:16ch;
+}
+.close-card .dim{ color:rgba(255,255,255,.42); }
+.close-card p{
+  position:relative; z-index:3;
+  margin:22px auto 30px; max-width:46ch; color:rgba(255,255,255,.78); font-size:16px;
+}
+.close-card .hero-btns{ position:relative; z-index:3; justify-content:center; }
+
+footer{
+  padding:44px var(--gutter); display:flex; justify-content:space-between;
+  align-items:center; gap:20px; flex-wrap:wrap;
+  font-size:13.5px; color:var(--ink-faint);
+  border-top:1px solid rgba(12,12,13,.09); margin:0 14px;
+}
+footer nav{ display:flex; gap:22px; }
+.foot-brand{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.foot-word{ width:94px; height:auto; opacity:.55; }
+
+/* ============================================================
+   ENTRANCE + REVEAL
+   CSS-driven so content is never left invisible by a failed script.
+   ============================================================ */
+@keyframes rise{ from{ opacity:0; transform:translateY(26px);} to{ opacity:1; transform:none; } }
+
+.js .hero h1,
+.js .hero-sub,
+.js .hero-btns,
+.js .hero-foot{ animation:rise .95s cubic-bezier(.22,.8,.3,1) backwards; }
+.js .hero h1{ animation-delay:.10s; }
+.js .hero-sub{ animation-delay:.19s; }
+.js .hero-btns{ animation-delay:.28s; }
+.js .hero-foot{ animation-delay:.37s; }
+
+/* platform tiles cascade in once their row reveals */
+.js .platforms div{ opacity:0; transform:translateY(14px) scale(.94); }
+.js .platforms.in div{
+  opacity:1; transform:none;
+  transition:opacity .5s cubic-bezier(.22,.8,.3,1), transform .5s cubic-bezier(.22,.8,.3,1);
+}
+.js .platforms.in div:nth-child(1){ transition-delay:0s }
+.js .platforms.in div:nth-child(2){ transition-delay:.045s }
+.js .platforms.in div:nth-child(3){ transition-delay:.09s }
+.js .platforms.in div:nth-child(4){ transition-delay:.135s }
+.js .platforms.in div:nth-child(5){ transition-delay:.18s }
+.js .platforms.in div:nth-child(6){ transition-delay:.225s }
+.js .platforms.in div:nth-child(7){ transition-delay:.27s }
+.js .platforms.in div:nth-child(8){ transition-delay:.315s }
+.js .platforms.in div:nth-child(9){ transition-delay:.36s }
+.js .platforms.in div:nth-child(10){ transition-delay:.405s }
+
+.js .reveal{ opacity:0; transform:translateY(22px); }
+.js .reveal.in{
+  opacity:1; transform:none;
+  transition:opacity .8s cubic-bezier(.22,.8,.3,1), transform .8s cubic-bezier(.22,.8,.3,1);
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{ animation:none !important; transition:none !important; }
+  .js .reveal{ opacity:1 !important; transform:none !important; }
+  .js .step{ opacity:1 !important; }
+  .js .platforms div{ opacity:1 !important; transform:none !important; }
+}
+
+/* ============================================================
+   DARK BANNER
+   Scoped to .nav / .nav-panel so the footer wordmark keeps its
+   black silhouette on the light page.
+   ============================================================ */
+.nav{
+  background:rgba(10,10,11,.82);
+  border-color:rgba(255,255,255,.14);
+  box-shadow:0 10px 34px -12px rgba(0,0,0,.5);
+}
+.nav .brand-ink{ filter:brightness(0) invert(90%); opacity:.95; }   /* platinum */
+.nav a.link{ color:#E5E4E2; }
+.nav a.link:hover{ background:rgba(255,255,255,.10); }
+.nav a.cta{ background:#E5E4E2; color:#0A0A0B; }
+.nav a.cta:hover{ background:#FFFFFF; }
+.nav-toggle span{ background:#E5E4E2; }
+.nav-toggle:hover{ background:rgba(255,255,255,.10); }
+.nav-panel{
+  background:rgba(10,10,11,.94);
+  border-color:rgba(255,255,255,.14);
+}
+.nav-panel a{ color:#E5E4E2; }
+.nav-panel a:hover, .nav-panel a:focus-visible{ background:rgba(255,255,255,.10); }
+</style>
+</head>
+<body>
+
+<!-- ================= LOADER ================= -->
+<div class="loader" id="loader" role="status" aria-live="polite" aria-label="Loading">
+  <img class="brand-ink loader-mark" src="../logo.png" alt="" width="76" height="76">
+  <img class="brand-ink loader-word" src="../wordmark.png" alt="mameon" width="150" height="38">
+  <span class="loader-line"><i></i></span>
+</div>
+
+<!-- ================= NAV ================= -->
+<nav class="nav" id="top">
+  <a class="nav-brand" href="#top" aria-label="mameon — home">
+    <img class="brand-ink nav-mark-img" src="../logo.png" alt="" width="32" height="32">
+    <img class="brand-ink nav-word" src="../wordmark.png" alt="mameon" width="70" height="18">
+  </a>
+  <a class="link" href="#make">What you can make</a>
+  <a class="link" href="#how">How it works</a>
+  <a class="link" href="#customers">Customers</a>
+  <a class="cta" href="#">Start free</a>
+  <button class="nav-toggle" id="navToggle" type="button"
+          aria-expanded="false" aria-controls="navPanel" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="nav-panel" id="navPanel">
+    <a href="#make">What you can make</a>
+    <a href="#how">How it works</a>
+    <a href="#customers">Customers</a>
+  </div>
+</nav>
+
+<!-- ============ HERO + MARQUEE + 3D CARD CAROUSEL ============
+     One pinned stage. The hero and the carousel share it, so the hero
+     hands off to the REAL ring (card 01 scaled up to cover the viewport)
+     rather than to a stand-in card. -->
+<section class="stage" id="make">
+  <div class="stage-pin">
+
+  <header class="hero grain">
+    <div class="hero-inner">
+      <!-- Keeps the keywords the live site ranks for ("AI-powered social media
+           & advertising campaigns", "in minutes") in a single H1, set as two
+           tonal lines so it still reads editorially. -->
+      <h1>AI-powered social media<br>&amp; advertising campaigns
+          <span class="dim">in minutes.</span></h1>
+      <p class="hero-sub">
+        One AI that learns your brand from your URL, then writes, designs and
+        publishes campaigns across every platform. Free, no credit card.
+      </p>
+      <div class="hero-btns">
+        <button class="btn btn-ghost">See what you can make</button>
+        <button class="btn btn-solid">Create campaigns free</button>
+      </div>
+    </div>
+
+    <div class="hero-foot">
+      <div class="proof">
+        <span class="avatars">
+          <img src="../team/Oussama.jpeg" alt="" width="30" height="30">
+          <img src="../team/Dave.png" alt="" width="30" height="30">
+          <img src="../team/Wayne.jpg" alt="" width="30" height="30">
+          <img src="../team/Jason.jpg" alt="" width="30" height="30">
+          <img src="../team/Hatim.jpeg" alt="" width="30" height="30">
+        </span>
+        Join 1000+ founders
+      </div>
+      <p class="hero-foot-note">
+        Paste your website URL. We learn your voice, write the copy, choose the
+        visuals, and publish across every platform you care about.
+      </p>
+    </div>
+  </header>
+
+    <div class="marquee" id="marquee">
+      <span class="mq"><img src="../platforms/instagram.svg" alt="" width="24" height="24" decoding="async">Instagram</span>
+      <span class="mq"><img src="../platforms/facebook.svg" alt="" width="24" height="24" decoding="async">Facebook</span>
+      <span class="mq"><img src="../platforms/google-ads.svg" alt="" width="24" height="24" decoding="async">Google&nbsp;Ads</span>
+      <span class="mq"><img src="../platforms/linkedin.svg" alt="" width="24" height="24" decoding="async">LinkedIn</span>
+      <span class="mq"><img src="../platforms/x.svg" alt="" width="24" height="24" decoding="async">X</span>
+      <span class="mq"><img src="../platforms/reddit.svg" alt="" width="24" height="24" decoding="async">Reddit</span>
+      <span class="mq"><img src="../platforms/pinterest.svg" alt="" width="24" height="24" decoding="async">Pinterest</span>
+      <span class="mq"><img src="../platforms/snapchat.svg" alt="" width="24" height="24" decoding="async">Snapchat</span>
+      <span class="mq"><img src="../platforms/telegram.svg" alt="" width="24" height="24" decoding="async">Telegram</span>
+      <span class="mq"><img src="../platforms/bluesky.svg" alt="" width="24" height="24" decoding="async">Bluesky</span>
+    </div>
+
+    <div class="ring-wrap">
+      <div class="ring-probe" id="ringProbe" aria-hidden="true"></div>
+      <div class="ring" id="ring">
+        <!-- cards injected by JS -->
+      </div>
+    </div>
+
+    <div class="stage-cta">
+      <button class="btn btn-dark">See everything you can make</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ONE PLACE ================= -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">One connected workflow</p>
+    <h2>Every channel, one campaign engine.</h2>
+    <p class="lede">
+      The best brands have full marketing teams. With mameon, you do too —
+      copy, creative, scheduling, and publishing handled end to end, across
+      social and paid, from a single brand profile.
+    </p>
+    <div class="platforms">
+      <div><img src="../platforms/instagram.svg" alt="Instagram" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="../platforms/facebook.svg" alt="Facebook" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="../platforms/google-ads.svg" alt="Google Ads" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="../platforms/linkedin.svg" alt="LinkedIn" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="../platforms/x.svg" alt="X" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="../platforms/reddit.svg" alt="Reddit" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="../platforms/pinterest.svg" alt="Pinterest" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="../platforms/snapchat.svg" alt="Snapchat" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="../platforms/telegram.svg" alt="Telegram" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="../platforms/bluesky.svg" alt="Bluesky" width="24" height="24" loading="lazy" decoding="async"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section class="sec steps" id="how">
+  <div class="wrap steps-grid">
+    <div class="steps-sticky">
+      <div class="step-num" id="stepNum">01</div>
+      <h2 style="font-size:clamp(1.9rem,3.4vw,2.9rem); margin-top:20px;">
+        Live campaigns in four steps.
+      </h2>
+    </div>
+
+    <div id="stepList">
+      <article class="step">
+        <h3>Sign up with your URL</h3>
+        <p>Seconds, not forms. We read your website and learn your brand voice,
+           products, and audience.</p>
+      </article>
+      <article class="step">
+        <h3>Create your campaign</h3>
+        <p>Edit the copy, choose your visuals, pick the channels. Everything
+           arrives pre-written and on brand.</p>
+      </article>
+      <article class="step">
+        <h3>Publish everywhere</h3>
+        <p>Schedule and launch social and advertising campaigns across every
+           platform from one place.</p>
+      </article>
+      <article class="step">
+        <h3>Optimize continuously</h3>
+        <p>Data-driven improvements that lift engagement while it runs in the
+           background.</p>
+        <span class="tag">Coming soon</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section class="sec" id="customers" style="background:var(--brand-wash);">
+  <div class="wrap">
+    <p class="eyebrow">Customers</p>
+    <h2>Loved by the founders who use it.</h2>
+
+    <div class="quotes">
+      <figure class="quote">
+        <p>“We just pasted in our URL and mameon understood our brand immediately.
+           From there creating campaigns was simple — and the best thing is that
+           it was absolutely free.”</p>
+        <figcaption class="who">
+          <img src="../logos/Tigre_motor_club.png" alt="" width="38" height="38" loading="lazy" decoding="async">
+          <span><b>Peter O'Regan</b><span>CEO, Tigre</span></span>
+        </figcaption>
+      </figure>
+
+      <figure class="quote">
+        <p>“Their AI-driven storytelling tools helped us communicate our mission
+           with greater clarity and consistency, while significantly improving
+           efficiency in our content creation process.”</p>
+        <figcaption class="who">
+          <img src="../logos/MESH.jpeg" alt="" width="38" height="38" loading="lazy" decoding="async">
+          <span><b>Shane Hannan</b><span>CEO, Mesh Bioplastics</span></span>
+        </figcaption>
+      </figure>
+
+      <figure class="quote">
+        <p>“Running a startup isn't one hard thing. It's twenty easy things and
+           five impossibly hard things at once. mameon looks after all of social
+           and advertising for me.”</p>
+        <figcaption class="who">
+          <img src="../logos/Mara Botanics Transparent Logo.png" alt="" width="38" height="38" loading="lazy" decoding="async">
+          <span><b>Cian Mahony</b><span>Mara Botanics</span></span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CLOSING CTA ================= -->
+<section class="close-card grain">
+  <div class="close-bg" id="closeBg" aria-hidden="true"></div>
+  <h2>Your first campaign<br><span class="dim">is one URL away.</span></h2>
+  <p>Create social and advertising campaigns for free. No credit card required.</p>
+  <div class="hero-btns">
+    <button class="btn btn-ghost">Talk to us</button>
+    <button class="btn btn-solid">Create campaigns free</button>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-brand">
+    <img class="brand-ink foot-word" src="../wordmark.png" alt="mameon" width="94" height="24">
+    © 2026 mameon. All rights reserved.
+  </span>
+  <nav><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></nav>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"
+        integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"
+        integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- loader dismissal ----------
+   Fires on whichever comes first: window load, or a hard 1.8s backstop so a
+   stalled font/CDN can never keep the page behind the overlay. */
+(() => {
+  const el = document.getElementById("loader");
+  if (!el) return;
+  const MIN_MS = 620, MAX_MS = 1800;
+  const shownAt = performance.now();
+  let dismissed = false;
+  const dismiss = () => {
+    if (dismissed) return;
+    dismissed = true;
+    const wait = Math.max(0, MIN_MS - (performance.now() - shownAt));
+    setTimeout(() => {
+      el.classList.add("done");
+      setTimeout(() => el.remove(), 600);
+    }, wait);
+  };
+  if (document.readyState === "complete") dismiss();
+  else addEventListener("load", dismiss);
+  setTimeout(dismiss, MAX_MS);
+})();
+
+/* ---------- mobile menu ---------- */
+const navToggle = document.getElementById("navToggle");
+const navPanel  = document.getElementById("navPanel");
+const setMenu = (open) => {
+  navPanel.classList.toggle("open", open);
+  navToggle.setAttribute("aria-expanded", String(open));
+  navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+};
+navToggle.addEventListener("click", () =>
+  setMenu(navToggle.getAttribute("aria-expanded") !== "true"));
+navPanel.addEventListener("click", (e) => { if (e.target.tagName === "A") setMenu(false); });
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && navToggle.getAttribute("aria-expanded") === "true") {
+    setMenu(false); navToggle.focus();
+  }
+});
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".nav") && navToggle.getAttribute("aria-expanded") === "true") setMenu(false);
+});
+
+/* ---------- build the 3D card ring ---------- */
+const CARDS = [
+  // `pos` is object-position: these sources are landscape (1.83 and 1.95) and
+  // the card face is portrait (0.65), so the crop is steered to the subject.
+  { kicker:"What you can make · 01", title:"Social posts",     cap:"On-brand copy and creative for every feed.",
+    img:"../home.jpg",        w:1408, h:768, pos:"66% 50%" },
+  { kicker:"What you can make · 02", title:"Ad campaigns",     cap:"Paid social and search, written and targeted.",
+    img:"../ads_poster.png",  w:1896, h:972, pos:"54% 45%" },
+  { kicker:"What you can make · 03", title:"Video",            cap:"Short-form video built from your story." },
+  { kicker:"What you can make · 04", title:"Audio ads",        cap:"Scripted and produced for streaming." },
+  { kicker:"What you can make · 05", title:"Brand profile",    cap:"Your voice, learned once, reused everywhere." },
+  { kicker:"What you can make · 06", title:"Content calendar", cap:"Scheduled and published automatically." },
+];
+
+const ring = document.getElementById("ring");
+const ringProbe = document.getElementById("ringProbe");
+CARDS.forEach((c, i) => {
+  const el = document.createElement("article");
+  el.className = "ring-card";
+  const angle = (360 / CARDS.length) * i;
+  // reads the CSS token directly, so the ring re-sizes at the mobile
+  // breakpoint with no JS involvement
+  el.style.transform = `rotateY(${angle}deg) translateZ(var(--ring-r))`;
+  if (c.img) el.classList.add("has-img");
+  const photo = c.img
+    // eager: lazy-loading is unreliable for children of a preserve-3d ring
+    // (rotated faces read as off-viewport), and the carousel is the first
+    // section after the hero, so these are effectively above the fold.
+    ? `<img class="card-img" src="${c.img}" alt="" width="${c.w}" height="${c.h}"
+            style="object-position:${c.pos}" decoding="async">`
+    : "";
+  el.innerHTML = `
+    ${photo}
+    <span class="kicker">${c.kicker}</span>
+    <div>
+      <h3>${c.title}</h3>
+      <p class="cap">${c.cap}</p>
+    </div>`;
+  ring.appendChild(el);
+});
+
+/* ------------------------------------------------------------
+   Reveals + step tracking: plain IntersectionObserver, no GSAP.
+   These control content visibility, so they must not depend on a CDN.
+   ------------------------------------------------------------ */
+document.querySelectorAll(".sec .wrap > *, .close-card > *").forEach(el => {
+  el.classList.add("reveal");
+});
+
+const revealIO = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add("in"); revealIO.unobserve(e.target); }
+  });
+}, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
+document.querySelectorAll(".reveal").forEach(el => revealIO.observe(el));
+
+const steps = Array.from(document.querySelectorAll("#stepList .step"));
+const numEl = document.getElementById("stepNum");
+steps[0].classList.add("on");
+
+const stepIO = new IntersectionObserver((entries) => {
+  // pick the entry nearest the 62% line
+  const visible = entries.filter(e => e.isIntersecting);
+  if (!visible.length) return;
+  const best = visible.reduce((a, b) =>
+    Math.abs(a.boundingClientRect.top - innerHeight * .38) <
+    Math.abs(b.boundingClientRect.top - innerHeight * .38) ? a : b);
+  const i = steps.indexOf(best.target);
+  if (i < 0) return;
+  steps.forEach(s => s.classList.remove("on"));
+  best.target.classList.add("on");
+  numEl.textContent = String(i + 1).padStart(2, "0");
+}, { rootMargin: "-30% 0px -45% 0px", threshold: 0 });
+steps.forEach(s => stepIO.observe(s));
+
+/* ------------------------------------------------------------
+   GSAP is used ONLY for the scroll-scrubbed stage (marquee + ring).
+   If it fails to load, the stage simply sits still — nothing is hidden.
+   ------------------------------------------------------------ */
+if (!reduced && window.gsap && window.ScrollTrigger) {
+  // Unlocks the pinned-stage layout. Without it the page renders as plain
+  // stacked sections, so a CDN failure degrades instead of breaking.
+  document.documentElement.classList.add("motion");
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ---------- hero card morphs into the front carousel card ----------
+     Card 01 rests at translateZ(--ring-r), which the shared 1400px
+     perspective magnifies. Matching scale alone would land it too small,
+     so the cover scale is divided by that magnification.
+     All three inputs are measured from the DOM, so this stays correct at
+     any breakpoint. offsetWidth is layout size, unaffected by transforms. */
+  const PERSPECTIVE = 1400;
+  const mag    = () => PERSPECTIVE / (PERSPECTIVE - ringProbe.offsetWidth);
+  const coverX = () => (innerWidth  - 28) / (ring.offsetWidth  * mag());
+  const coverY = () => (innerHeight - 28) / (ring.offsetHeight * mag());
+
+  const mq = document.getElementById("marquee");
+
+  /* One timeline over the whole stage.
+     Act 1 (0 -> MORPH_END): the hero uncovers ring card 01, which is already
+     sitting behind it scaled up to fill the viewport, then shrinks to size.
+     Act 2 (MORPH_END -> 1): the ring rotates through all six cards. */
+  const MORPH_END = 0.28;
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".stage",
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 0.6,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  // Ring starts at cover scale. Anisotropic, so no rotation runs during Act 1 —
+  // rotating a non-uniformly scaled parent shears the cards.
+  tl.fromTo(ring,
+      { scaleX: coverX, scaleY: coverY, rotateY: 0, rotateX: 0 },
+      { scaleX: 1, scaleY: 1, ease: "power2.inOut", duration: MORPH_END }, 0)
+    // hero copy clears, then the hero card itself dissolves off the front card
+    .to(".hero-inner, .hero-foot", { opacity: 0, y: -30, ease: "power1.in", duration: MORPH_END * .30 }, 0)
+    .to(".hero", { opacity: 0, ease: "none", duration: MORPH_END * .22 }, MORPH_END * .16)
+    // card copy and stage chrome arrive once the card is near its real size
+    .to(".ring-card > *", { opacity: 1, ease: "none", duration: MORPH_END * .28 }, MORPH_END * .72)
+    .to(mq, { opacity: .92, ease: "none", duration: MORPH_END * .30 }, MORPH_END * .70)
+    .to(".stage-cta", { opacity: 1, ease: "none", duration: MORPH_END * .30 }, MORPH_END * .70)
+    // Act 2 — the existing carousel, now at its natural size
+    // Positive sweep (the original direction). Note the side effect: a card
+    // faces the viewer when the ring cancels its placement angle (+60deg *
+    // index), so turning positive surfaces them 06, 05, 04 ... — the reverse
+    // of their printed "· 01 ... · 06" kickers. To keep this direction AND
+    // have the labels count up, negate the placement angle where the cards
+    // are built instead of flipping this value.
+    .to(ring, { rotateY: 360, ease: "none", duration: 1 - MORPH_END }, MORPH_END)
+    .fromTo(mq,
+      { x: () => innerWidth * 0.15 },
+      { x: () => -(mq.scrollWidth - innerWidth) - innerWidth * 0.15,
+        ease: "none", duration: 1 - MORPH_END }, MORPH_END);
+
+  /* ---------- closing CTA: gradient drifts behind the copy ---------- */
+  gsap.fromTo("#closeBg",
+    { yPercent: -7 },
+    {
+      yPercent: 7, ease: "none",
+      scrollTrigger: {
+        trigger: ".close-card",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 0.6,
+      },
+    }
+  );
+}
+</script>
+</body>
+</html>
