@@ -51,9 +51,9 @@
                 #7C9BD8 0%, #4C74C4 30%, #24427F 68%, #142A54 100%);
 
   /* chrome */
-  --nav-surface:  rgba(247,245,241,.72);
-  --nav-border:   rgba(15,20,32,.10);
-  --nav-shadow:   rgba(15,20,32,.14);
+  --nav-surface:  rgba(10,10,11,.82);   /* black floating menu bar */
+  --nav-border:   rgba(255,255,255,.14);
+  --nav-shadow:   rgba(0,0,0,.5);
   --glass:        rgba(255,255,255,.14);
   --glass-border: rgba(255,255,255,.22);
   --hairline:     rgba(255,255,255,.32);
@@ -93,6 +93,9 @@ body{
 }
 h1,h2,h3{ font-family:var(--display); font-weight:400; margin:0; }
 p{ margin:0; }
+/* figure defaults to margin:16px 40px, which pushed the testimonial cards past
+   their clipping edge and squared off their bottom corners. */
+figure,blockquote,figcaption{ margin:0; }
 a{ color:inherit; text-decoration:none; }
 img{ max-width:100%; display:block; }
 
@@ -157,9 +160,10 @@ img{ max-width:100%; display:block; }
   backdrop-filter:blur(18px) saturate(1.5);
   -webkit-backdrop-filter:blur(18px) saturate(1.5);
 }
-/* The logo art is a pale silver gradient — near-invisible on paper.
-   brightness(0) flattens it to a solid ink silhouette. */
+/* The logo art is a pale silver gradient. brightness(0) flattens it to a
+   silhouette; on the black bar it is inverted back up to platinum. */
 .brand-ink{ filter:brightness(0); opacity:.9; }
+.nav .brand-ink{ filter:brightness(0) invert(90%); opacity:.95; }
 
 .nav-brand{
   display:flex; align-items:center; gap:7px; flex:none;
@@ -171,15 +175,15 @@ img{ max-width:100%; display:block; }
 @media (max-width:420px){ .nav-word{ display:none; } }
 .nav a.link{
   padding:8px 13px; border-radius:999px; font-size:14.5px;
-  color:var(--ink); white-space:nowrap; transition:background .18s ease;
+  color:#E5E4E2; white-space:nowrap; transition:background .18s ease;
 }
-.nav a.link:hover{ background:rgba(15,20,32,.06); }
+.nav a.link:hover{ background:rgba(255,255,255,.10); }
 .nav a.cta{
   padding:9px 17px; border-radius:999px; font-size:14.5px; font-weight:500;
-  background:var(--brand-deep); color:#fff; white-space:nowrap;
-  transition:background .18s ease;
+  background:#E5E4E2; color:#0A0A0B; white-space:nowrap;
+  transition:background .18s ease, transform .2s cubic-bezier(.22,.8,.3,1);
 }
-.nav a.cta:hover{ background:var(--brand); }
+.nav a.cta:hover{ background:#FFFFFF; transform:translateY(-2px) scale(1.03); }
 
 /* --- mobile menu --- */
 .nav-toggle{
@@ -187,9 +191,9 @@ img{ max-width:100%; display:block; }
   border:0; border-radius:999px; background:transparent; cursor:pointer;
   align-items:center; justify-content:center;
 }
-.nav-toggle:hover{ background:rgba(15,20,32,.06); }
+.nav-toggle:hover{ background:rgba(255,255,255,.10); }
 .nav-toggle span{
-  display:block; width:16px; height:1.5px; background:var(--ink); border-radius:2px;
+  display:block; width:16px; height:1.5px; background:#E5E4E2; border-radius:2px;
   transition:transform .22s ease, opacity .22s ease;
 }
 .nav-toggle span + span{ margin-top:4px; }
@@ -201,7 +205,7 @@ img{ max-width:100%; display:block; }
   position:absolute; top:calc(100% + 8px); left:0; right:0;
   display:none; flex-direction:column; gap:2px; padding:8px;
   border-radius:20px;
-  background:var(--nav-surface);
+  background:rgba(10,10,11,.94);
   border:1px solid var(--nav-border);
   box-shadow:0 14px 40px -14px var(--nav-shadow);
   backdrop-filter:blur(18px) saturate(1.5);
@@ -209,9 +213,9 @@ img{ max-width:100%; display:block; }
 }
 .nav-panel.open{ display:flex; }
 .nav-panel a{
-  padding:11px 14px; border-radius:13px; font-size:15px; color:var(--ink);
+  padding:11px 14px; border-radius:13px; font-size:15px; color:#E5E4E2;
 }
-.nav-panel a:hover, .nav-panel a:focus-visible{ background:rgba(15,20,32,.06); }
+.nav-panel a:hover, .nav-panel a:focus-visible{ background:rgba(255,255,255,.10); }
 
 @media (max-width:720px){
   .nav a.link{ display:none; }
@@ -260,9 +264,13 @@ a:focus-visible, button:focus-visible{
 .hero-btns{ display:flex; gap:11px; flex-wrap:wrap; }
 .btn{
   padding:13px 24px; border-radius:11px; font-size:15px; font-weight:500;
-  border:1px solid transparent; cursor:pointer; transition:all .2s ease;
-  font-family:var(--body);
+  border:1px solid transparent; cursor:pointer; font-family:var(--body);
+  transition:background .2s ease, transform .2s cubic-bezier(.22,.8,.3,1),
+             box-shadow .2s ease;
 }
+/* every CTA lifts on hover */
+.btn:hover{ transform:translateY(-2px) scale(1.02); box-shadow:0 10px 24px -10px rgba(0,0,0,.45); }
+.btn:active{ transform:translateY(0) scale(.99); }
 .btn-ghost{
   background:var(--glass); border-color:var(--glass-border); color:#fff;
   backdrop-filter:blur(10px);
@@ -313,7 +321,6 @@ a:focus-visible, button:focus-visible{
 /* Everything the morph reveals starts hidden and is faded in by the timeline.
    Scoped to .motion so a no-JS / no-GSAP render still shows the whole page. */
 .motion .marquee,
-.motion .stage-cta,
 .motion .ring-card > *{ opacity:0; }
 
 /* Fallback: without the timeline the hero must not sit on top of the ring
@@ -330,7 +337,14 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
   font-weight:400; color:var(--ink); opacity:.92;
   will-change:transform;
 }
-.marquee .dot{ color:var(--brand); font-size:.4em; vertical-align:middle; margin:0 .35em; }
+/* Brand logos ride inline with the marquee type. Sized in em so they scale
+   with the clamp()ed font; line-height:1 tightens the box so align-items
+   centres on the glyphs rather than the taller default line box. */
+.marquee .mq{
+  display:inline-flex; align-items:center; gap:.24em; margin-right:.54em;
+  line-height:1;
+}
+.marquee .mq img{ width:.72em; height:.72em; object-fit:contain; flex:none; }
 
 .ring-wrap{ position:relative; z-index:3; perspective:1400px; }
 .ring{
@@ -348,7 +362,7 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
   background:var(--card-blue);
   box-shadow:0 30px 70px -30px rgba(11,31,82,.6);
   backface-visibility:hidden;
-  display:flex; flex-direction:column; justify-content:space-between;
+  display:flex; flex-direction:column; justify-content:flex-end;
   padding:22px; color:#fff;
 }
 /* photo cards: image fills the face, with a scrim so the copy stays legible */
@@ -361,20 +375,11 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
   background:linear-gradient(180deg,
     rgba(20,42,84,.52) 0%, rgba(20,42,84,.10) 34%, rgba(11,31,82,.88) 100%);
 }
-.ring-card > .kicker, .ring-card > div{ position:relative; z-index:2; }
+.ring-card > div{ position:relative; z-index:2; }
 
-.ring-card .kicker{
-  font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
-  color:rgba(255,255,255,.72); font-weight:500;
-}
 .ring-card h3{ font-size:clamp(1.25rem,2.4vmin,1.9rem); line-height:1.08; letter-spacing:-.02em; }
 .ring-card .cap{ font-size:12.5px; color:rgba(255,255,255,.72); margin-top:7px; }
 
-.stage-cta{
-  position:absolute; bottom:6vh; left:50%; transform:translateX(-50%); z-index:4;
-}
-.btn-dark{ background:var(--ink); color:#fff; }
-.btn-dark:hover{ background:var(--brand-deep); }
 
 /* ============================================================
    GENERIC SECTIONS
@@ -423,24 +428,149 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
   .steps-sticky{ position:static; }
 }
 
-/* testimonials */
-.quotes{
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(310px,1fr));
-  gap:18px; margin-top:52px;
+/* testimonials — horizontal filmstrip of tall photo cards, matching the
+   services fold on the reference site: several cards in view, content laid
+   over the image, and the next card peeking past the right edge. */
+.tcar{ margin-top:38px; }
+.tcar-head{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:20px; flex-wrap:wrap;
 }
-.quote{
-  background:var(--paper-pure); border:1px solid rgba(15,20,32,.09);
-  border-radius:var(--radius-lg); padding:28px;
-  display:flex; flex-direction:column; justify-content:space-between;
+.tcar-progress{
+  flex:1; min-width:120px; max-width:320px; height:3px;
+  border-radius:999px; background:rgba(15,20,32,.14); overflow:hidden;
 }
-.quote p{ font-size:15px; line-height:1.65; color:var(--ink); }
-.quote .who{
-  margin-top:22px; padding-top:18px; border-top:1px solid rgba(15,20,32,.09);
-  display:flex; align-items:center; gap:11px;
+.tcar-progress i{
+  display:block; height:100%; width:34%; border-radius:999px;
+  background:var(--brand-deep); transform-origin:left center;
 }
-.quote .who img{ width:38px; height:38px; border-radius:999px; object-fit:cover; }
-.quote .who b{ display:block; font-size:14px; font-weight:600; }
-.quote .who span{ font-size:12.5px; color:var(--ink-faint); }
+.tcar-nav{ display:flex; gap:10px; }
+.tcar-btn{
+  width:44px; height:44px; border-radius:999px; cursor:pointer;
+  border:1px solid rgba(15,20,32,.16); background:var(--paper-pure);
+  color:var(--ink); display:grid; place-items:center;
+  transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+.tcar-btn:hover{
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:0 10px 24px -12px rgba(0,0,0,.45);
+}
+.tcar-btn:active{ transform:translateY(0) scale(.99); }
+.tcar-btn[disabled]{ opacity:.32; pointer-events:none; }
+.tcar-btn svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.9; }
+
+/* Fallback layer: a plain scroll-snapped strip. Keyboard, trackpad and touch
+   all work for free here, and the arrows drive scrollLeft. Scroll-driven mode
+   below switches this off and takes over with transforms instead. */
+.tcar-view{
+  margin-top:24px; overflow-x:auto; overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory; scrollbar-width:none; padding-bottom:4px;
+}
+.tcar-view::-webkit-scrollbar{ display:none; }
+.tcar-view.drag{ scroll-snap-type:none; cursor:grabbing; }
+.tcar-track{ display:flex; gap:3vmin; }
+
+/* Scroll-driven mode, built the way the reference builds it: the fold pins to
+   the viewport, an opaque full-screen strip panel rises over the title, and the
+   track inside it is translated horizontally — transforms throughout, never
+   scrollLeft, so nothing competes with the page's own scrolling. Both classes
+   are added by script, so no-JS and reduced-motion keep the plain strip above. */
+.tcar.scrolldriven .tcar-nav{ display:none; }
+
+#customers.pinned{
+  position:relative; display:block; overflow:hidden;
+  height:100vh; min-height:100vh; padding:0;
+}
+/* The title holds the screen on its own — centred and set large, since it is
+   the only thing on it — then the panel slides up over it. */
+#customers.pinned .tcar-title{
+  position:absolute; inset:0; z-index:1;
+  display:flex; align-items:center; justify-content:center;
+  padding:0 var(--gutter); text-align:center;
+}
+#customers.pinned .tcar-title .wrap{ width:100%; }
+#customers.pinned .tcar-title h2{
+  max-width:22ch; margin:0 auto;
+  font-size:clamp(2.6rem,7.4vw,6.4rem);
+}
+
+/* The strip becomes the whole page: full-bleed, full height, and opaque so it
+   covers the title as it arrives. Script parks it a screen below until the
+   fold pins. */
+#customers.pinned .tcar{
+  position:absolute; inset:0; z-index:2; margin:0;
+  display:flex; flex-direction:column;
+  padding:clamp(34px,6vh,58px) 0 clamp(30px,5vh,50px);
+  background:var(--brand-wash);
+}
+#customers.pinned .tcar-head{
+  flex:0 0 auto; margin-bottom:clamp(18px,2.4vh,28px);
+  padding-left:max(var(--gutter), calc(50vw - 590px));
+  padding-right:var(--gutter);
+}
+.tcar.scrolldriven .tcar-view{
+  flex:1 1 auto; min-height:0; margin-top:0;
+  overflow:hidden; scroll-snap-type:none;
+}
+/* First card lines up under where the title sat. Percentages, not vw: vw counts
+   the scrollbar, which threw the alignment out by several pixels. */
+.tcar.scrolldriven .tcar-track{
+  height:100%; will-change:transform;
+  padding-left:max(var(--gutter), calc(50% - 590px));
+}
+/* Height-led now: the card fills the panel and the 3/4 ratio gives its width. */
+.tcar.scrolldriven .tcard{ flex:0 0 auto; height:100%; width:auto; }
+
+
+.tcard{
+  position:relative; flex:0 0 clamp(268px,30vw,430px);
+  aspect-ratio:3/4; border-radius:var(--radius-lg); overflow:hidden;
+  scroll-snap-align:start; background:var(--hero-grad);
+  isolation:isolate; backface-visibility:hidden;
+}
+.tcard img.photo{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; display:block;
+}
+/* Placeholder until real photos land: the company mark on the brand gradient. */
+.tcard img.mark{
+  position:absolute; left:50%; top:42%; transform:translate(-50%,-50%);
+  width:42%; max-width:150px; height:auto; opacity:.92;
+  filter:drop-shadow(0 12px 30px rgba(0,0,0,.45));
+}
+/* Scrim guarantees the overlaid text keeps AA contrast on any photo. */
+.tcard::after{
+  content:""; position:absolute; inset:0; z-index:1;
+  background:linear-gradient(to top,
+    rgba(8,15,35,.92) 0%, rgba(8,15,35,.74) 34%,
+    rgba(8,15,35,.28) 66%, rgba(8,15,35,.42) 100%);
+}
+.tcard-top, .tcard-body{ position:relative; z-index:2; color:#FFFFFF; }
+.tcard-top{
+  position:absolute; top:clamp(16px,1.6vw,22px); left:clamp(18px,1.8vw,26px);
+  right:clamp(18px,1.8vw,26px);
+  display:flex; align-items:center; gap:9px;
+  font-size:12.5px; letter-spacing:.01em; color:rgba(255,255,255,.86);
+}
+.tcard-top b{ font-weight:600; color:#FFFFFF; }
+.tcard-body{
+  position:absolute; left:clamp(18px,1.8vw,26px); right:clamp(18px,1.8vw,26px);
+  bottom:clamp(18px,1.8vw,26px);
+}
+.tcard-body blockquote{
+  margin:0; font-family:var(--display); font-weight:400;
+  font-size:clamp(1.12rem,1.45vw,1.5rem); line-height:1.22;
+  letter-spacing:-.015em; color:#FFFFFF;
+}
+.tcard-who{
+  margin-top:12px; font-size:13px; line-height:1.5;
+  color:rgba(255,255,255,.82);
+}
+.tcard-who b{ color:#FFFFFF; font-weight:600; }
+
+@media (max-width:760px){
+  .tcard{ flex:0 0 82vw; }
+}
 
 /* platform strip */
 .platforms{
@@ -476,15 +606,19 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
 }
 .close-card .hero-btns{ position:relative; z-index:3; justify-content:center; }
 
+/* black + rounded, matching the floating menu bar */
 footer{
-  padding:44px var(--gutter); display:flex; justify-content:space-between;
+  padding:40px clamp(24px,4vw,56px); display:flex; justify-content:space-between;
   align-items:center; gap:20px; flex-wrap:wrap;
-  font-size:13.5px; color:var(--ink-faint);
-  border-top:1px solid rgba(15,20,32,.09); margin:0 14px;
+  font-size:13.5px; color:#9A9994;
+  background:#0A0A0B; border-radius:var(--radius-xl);
+  margin:0 14px 14px;
 }
 footer nav{ display:flex; gap:22px; }
+footer a{ color:#E5E4E2; }
+footer a:hover{ color:#FFFFFF; }
 .foot-brand{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
-.foot-word{ width:94px; height:auto; opacity:.55; }
+.foot-word{ width:94px; height:auto; opacity:.85; filter:brightness(0) invert(90%); }
 
 /* ============================================================
    ENTRANCE + REVEAL
@@ -547,19 +681,19 @@ footer nav{ display:flex; gap:22px; }
     <img class="brand-ink nav-mark-img" src="../logo.png" alt="" width="32" height="32">
     <img class="brand-ink nav-word" src="../wordmark.png" alt="mameon" width="70" height="18">
   </a>
-  <a class="link" href="#make">What you can make</a>
-  <a class="link" href="#how">How it works</a>
-  <a class="link" href="#customers">Customers</a>
-  <a class="cta" href="#">Start free</a>
+  <a class="link" href="whatyouget.html">What you Can Make</a>
+  <a class="link" href="how-mameon-works.html">How mameon Works</a>
+  <a class="link" href="meet-our-team.html">Meet Our Team</a>
+  <a class="cta" href="#">Log in / Sign up for free</a>
   <button class="nav-toggle" id="navToggle" type="button"
           aria-expanded="false" aria-controls="navPanel" aria-label="Open menu">
     <span></span><span></span><span></span>
   </button>
 
   <div class="nav-panel" id="navPanel">
-    <a href="#make">What you can make</a>
-    <a href="#how">How it works</a>
-    <a href="#customers">Customers</a>
+    <a href="whatyouget.html">What you Can Make</a>
+    <a href="how-mameon-works.html">How mameon Works</a>
+    <a href="meet-our-team.html">Meet Our Team</a>
   </div>
 </nav>
 
@@ -575,15 +709,14 @@ footer nav{ display:flex; gap:22px; }
       <!-- Keeps the keywords the live site ranks for ("AI-powered social media
            & advertising campaigns", "in minutes") in a single H1, set as two
            tonal lines so it still reads editorially. -->
-      <h1>AI-powered social media<br>&amp; advertising campaigns
-          <span class="dim">in minutes.</span></h1>
+      <h1><span class="dim">Social media &amp; advertising<br>is hard for startups</span><br>mameon makes it easy</h1>
       <p class="hero-sub">
-        One AI that learns your brand from your URL, then writes, designs and
-        publishes campaigns across every platform. Free, no credit card.
+        Create, manage and optimise social media and advertising campaigns
+        across all platforms in minutes. It's free to create, now and forever,
+        so sign up today!
       </p>
       <div class="hero-btns">
-        <button class="btn btn-ghost">See what you can make</button>
-        <button class="btn btn-solid">Create campaigns free</button>
+        <button class="btn btn-solid">Create Your First Campaign Today</button>
       </div>
     </div>
 
@@ -599,17 +732,23 @@ footer nav{ display:flex; gap:22px; }
         Join 1000+ founders
       </div>
       <p class="hero-foot-note">
-        Paste your website URL. We learn your voice, write the copy, choose the
-        visuals, and publish across every platform you care about.
+        Campaigns are created in your unique voice. We create a brand profile
+        based on your website. Everything starts with you!
       </p>
     </div>
   </header>
 
     <div class="marquee" id="marquee">
-      Instagram <span class="dot">●</span> Facebook <span class="dot">●</span>
-      Google&nbsp;Ads <span class="dot">●</span> LinkedIn <span class="dot">●</span>
-      TikTok <span class="dot">●</span> Reddit <span class="dot">●</span>
-      Pinterest <span class="dot">●</span> Snapchat <span class="dot">●</span>
+      <span class="mq"><img src="../platforms/instagram.svg" alt="" width="24" height="24" decoding="async">Instagram</span>
+      <span class="mq"><img src="../platforms/facebook.svg" alt="" width="24" height="24" decoding="async">Facebook</span>
+      <span class="mq"><img src="../platforms/google-ads.svg" alt="" width="24" height="24" decoding="async">Google&nbsp;Ads</span>
+      <span class="mq"><img src="../platforms/linkedin.svg" alt="" width="24" height="24" decoding="async">LinkedIn</span>
+      <span class="mq"><img src="../platforms/x.svg" alt="" width="24" height="24" decoding="async">X</span>
+      <span class="mq"><img src="../platforms/reddit.svg" alt="" width="24" height="24" decoding="async">Reddit</span>
+      <span class="mq"><img src="../platforms/pinterest.svg" alt="" width="24" height="24" decoding="async">Pinterest</span>
+      <span class="mq"><img src="../platforms/snapchat.svg" alt="" width="24" height="24" decoding="async">Snapchat</span>
+      <span class="mq"><img src="../platforms/telegram.svg" alt="" width="24" height="24" decoding="async">Telegram</span>
+      <span class="mq"><img src="../platforms/bluesky.svg" alt="" width="24" height="24" decoding="async">Bluesky</span>
     </div>
 
     <div class="ring-wrap">
@@ -619,21 +758,18 @@ footer nav{ display:flex; gap:22px; }
       </div>
     </div>
 
-    <div class="stage-cta">
-      <button class="btn btn-dark">See everything you can make</button>
-    </div>
   </div>
 </section>
 
 <!-- ================= ONE PLACE ================= -->
 <section class="sec">
   <div class="wrap">
-    <p class="eyebrow">One connected workflow</p>
-    <h2>Every channel, one campaign engine.</h2>
+    <p class="eyebrow">Everything you Need Under the Hood</p>
+    <h2>Your One-Stop Marketing Shop</h2>
     <p class="lede">
-      The best brands have full marketing teams. With mameon, you do too —
-      copy, creative, scheduling, and publishing handled end to end, across
-      social and paid, from a single brand profile.
+      FB, IG, Reddit, Snapchat, Google Ads, even audio and video, we do it all.
+      We connect businesses with customers so they scale profitably, solving a
+      hair-on-fire problem for startups and SMEs.
     </p>
     <div class="platforms">
       <div><img src="../platforms/instagram.svg" alt="Instagram" width="24" height="24" loading="lazy" decoding="async"></div>
@@ -662,24 +798,20 @@ footer nav{ display:flex; gap:22px; }
 
     <div id="stepList">
       <article class="step">
-        <h3>Sign up with your URL</h3>
-        <p>Seconds, not forms. We read your website and learn your brand voice,
-           products, and audience.</p>
+        <h3>Sign up in Seconds</h3>
+        <p>We learn your brand voice from your website.</p>
       </article>
       <article class="step">
-        <h3>Create your campaign</h3>
-        <p>Edit the copy, choose your visuals, pick the channels. Everything
-           arrives pre-written and on brand.</p>
+        <h3>Create Content in Minutes</h3>
+        <p>Edit copy, choose visuals, pick your channels.</p>
       </article>
       <article class="step">
-        <h3>Publish everywhere</h3>
-        <p>Schedule and launch social and advertising campaigns across every
-           platform from one place.</p>
+        <h3>Publish Everywhere Instantly</h3>
+        <p>Schedule and launch social and advertising campaigns.</p>
       </article>
       <article class="step">
-        <h3>Optimize continuously</h3>
-        <p>Data-driven improvements that lift engagement while it runs in the
-           background.</p>
+        <h3>Optimize Continuously</h3>
+        <p>Data-driven, iterative improvements that optimize ROI.</p>
         <span class="tag">Coming soon</span>
       </article>
     </div>
@@ -688,49 +820,95 @@ footer nav{ display:flex; gap:22px; }
 
 <!-- ================= TESTIMONIALS ================= -->
 <section class="sec" id="customers" style="background:var(--brand-wash);">
-  <div class="wrap">
-    <p class="eyebrow">Customers</p>
-    <h2>Loved by the founders who use it.</h2>
-
-    <div class="quotes">
-      <figure class="quote">
-        <p>“We just pasted in our URL and mameon understood our brand immediately.
-           From there creating campaigns was simple — and the best thing is that
-           it was absolutely free.”</p>
-        <figcaption class="who">
-          <img src="../logos/Tigre_motor_club.png" alt="" width="38" height="38" loading="lazy" decoding="async">
-          <span><b>Peter O'Regan</b><span>CEO, Tigre</span></span>
-        </figcaption>
-      </figure>
-
-      <figure class="quote">
-        <p>“Their AI-driven storytelling tools helped us communicate our mission
-           with greater clarity and consistency, while significantly improving
-           efficiency in our content creation process.”</p>
-        <figcaption class="who">
-          <img src="../logos/MESH.jpeg" alt="" width="38" height="38" loading="lazy" decoding="async">
-          <span><b>Shane Hannan</b><span>CEO, Mesh Bioplastics</span></span>
-        </figcaption>
-      </figure>
-
-      <figure class="quote">
-        <p>“Running a startup isn't one hard thing. It's twenty easy things and
-           five impossibly hard things at once. mameon looks after all of social
-           and advertising for me.”</p>
-        <figcaption class="who">
-          <img src="../logos/Mara Botanics Transparent Logo.png" alt="" width="38" height="38" loading="lazy" decoding="async">
-          <span><b>Cian Mahony</b><span>Mara Botanics</span></span>
-        </figcaption>
-      </figure>
+  <div class="tcar-title" id="tcarTitle">
+    <div class="wrap">
+      <p class="eyebrow">Customers</p>
+      <h2>Loved by our customers</h2>
     </div>
   </div>
+
+    <!-- Filmstrip carousel. Cards show the company mark on the brand gradient
+         until real photos land — swap <img class="mark"> for
+         <img class="photo" src="..."> and the card fills edge to edge. -->
+    <div class="tcar" id="tcar" aria-roledescription="carousel" aria-label="Customer stories">
+      <div class="tcar-head">
+        <div class="tcar-progress" aria-hidden="true"><i id="tcarBar"></i></div>
+        <div class="tcar-nav">
+          <button class="tcar-btn" type="button" data-dir="-1" aria-label="Previous stories">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <button class="tcar-btn" type="button" data-dir="1" aria-label="More stories">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="tcar-view" id="tcarView" tabindex="0" role="group" aria-label="Customer stories, scrollable">
+       <div class="tcar-track" id="tcarTrack">
+        <figure class="tcard">
+          <img class="mark" src="../logos/Tigre_motor_club.png" alt="" width="220" height="220" loading="lazy" decoding="async">
+          <figcaption class="tcard-top"><b>01</b> · <span>Tigre</span></figcaption>
+          <div class="tcard-body">
+            <blockquote>“We just pasted in our URL and mameon understood our brand
+              immediately. From there creating campaigns was simple — and the best
+              thing is that it was absolutely free.”</blockquote>
+            <p class="tcard-who"><b>Peter O'Regan</b><br>CEO, Tigre</p>
+          </div>
+        </figure>
+
+        <figure class="tcard">
+          <img class="mark" src="../logos/MESH.jpeg" alt="" width="220" height="220" loading="lazy" decoding="async">
+          <figcaption class="tcard-top"><b>02</b> · <span>Mesh Bioplastics</span></figcaption>
+          <div class="tcard-body">
+            <blockquote>“Their storytelling tools helped us communicate our mission with
+              greater clarity and consistency, while significantly improving efficiency
+              in our content creation process.”</blockquote>
+            <p class="tcard-who"><b>Shane Hannan</b><br>CEO, Mesh Bioplastics</p>
+          </div>
+        </figure>
+
+        <figure class="tcard">
+          <img class="mark" src="../logos/Aromyx-Logo - Copy.png" alt="" width="220" height="220" loading="lazy" decoding="async">
+          <figcaption class="tcard-top"><b>03</b> · <span>Aromyx</span></figcaption>
+          <div class="tcard-body">
+            <blockquote>“The team quickly gave us several versions of our video and it
+              looks great — it has been very effective with prospective customers. Super
+              easy, and a remarkably short turnaround.”</blockquote>
+            <p class="tcard-who"><b>Chris Hanson</b><br>Board Advisor, Aromyx</p>
+          </div>
+        </figure>
+
+        <figure class="tcard">
+          <img class="mark" src="../logos/SPSV.jpeg" alt="" width="220" height="220" loading="lazy" decoding="async">
+          <figcaption class="tcard-top"><b>04</b> · <span>SPSV Pro Training</span></figcaption>
+          <div class="tcard-body">
+            <blockquote>“mameon makes it easier to turn complex messaging into clear,
+              engaging campaigns — delivered quickly and professionally. An invaluable
+              addition to our toolkit.”</blockquote>
+            <p class="tcard-who"><b>SPSV Pro Training</b><br>CEO, SPSV Pro Training</p>
+          </div>
+        </figure>
+
+        <figure class="tcard">
+          <img class="mark" src="../logos/Mara Botanics Transparent Logo.png" alt="" width="220" height="220" loading="lazy" decoding="async">
+          <figcaption class="tcard-top"><b>05</b> · <span>Mara Botanics</span></figcaption>
+          <div class="tcard-body">
+            <blockquote>“Running a startup isn't one hard thing. It's twenty easy things
+              and five impossibly hard things at once. mameon looks after all of social
+              and advertising for me.”</blockquote>
+            <p class="tcard-who"><b>Cian Mahony</b><br>Mara Botanics</p>
+          </div>
+        </figure>
+       </div>
+      </div>
+    </div>
 </section>
 
 <!-- ================= CLOSING CTA ================= -->
 <section class="close-card grain">
   <div class="close-bg" id="closeBg" aria-hidden="true"></div>
-  <h2>Your first campaign<br><span class="dim">is one URL away.</span></h2>
-  <p>Create social and advertising campaigns for free. No credit card required.</p>
+  <h2>Your first campaign<br><span class="dim">is a few clicks away</span></h2>
+  <p>Create social media and advertising campaigns for free. No credit card required.</p>
   <div class="hero-btns">
     <button class="btn btn-ghost">Talk to us</button>
     <button class="btn btn-solid">Create campaigns free</button>
@@ -798,17 +976,25 @@ document.addEventListener("click", (e) => {
 });
 
 /* ---------- build the 3D card ring ---------- */
+const LAUNCH = "../mameon-mvp-launch-images/";
+
 const CARDS = [
-  // `pos` is object-position: these sources are landscape (1.83 and 1.95) and
-  // the card face is portrait (0.65), so the crop is steered to the subject.
-  { kicker:"What you can make · 01", title:"Social posts",     cap:"On-brand copy and creative for every feed.",
-    img:"../home.jpg",        w:1408, h:768, pos:"66% 50%" },
-  { kicker:"What you can make · 02", title:"Ad campaigns",     cap:"Paid social and search, written and targeted.",
-    img:"../ads_poster.png",  w:1896, h:972, pos:"54% 45%" },
-  { kicker:"What you can make · 03", title:"Video",            cap:"Short-form video built from your story." },
-  { kicker:"What you can make · 04", title:"Audio ads",        cap:"Scripted and produced for streaming." },
-  { kicker:"What you can make · 05", title:"Brand profile",    cap:"Your voice, learned once, reused everywhere." },
-  { kicker:"What you can make · 06", title:"Content calendar", cap:"Scheduled and published automatically." },
+  // `pos` is object-position. The card face is portrait (0.65) while the launch
+  // images are square, so cover trims the sides and only the X value matters —
+  // each is set so the subject lands in the middle of the visible 65% band.
+  // Ad Campaigns keeps its own landscape poster, which needs Y steering too.
+  { title:"Social Posts",   cap:"On-brand copy and creative for every platform.",
+    img:LAUNCH + "Social%20posts.jpg",    w:1024, h:1024, pos:"36% 50%" },
+  { title:"Ad Campaigns",   cap:"Killer campaigns for Google Ads, created and optimized.",
+    img:"../ads_poster.png",              w:1896, h:972,  pos:"54% 45%" },
+  { title:"Video",          cap:"Tell the whole world your story in short form video.",
+    img:LAUNCH + "Video.jpg",             w:474,  h:474,  pos:"72% 50%" },
+  { title:"Audio Ads",      cap:"Make audio ads with just a few clicks.",
+    img:LAUNCH + "Audio%20Ads.jpg",       w:1024, h:1024, pos:"46% 50%" },
+  { title:"Brand Profile",  cap:"We create a unique brand profile just for you.",
+    img:LAUNCH + "Brand%20profile.jpg",   w:1024, h:1024, pos:"54% 50%" },
+  { title:"Marketing Brain",cap:"The biggest brands have entire marketing teams. Now you do too.",
+    img:LAUNCH + "Marketing%20Brain.jpg", w:1024, h:1024, pos:"38% 50%" },
 ];
 
 const ring = document.getElementById("ring");
@@ -830,7 +1016,6 @@ CARDS.forEach((c, i) => {
     : "";
   el.innerHTML = `
     ${photo}
-    <span class="kicker">${c.kicker}</span>
     <div>
       <h3>${c.title}</h3>
       <p class="cap">${c.cap}</p>
@@ -871,6 +1056,157 @@ const stepIO = new IntersectionObserver((entries) => {
   numEl.textContent = String(i + 1).padStart(2, "0");
 }, { rootMargin: "-30% 0px -45% 0px", threshold: 0 });
 steps.forEach(s => stepIO.observe(s));
+
+/* ------------------------------------------------------------
+   Testimonial filmstrip.
+
+   Two modes over one piece of markup:
+   • Fallback — the view is a scroll-snapped strip, driven by the arrows
+     and pointer dragging. This is what no-JS and reduced-motion get.
+   • Scroll-driven — the fold pins to the viewport and the track slides
+     horizontally as the page scrolls, which is how the reference site
+     works: a fixed panel holding a flex track it translates with
+     transforms. Pinning is what makes the cards read as a carousel
+     rather than drifting past.
+   ------------------------------------------------------------ */
+(() => {
+  const root  = document.getElementById("tcar");
+  const rail  = document.getElementById("tcarView");
+  const track = document.getElementById("tcarTrack");
+  const bar   = document.getElementById("tcarBar");
+  const sec   = document.getElementById("customers");
+  const title = document.getElementById("tcarTitle");
+  if (!root || !rail || !track || !bar || !sec || !title) return;
+
+  const prev = root.querySelector('[data-dir="-1"]');
+  const next = root.querySelector('[data-dir="1"]');
+  const DRAG_SLOP = 4;   // px before a press counts as a drag, not a click
+
+  // one card + one gap, read from the DOM so the CSS clamp stays authoritative
+  function stepPx() {
+    const card = track.firstElementChild;
+    if (!card) return rail.clientWidth;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    return card.getBoundingClientRect().width + gap;
+  }
+
+  function sync() {
+    const max = rail.scrollWidth - rail.clientWidth;
+    const seen = max > 0 ? (rail.scrollLeft + rail.clientWidth) / rail.scrollWidth : 1;
+    bar.style.width = `${Math.min(100, Math.max(12, seen * 100))}%`;
+    prev.disabled = rail.scrollLeft <= 2;
+    next.disabled = rail.scrollLeft >= max - 2;
+  }
+
+  root.querySelectorAll("[data-dir]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      rail.scrollBy({
+        left: stepPx() * Number(btn.dataset.dir),
+        behavior: reduced ? "auto" : "smooth",
+      });
+    });
+  });
+
+  // Drag to scroll. Pointer events cover mouse, touch and pen in one path;
+  // vertical gestures are left to the browser via touch-action.
+  let down = false, moved = false, startX = 0, startLeft = 0;
+  rail.addEventListener("pointerdown", e => {
+    if (e.button !== 0) return;
+    down = true; moved = false;
+    startX = e.clientX; startLeft = rail.scrollLeft;
+  });
+  rail.addEventListener("pointermove", e => {
+    if (!down) return;
+    const dx = e.clientX - startX;
+    if (!moved && Math.abs(dx) < DRAG_SLOP) return;
+    if (!moved) { moved = true; rail.classList.add("drag"); rail.setPointerCapture(e.pointerId); }
+    rail.scrollLeft = startLeft - dx;
+  });
+  const release = () => {
+    if (!down) return;
+    down = false;
+    rail.classList.remove("drag");
+  };
+  rail.addEventListener("pointerup", release);
+  rail.addEventListener("pointercancel", release);
+
+  rail.addEventListener("scroll", sync, { passive: true });
+  addEventListener("resize", sync);
+  sync();
+
+  /* Scroll-driven mode. The fold pins, then two acts play out over the pinned
+     scroll: the strip panel rises a full screen to cover the title, and then
+     the track runs sideways by exactly its overflow.
+
+     Distances are in pixels of page scroll, so the mapping is 1:1 — a pixel of
+     scrolling is a pixel of travel, which is the reference's pacing. They are
+     recomputed every tick rather than baked in, so a resize (which changes both
+     card size and viewport height) needs no rebuild.
+
+     quickTo supplies the smoothing: every property eases toward its target
+     instead of snapping to it, which is what makes the whole thing glide. */
+  if (reduced || !window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+  root.classList.add("scrolldriven");
+  sec.classList.add("pinned");
+
+  const RISE = 0.8;    // viewports of scroll spent bringing the panel up
+  const TAIL = 0.25;   // viewports held on the last card before the pin releases
+  const LIFT = 14;     // % of its own height the title drifts up as it goes
+  // The title finishes clearing before the panel reaches it, so it is never
+  // seen being cut off by the panel's edge — it leaves under its own steam.
+  const FADE_BY = 0.78;
+  const fadeCurve = gsap.parseEase("power2.in");   // lingers, then goes
+
+  /* Measured on refresh, never inside onUpdate. Reading layout (scrollWidth and
+     friends) between GSAP's writes forces a synchronous reflow on every frame,
+     which makes a scrubbed section feel gritty however well the numbers ease. */
+  let travelPx = 0;
+  const measure = () => {
+    travelPx = Math.max(0, track.scrollWidth - rail.clientWidth);
+  };
+  measure();
+  ScrollTrigger.addEventListener("refreshInit", measure);
+
+  const risePx  = () => innerHeight * RISE;
+  const totalPx = () => risePx() + travelPx + innerHeight * TAIL;
+
+  const ease = { duration: 0.45, ease: "power3" };
+  const panelTo = gsap.quickTo(root,  "yPercent", ease);
+  const titleTo = gsap.quickTo(title, "yPercent", ease);
+  const fadeTo  = gsap.quickTo(title, "opacity",  ease);
+  const zoomTo  = gsap.quickTo(title, "scale",    ease);
+  const trackTo = gsap.quickTo(track, "x", { duration: 0.55, ease: "power3" });
+
+  gsap.set(root, { yPercent: 100 });   // parked one screen below, title clear
+
+  ScrollTrigger.create({
+    trigger: sec,
+    start: "top top",
+    end: () => `+=${totalPx()}`,
+    pin: true,
+    anticipatePin: 1,
+    invalidateOnRefresh: true,
+    onUpdate: self => {
+      const px = self.progress * totalPx();
+
+      // Act 1 — panel rises; the title lifts, shrinks back and fades out ahead
+      // of it on its own eased curve.
+      const rise = Math.min(1, px / risePx());
+      const gone = fadeCurve(Math.min(1, rise / FADE_BY));
+      titleTo(-LIFT * gone);
+      fadeTo(1 - gone);
+      zoomTo(1 - 0.07 * gone);
+
+      // Act 2 — the strip runs. Clamped, so the tail holds on the last card.
+      const run = Math.min(travelPx, Math.max(0, px - risePx()));
+      trackTo(-run);
+      bar.style.width = `${12 + 88 * (travelPx ? run / travelPx : 1)}%`;
+
+      panelTo((1 - rise) * 100);
+    },
+  });
+})();
 
 /* ------------------------------------------------------------
    GSAP is used ONLY for the scroll-scrubbed stage (marquee + ring).
@@ -922,7 +1258,6 @@ if (!reduced && window.gsap && window.ScrollTrigger) {
     // card copy and stage chrome arrive once the card is near its real size
     .to(".ring-card > *", { opacity: 1, ease: "none", duration: MORPH_END * .28 }, MORPH_END * .72)
     .to(mq, { opacity: .92, ease: "none", duration: MORPH_END * .30 }, MORPH_END * .70)
-    .to(".stage-cta", { opacity: 1, ease: "none", duration: MORPH_END * .30 }, MORPH_END * .70)
     // Act 2 — the existing carousel, now at its natural size
     // Positive sweep (the original direction). Note the side effect: a card
     // faces the viewer when the ring cancels its placement angle (+60deg *

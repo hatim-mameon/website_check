@@ -1,0 +1,344 @@
+/* ============================================================
+   SHARED CHROME FOR THE REDESIGN SUB-PAGES
+
+   redesign.html is deliberately a single self-contained file. The sub-pages
+   are not: three copies of the same tokens, nav and footer would drift apart
+   the first time one of them was touched. So the shared layer lives here and
+   each page adds only what is genuinely its own.
+   ============================================================ */
+
+/* ============================================================
+   DESIGN TOKENS — same values as redesign.html
+   ============================================================ */
+:root{
+  /* paper & ink */
+  --paper:        #F7F5F1;
+  --paper-pure:   #FFFFFF;
+  --ink:          #0F1420;
+  --ink-soft:     #545B69;
+  --ink-faint:    #666D7A;
+
+  /* brand ramp */
+  --brand:        #2563EB;
+  --brand-lift:   #4C8BF9;
+  --brand-deep:   #16337F;
+  --brand-abyss:  #0B1F52;
+  --brand-wash:   #EFF4FE;
+  --brand-edge:   #D7E3FB;
+  --brand-tint:   #A3BBE6;
+
+  --card-blue: radial-gradient(95% 80% at 50% 28%,
+                #FFFFFF 0%, #DFE7F5 34%, #6E90D4 66%, #24427F 100%);
+  --hero-grad: radial-gradient(125% 100% at 60% 55%,
+                #7C9BD8 0%, #4C74C4 30%, #24427F 68%, #142A54 100%);
+
+  /* chrome */
+  --nav-surface:  rgba(10,10,11,.82);
+  --nav-border:   rgba(255,255,255,.14);
+  --nav-shadow:   rgba(0,0,0,.5);
+  --glass:        rgba(255,255,255,.14);
+  --glass-border: rgba(255,255,255,.22);
+  --hairline:     rgba(255,255,255,.32);
+
+  /* type */
+  --display: "Fraunces", Georgia, serif;
+  --body:    "Inter", system-ui, sans-serif;
+
+  --radius-xl: 28px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --gutter: clamp(20px, 4vw, 56px);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--body); font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+h1,h2,h3{ font-family:var(--display); font-weight:400; margin:0; }
+p{ margin:0; }
+/* figure defaults to margin:16px 40px, which would inset every video and
+   portrait card inside its own grid cell. */
+figure,blockquote,figcaption{ margin:0; }
+a{ color:inherit; text-decoration:none; }
+img{ max-width:100%; display:block; }
+
+/* subtle paper grain for depth */
+.grain::after{
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:2;
+  opacity:.16; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   FLOATING PILL NAV
+   ============================================================ */
+.nav{
+  position:fixed; top:18px; left:50%; transform:translateX(-50%);
+  z-index:100; display:flex; align-items:center; gap:6px;
+  padding:7px 7px 7px 9px; border-radius:999px;
+  background:var(--nav-surface);
+  border:1px solid var(--nav-border);
+  box-shadow:0 10px 34px -12px var(--nav-shadow);
+  backdrop-filter:blur(18px) saturate(1.5);
+  -webkit-backdrop-filter:blur(18px) saturate(1.5);
+}
+/* The logo art is a pale silver gradient. brightness(0) flattens it to a
+   silhouette; on the black bar it is inverted back up to platinum. */
+.brand-ink{ filter:brightness(0); opacity:.9; }
+.nav .brand-ink{ filter:brightness(0) invert(90%); opacity:.95; }
+
+.nav-brand{
+  display:flex; align-items:center; gap:7px; flex:none;
+  padding:2px 6px 2px 2px; border-radius:999px;
+}
+.nav-brand:hover .brand-ink{ opacity:1; }
+.nav-mark-img{ width:32px; height:32px; }
+.nav-word{ width:70px; height:auto; }
+@media (max-width:420px){ .nav-word{ display:none; } }
+.nav a.link{
+  padding:8px 13px; border-radius:999px; font-size:14.5px;
+  color:#E5E4E2; white-space:nowrap; transition:background .18s ease;
+}
+.nav a.link:hover{ background:rgba(255,255,255,.10); }
+/* the current page reads as already-selected rather than clickable */
+.nav a.link[aria-current="page"]{ background:rgba(255,255,255,.14); color:#FFFFFF; }
+.nav a.cta{
+  padding:9px 17px; border-radius:999px; font-size:14.5px; font-weight:500;
+  background:#E5E4E2; color:#0A0A0B; white-space:nowrap;
+  transition:background .18s ease, transform .2s cubic-bezier(.22,.8,.3,1);
+}
+.nav a.cta:hover{ background:#FFFFFF; transform:translateY(-2px) scale(1.03); }
+
+/* --- mobile menu --- */
+.nav-toggle{
+  display:none; width:38px; height:38px; flex:none; padding:0;
+  border:0; border-radius:999px; background:transparent; cursor:pointer;
+  align-items:center; justify-content:center;
+}
+.nav-toggle:hover{ background:rgba(255,255,255,.10); }
+.nav-toggle span{
+  display:block; width:16px; height:1.5px; background:#E5E4E2; border-radius:2px;
+  transition:transform .22s ease, opacity .22s ease;
+}
+.nav-toggle span + span{ margin-top:4px; }
+.nav-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(5.5px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-5.5px) rotate(-45deg); }
+
+.nav-panel{
+  position:absolute; top:calc(100% + 8px); left:0; right:0;
+  display:none; flex-direction:column; gap:2px; padding:8px;
+  border-radius:20px;
+  background:rgba(10,10,11,.94);
+  border:1px solid var(--nav-border);
+  box-shadow:0 14px 40px -14px var(--nav-shadow);
+  backdrop-filter:blur(18px) saturate(1.5);
+  -webkit-backdrop-filter:blur(18px) saturate(1.5);
+}
+.nav-panel.open{ display:flex; }
+.nav-panel a{
+  padding:11px 14px; border-radius:13px; font-size:15px; color:#E5E4E2;
+}
+.nav-panel a:hover, .nav-panel a:focus-visible{ background:rgba(255,255,255,.10); }
+
+@media (max-width:720px){
+  .nav a.link{ display:none; }
+  .nav-toggle{ display:flex; }
+}
+@media (min-width:721px){
+  .nav-panel{ display:none !important; }
+}
+
+/* visible keyboard focus everywhere — the pill nav sits on varied backdrops */
+a:focus-visible, button:focus-visible{
+  outline:2px solid var(--brand); outline-offset:3px; border-radius:8px;
+}
+.page-hero a:focus-visible, .page-hero button:focus-visible,
+.close-card a:focus-visible, .close-card button:focus-visible{ outline-color:#fff; }
+
+/* ============================================================
+   PAGE HERO
+   The gradient card from the landing page, reused as a masthead so every
+   sub-page opens in the same voice.
+   ============================================================ */
+.page-hero{
+  position:relative; overflow:hidden; margin:14px 14px 0;
+  border-radius:var(--radius-xl); background:var(--brand-abyss); color:#fff;
+  padding:clamp(120px,20vh,190px) clamp(28px,5vw,64px) clamp(56px,9vh,96px);
+}
+.page-hero-bg{
+  position:absolute; inset:-16% 0; z-index:0; background:var(--hero-grad);
+}
+.page-hero .wrap{ position:relative; z-index:3; }
+.page-hero .eyebrow{ color:rgba(255,255,255,.72); }
+.page-hero h1{
+  font-size:clamp(2.5rem,6.4vw,5.2rem); line-height:1.01;
+  letter-spacing:-.033em; max-width:20ch;
+}
+.page-hero .lede{
+  margin-top:22px; max-width:56ch; font-size:clamp(15px,1.15vw,18px);
+  color:rgba(255,255,255,.80);
+}
+
+/* pill row — formats, counts, anything that labels the page at a glance */
+.tagrow{ display:flex; flex-wrap:wrap; gap:10px; margin-top:30px; }
+.tagrow span{
+  padding:8px 15px; border-radius:999px; font-size:13px; letter-spacing:.01em;
+  background:var(--glass); border:1px solid var(--glass-border); color:#fff;
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.sec{ padding:clamp(72px,11vh,132px) var(--gutter); }
+.wrap{ max-width:1180px; margin:0 auto; }
+.eyebrow{
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--brand); font-weight:600; margin-bottom:18px;
+}
+.sec h2{
+  font-size:clamp(1.9rem,4.2vw,3.3rem); line-height:1.04;
+  letter-spacing:-.03em; max-width:20ch;
+}
+.sec .lede{
+  margin-top:20px; max-width:56ch; font-size:clamp(15px,1.1vw,17.5px);
+  color:var(--ink-soft);
+}
+.sec-wash{ background:var(--brand-wash); }
+
+.btn{
+  padding:13px 24px; border-radius:11px; font-size:15px; font-weight:500;
+  border:1px solid transparent; cursor:pointer; font-family:var(--body);
+  display:inline-block;
+  transition:background .2s ease, transform .2s cubic-bezier(.22,.8,.3,1),
+             box-shadow .2s ease;
+}
+.btn:hover{ transform:translateY(-2px) scale(1.02); box-shadow:0 10px 24px -10px rgba(0,0,0,.45); }
+.btn:active{ transform:translateY(0) scale(.99); }
+.btn-ghost{
+  background:var(--glass); border-color:var(--glass-border); color:#fff;
+  backdrop-filter:blur(10px);
+}
+.btn-ghost:hover{ background:rgba(255,255,255,.24); }
+.btn-solid{ background:#fff; color:var(--ink); }
+.btn-solid:hover{ background:var(--brand-wash); }
+
+/* ============================================================
+   VIDEO CARDS
+   Shared by the samples page and the walkthroughs page. Sources are a mix of
+   landscape and square, so the frame is fixed and the video is contained
+   inside it — square clips letterbox on a dark ground instead of being
+   cropped, and the grid keeps its rhythm either way.
+   ============================================================ */
+.vgrid{
+  display:grid; gap:clamp(18px,2vw,28px); margin-top:38px;
+  grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+}
+.vcard{
+  background:var(--paper-pure); border-radius:var(--radius-lg);
+  border:1px solid rgba(15,20,32,.08); overflow:hidden;
+  display:flex; flex-direction:column;
+  transition:transform .25s cubic-bezier(.22,.8,.3,1), box-shadow .25s ease;
+}
+.vcard:hover{ transform:translateY(-3px); box-shadow:0 18px 40px -22px rgba(15,20,32,.5); }
+.vcard video{
+  width:100%; aspect-ratio:16/9; object-fit:contain;
+  background:var(--brand-abyss); display:block;
+}
+.vcard-body{ padding:20px clamp(18px,1.6vw,24px) 24px; }
+.vcard-body h3{
+  font-size:clamp(1.05rem,1.3vw,1.32rem); line-height:1.18;
+  letter-spacing:-.015em;
+}
+.vcard-body p{ margin-top:10px; font-size:14.5px; color:var(--ink-soft); }
+/* the samples page labels format only — a caption, not a heading */
+.vcard-body .fmt{
+  font-family:var(--body); font-size:13px; letter-spacing:.01em;
+  color:var(--ink-faint);
+}
+
+/* ============================================================
+   CLOSING CTA + FOOTER
+   ============================================================ */
+.close-card{
+  position:relative; overflow:hidden; margin:0 14px 14px;
+  border-radius:var(--radius-xl); background:var(--brand-abyss);
+  padding:clamp(56px,11vh,132px) clamp(28px,5vw,64px); color:#fff;
+  text-align:center;
+}
+.close-bg{
+  position:absolute; inset:-16% 0; z-index:0; background:var(--hero-grad);
+}
+.close-card h2{
+  position:relative; z-index:3; margin:0 auto;
+  font-size:clamp(2.2rem,5.6vw,4.6rem); line-height:1.02; letter-spacing:-.03em;
+  max-width:16ch;
+}
+.close-card p{
+  position:relative; z-index:3;
+  margin:22px auto 30px; max-width:46ch; color:rgba(255,255,255,.78); font-size:16px;
+}
+.close-btns{
+  position:relative; z-index:3;
+  display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
+}
+
+footer{
+  padding:40px clamp(24px,4vw,56px); display:flex; justify-content:space-between;
+  align-items:center; gap:20px; flex-wrap:wrap;
+  font-size:13.5px; color:#9A9994;
+  background:#0A0A0B; border-radius:var(--radius-xl);
+  margin:0 14px 14px;
+}
+footer nav{ display:flex; gap:22px; }
+footer a{ color:#E5E4E2; }
+footer a:hover{ color:#FFFFFF; }
+.foot-brand{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.foot-word{ width:94px; height:auto; opacity:.85; filter:brightness(0) invert(90%); }
+
+/* ============================================================
+   REVEAL
+   CSS-driven off the .js class, so a failed script leaves everything
+   visible rather than stuck at opacity 0.
+   ============================================================ */
+@keyframes rise{ from{ opacity:0; transform:translateY(26px);} to{ opacity:1; transform:none; } }
+
+.js .page-hero .eyebrow,
+.js .page-hero h1,
+.js .page-hero .lede,
+.js .page-hero .tagrow{ animation:rise .95s cubic-bezier(.22,.8,.3,1) backwards; }
+.js .page-hero .eyebrow{ animation-delay:.10s; }
+.js .page-hero h1{ animation-delay:.17s; }
+.js .page-hero .lede{ animation-delay:.26s; }
+.js .page-hero .tagrow{ animation-delay:.34s; }
+
+.js .reveal{ opacity:0; transform:translateY(22px); }
+.js .reveal.in{
+  opacity:1; transform:none;
+  transition:opacity .8s cubic-bezier(.22,.8,.3,1), transform .8s cubic-bezier(.22,.8,.3,1);
+}
+/* cards in a grid cascade rather than arriving as one slab */
+.js .stagger > *{ opacity:0; transform:translateY(18px) scale(.985); }
+.js .stagger.in > *{
+  opacity:1; transform:none;
+  transition:opacity .6s cubic-bezier(.22,.8,.3,1), transform .6s cubic-bezier(.22,.8,.3,1);
+}
+.js .stagger.in > *:nth-child(1){ transition-delay:0s }
+.js .stagger.in > *:nth-child(2){ transition-delay:.07s }
+.js .stagger.in > *:nth-child(3){ transition-delay:.14s }
+.js .stagger.in > *:nth-child(4){ transition-delay:.21s }
+.js .stagger.in > *:nth-child(5){ transition-delay:.28s }
+.js .stagger.in > *:nth-child(6){ transition-delay:.35s }
+.js .stagger.in > *:nth-child(7){ transition-delay:.42s }
+.js .stagger.in > *:nth-child(8){ transition-delay:.49s }
+.js .stagger.in > *:nth-child(9){ transition-delay:.56s }
+
+@media (prefers-reduced-motion:reduce){
+  *{ animation:none !important; transition:none !important; }
+  .js .reveal{ opacity:1 !important; transform:none !important; }
+  .js .stagger > *{ opacity:1 !important; transform:none !important; }
+}
