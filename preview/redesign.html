@@ -153,6 +153,9 @@ img{ max-width:100%; display:block; }
 .nav{
   position:fixed; top:18px; left:50%; transform:translateX(-50%);
   z-index:100; display:flex; align-items:center; gap:6px;
+  /* The bar is content-sized, so without a ceiling it runs off both edges on a
+     narrow screen. Percentages resolve against the viewport for a fixed box. */
+  width:max-content; max-width:calc(100% - 24px);
   padding:7px 7px 7px 9px; border-radius:999px;
   background:var(--nav-surface);
   border:1px solid var(--nav-border);
@@ -184,6 +187,19 @@ img{ max-width:100%; display:block; }
   transition:background .18s ease, transform .2s cubic-bezier(.22,.8,.3,1);
 }
 .nav a.cta:hover{ background:#FFFFFF; transform:translateY(-2px) scale(1.03); }
+/* The CTA holds the longest string in the bar, so it is what sets the bar's
+   width. Past the tablet break it swaps to a short label instead of pushing the
+   pill off screen; the accessible name stays whole via aria-label. */
+.nav a.cta .cta-short{ display:none; }
+@media (max-width:600px){
+  .nav a.cta{ padding:9px 14px; }
+  .nav a.cta .cta-full{ display:none; }
+  .nav a.cta .cta-short{ display:inline; }
+}
+@media (max-width:360px){
+  .nav{ gap:4px; padding:6px 6px 6px 8px; }
+  .nav a.cta{ padding:8px 12px; font-size:14px; }
+}
 
 /* --- mobile menu --- */
 .nav-toggle{
@@ -217,11 +233,13 @@ img{ max-width:100%; display:block; }
 }
 .nav-panel a:hover, .nav-panel a:focus-visible{ background:rgba(255,255,255,.10); }
 
-@media (max-width:720px){
+/* The bar wants 819px with every link and the CTA showing, so it has to fold
+   into the hamburger at 843 and up — not 720, where it used to clip the CTA. */
+@media (max-width:860px){
   .nav a.link{ display:none; }
   .nav-toggle{ display:flex; }
 }
-@media (min-width:721px){
+@media (min-width:861px){
   .nav-panel{ display:none !important; }
 }
 
@@ -684,7 +702,7 @@ footer a:hover{ color:#FFFFFF; }
   <a class="link" href="whatyouget.html">What you Can Make</a>
   <a class="link" href="how-mameon-works.html">How mameon Works</a>
   <a class="link" href="meet-our-team.html">Meet Our Team</a>
-  <a class="cta" href="#">Log in / Sign up for free</a>
+  <a class="cta" href="#" aria-label="Log in or sign up for free"><span class="cta-full">Log in / Sign up for free</span><span class="cta-short">Sign up free</span></a>
   <button class="nav-toggle" id="navToggle" type="button"
           aria-expanded="false" aria-controls="navPanel" aria-label="Open menu">
     <span></span><span></span><span></span>
@@ -765,7 +783,7 @@ footer a:hover{ color:#FFFFFF; }
 <section class="sec">
   <div class="wrap">
     <p class="eyebrow">Everything you Need Under the Hood</p>
-    <h2>Your One-Stop Marketing Shop</h2>
+    <h2>One-Stop Marketing Shop</h2>
     <p class="lede">
       FB, IG, Reddit, Snapchat, Google Ads, even audio and video, we do it all.
       We connect businesses with customers so they scale profitably, solving a
@@ -908,7 +926,7 @@ footer a:hover{ color:#FFFFFF; }
 <section class="close-card grain">
   <div class="close-bg" id="closeBg" aria-hidden="true"></div>
   <h2>Your first campaign<br><span class="dim">is a few clicks away</span></h2>
-  <p>Create social media and advertising campaigns for free. No credit card required.</p>
+  <p>Create social media and advertising campaigns for free.<br> No credit card required.</p>
   <div class="hero-btns">
     <button class="btn btn-ghost">Talk to us</button>
     <button class="btn btn-solid">Create campaigns free</button>
