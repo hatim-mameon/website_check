@@ -1,420 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5YZHC5Z63S"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-5YZHC5Z63S');
-    gtag('config', 'AW-10802565257');
-  </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5YZHC5Z63S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5YZHC5Z63S');
+  gtag('config', 'AW-10802565257');
+</script>
 
-  <title>mameon - Privacy Policy</title>
-  <meta name="description" content="mameon privacy policy. We never sell, rent, or share your personal information. Learn how we collect, use, and protect your data." />
-  <link rel="canonical" href="https://mameon.com/privacy.html" />
+<title>mameon - Privacy Policy</title>
+<meta name="description" content="mameon privacy policy. We never sell, rent, or share your personal information. Learn how we collect, use, and protect your data.">
+<link rel="canonical" href="https://mameon.com/privacy.html">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="mameon" />
-  <meta property="og:title" content="mameon - Privacy Policy" />
-  <meta property="og:description" content="mameon privacy policy. We never sell, rent, or share your personal information." />
-  <meta property="og:url" content="https://mameon.com/privacy.html" />
-  <meta property="og:image" content="https://mameon.com/logo.png" />
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="mameon">
+<meta property="og:title" content="mameon - Privacy Policy">
+<meta property="og:description" content="mameon privacy policy. We never sell, rent, or share your personal information. Learn how we collect, use, and protect your data.">
+<meta property="og:url" content="https://mameon.com/privacy.html">
+<meta property="og:image" content="https://mameon.com/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mameon - Privacy Policy">
+<meta name="twitter:description" content="mameon privacy policy. We never sell, rent, or share your personal information. Learn how we collect, use, and protect your data.">
+<meta name="twitter:image" content="https://mameon.com/logo.png">
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="mameon - Privacy Policy" />
-  <meta name="twitter:description" content="mameon privacy policy. We never sell, rent, or share your personal information." />
-  <meta name="twitter:image" content="https://mameon.com/logo.png" />
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preload" as="image" href="wordmark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <link rel="icon" type="image/png" href="logo.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<link rel="stylesheet" href="preview.css">
+<script src="preview.js" defer></script>
 
-    :root {
-      --bg: #ffffff;
-      --bg-card: #f4f5f7;
-      --bg-card-border: rgba(16, 22, 35, 0.10);
-      /* ── PRIMARY BLUE ──
-         Hue 221°, matching the ink/grey ramp (~220°) so the blue reads as the
-         saturated sibling of the neutrals rather than a bolted-on accent.
-         --blue carries white text at 5.2:1 (AA at every size). */
-      --blue: #2563EB;
-      --blue-hover: #1D4FD8;
-      --blue-deep: #16337F;   /* gradient floor + text on tints */
-      --blue-lift: #4C8BF9;   /* highlight end of gradients */
-      --blue-wash: #EFF4FE;   /* whisper tint for large sections */
-      --blue-edge: #D7E3FB;   /* border that sits on the wash */
-      --btn: #2563EB;
-      --btn-hover: #1D4FD8;
-      --white: #ffffff;
-      --gray: #545b69;
-      --gray-dark: #656C7B;
-      --ink: #0f1420;
-      --font-heading: 'Space Grotesk', sans-serif;
-      --font-body: 'Inter', sans-serif;
-      --font-mono: 'IBM Plex Mono', monospace;
-    }
+<script>document.documentElement.className += " js";</script>
 
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font-body);
-      background: var(--bg);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
-
-    h1, h2, h3, h4, h5 {
-      font-family: var(--font-heading);
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-    }
-
-    a { color: inherit; text-decoration: none; }
-    button { font-family: inherit; cursor: pointer; border: none; }
-    ul { list-style: none; }
-
-    /* ── GRAIN OVERLAY ── */
-    .grain-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.04;
-      mix-blend-mode: overlay;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    }
-
-    /* ── NAV ── */
-    .nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 1000;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      background: rgba(4, 7, 20, 0.94);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(76,139,249,0.16);
-    }
-    .nav-inner {
-      width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .nav-logo-icon {
-      height: 70px;
-      width: auto;
-      object-fit: contain;
-    }
-    .nav-logo-wordmark {
-      height: 42px;
-      width: auto;
-      object-fit: contain;
-    }
-    .nav-center {
-      display: flex;
-      gap: 36px;
-    }
-    .nav-center a {
-      font-size: 0.9rem;
-      color: var(--gray);
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-center a:hover { color: var(--ink); }
-    .nav-center a.active { color: var(--ink); }
-    .nav-btn {
-      display: inline-flex;
-      align-items: center;
-      padding: 10px 22px;
-      background: var(--btn);
-      color: #fff;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      border: none;
-      transition: background 0.2s;
-      cursor: pointer;
-    }
-    .nav-btn {
-      box-shadow: 0 6px 16px rgba(16,22,35,0.16);
-    }
-    .nav-btn:hover { background: var(--btn-hover); box-shadow: 0 10px 24px rgba(16,22,35,0.24); }
-    .nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--ink);
-      padding: 4px;
-      cursor: pointer;
-    }
-
-    /* ── MOBILE MENU ── */
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      background: #0A0F22;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-    }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-family: var(--font-heading);
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--gray);
-      transition: color 0.2s;
-    }
-    .mobile-menu a:hover { color: var(--ink); }
-    .mobile-close {
-      position: absolute;
-      top: 16px;
-      right: 20px;
-      background: none;
-      border: none;
-      color: var(--ink);
-      cursor: pointer;
-    }
-
-    /* ── PRIVACY CONTENT ── */
-    .privacy-page {
-      padding: 120px 40px 80px;
-      max-width: 860px;
-      margin: 0 auto;
-    }
-
-    .privacy-page h1 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 12px;
-    }
-
-    .privacy-last-updated {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--gray-dark);
-      margin-bottom: 48px;
-    }
-
-    .privacy-intro {
-      font-size: 1.05rem;
-      color: var(--gray);
-      line-height: 1.7;
-      margin-bottom: 48px;
-      padding-bottom: 32px;
-      border-bottom: 1px solid rgba(16,22,35,0.08);
-    }
-
-    .privacy-section {
-      margin-bottom: 40px;
-    }
-
-    .privacy-section h2 {
-      font-size: 1.5rem;
-      margin-bottom: 16px;
-      color: var(--ink);
-    }
-
-    .privacy-section h3 {
-      font-size: 1.15rem;
-      margin-bottom: 10px;
-      margin-top: 24px;
-      color: var(--ink);
-      font-weight: 600;
-    }
-
-    .privacy-section p {
-      font-size: 0.95rem;
-      color: var(--gray);
-      line-height: 1.8;
-      margin-bottom: 14px;
-    }
-
-    .privacy-section ul {
-      list-style: disc;
-      padding-left: 24px;
-      margin-bottom: 16px;
-    }
-
-    .privacy-section ul li {
-      font-size: 0.95rem;
-      color: var(--gray);
-      line-height: 1.8;
-      margin-bottom: 6px;
-    }
-
-    .privacy-section a {
-      color: var(--blue);
-      transition: color 0.2s;
-    }
-    .privacy-section a:hover {
-      color: var(--blue-hover);
-      text-decoration: underline;
-    }
-
-    .privacy-divider {
-      border: none;
-      border-top: 1px solid rgba(16,22,35,0.08);
-      margin: 40px 0;
-    }
-
-    /* ── FOOTER ── */
-    .footer {
-      background: #0A0F22;
-      border-top: 1px solid rgba(76,139,249,0.14);
-      padding: 32px 40px;
-    }
-    .footer-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      color: var(--gray-dark);
-    }
-    .footer-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .footer-links {
-      display: flex;
-      gap: 24px;
-    }
-    .footer-links a {
-      color: var(--gray-dark);
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--ink); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1024px) {
-      .nav { height: 70px; }
-      .nav-logo-icon { height: 50px; }
-      .nav-logo-wordmark { height: 30px; }
-      .nav-btn { padding: 8px 16px; font-size: 0.8rem; }
-    }
-    @media (max-width: 960px) {
-      .nav-center { display: none; }
-      .nav-toggle { display: block; }
-    }
-    @media (max-width: 640px) {
-      .nav { height: 60px; }
-      .nav-logo-icon { height: 40px; }
-      .nav-logo-wordmark { height: 22px; }
-      /* keep the label small, but hold the tappable area at the 44px min: extra
-         padding + min-height expand the hit target without a chunkier pill */
-      .nav-btn { padding: 8px 14px; font-size: 0.75rem; min-height: 44px; }
-      .privacy-page { padding: 100px 20px 60px; }
-      .privacy-page h1 { font-size: 1.8rem; }
-      .footer-inner { flex-direction: column; text-align: center; gap: 12px; }
-      .footer-links { justify-content: center; }
-    }
-
-    /* light-theme chrome overrides */
-    .nav .nav-center a { color: rgba(255,255,255,0.72); }
-    .nav .nav-center a:hover, .nav .nav-center a.active { color: #fff; }
-    .nav-toggle { color: #fff; }
-    .mobile-menu a { color: rgba(255,255,255,0.78); }
-    .mobile-menu a:hover { color: #fff; }
-    .mobile-close { color: #fff; }
-    .footer .footer-links a { color: rgba(255,255,255,0.6); }
-    .footer .footer-links a:hover { color: #fff; }
-    .footer .footer-left span:last-child { color: rgba(255,255,255,0.6); }
-    /* Nav CTA sits on the dark nav bar -> inverse (light) button so it stands out */
-    .nav-btn { background: #fff; color: var(--blue-hover); box-shadow: 0 2px 10px rgba(0,0,0,0.30); }
-    .nav-btn:hover { background: var(--blue-wash); color: var(--blue-deep); box-shadow: 0 4px 14px rgba(0,0,0,0.36); }
-    /* the same pill also renders inside the mobile menu, where `.mobile-menu a`
-       (0,1,1) outranks `.nav-btn` (0,1,0) and would paint the label white-on-white */
-    .mobile-menu .nav-btn { color: var(--blue-hover); }
-    .mobile-menu .nav-btn:hover { color: var(--blue-deep); }
-
-    /* ── FOCUS RING ──
-       There was no :focus-visible styling anywhere on the site, and the contact
-       input additionally set outline:none — keyboard users had no indicator at
-       all. The brand blue doubles as the ring; it inverts to white on the dark
-       chrome and the blue panels, where a blue ring would vanish. */
-    :focus-visible {
-      outline: 2px solid var(--blue);
-      outline-offset: 3px;
-    }
-    .nav :focus-visible,
-    .mobile-menu :focus-visible,
-    .footer :focus-visible,
-    #hero .hero-card :focus-visible,
-    .cta-inner :focus-visible {
-      outline-color: #fff;
-    }
-  </style>
+<style>
+/* ============================================================
+   LEGAL TEXT
+   One measure-width column; the numbered h2s act as the contents.
+   ============================================================ */
+.legal{ max-width:760px; }
+.legal .privacy-section{ margin-top:40px; }
+.legal .privacy-section:first-child{ margin-top:0; }
+.legal h2{
+  font-size:clamp(1.35rem,2.2vw,1.8rem); line-height:1.12;
+  letter-spacing:-.022em; max-width:none;
+}
+.legal h3{
+  margin-top:22px; font-family:var(--body); font-size:15.5px; font-weight:600;
+  color:var(--ink);
+}
+.legal p{ margin-top:14px; font-size:15.5px; line-height:1.65; color:var(--ink-soft); }
+.legal ul{ margin:14px 0 0 20px; padding:0; }
+.legal li{ margin-top:8px; font-size:15.5px; line-height:1.6; color:var(--ink-soft); }
+.legal a{ color:var(--brand-deep); text-decoration:underline; text-underline-offset:2px; }
+.legal a:hover{ color:var(--brand); }
+.legal .privacy-divider{
+  margin:40px 0 0; border:0; border-top:1px solid rgba(15,20,32,.12);
+}
+</style>
 </head>
 <body>
 
-  <div class="grain-overlay"></div>
+<!-- ================= NAV ================= -->
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="mameon — home">
+    <img class="brand-ink nav-mark-img" src="logo.png" alt="" width="32" height="32">
+    <img class="brand-ink nav-word" src="wordmark.png" alt="mameon" width="70" height="18">
+  </a>
+  <a class="link" href="whatyouget.html">What you Can Make</a>
+  <a class="link" href="how-mameon-works.html">How mameon Works</a>
+  <a class="link" href="meet-our-team.html">Meet Our Team</a>
+  <a class="cta" href="https://app.mameon.com" aria-label="Log in or sign up for free"><span class="cta-full">Log in / Sign up for free</span><span class="cta-short">Sign up free</span></a>
+  <button class="nav-toggle" id="navToggle" type="button"
+          aria-expanded="false" aria-controls="navPanel" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 
-  <!-- ── NAV ── -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <img src="logo.png" alt="mameon logo" class="nav-logo-icon" />
-        <img src="wordmark.png" alt="mameon" class="nav-logo-wordmark" />
-      </a>
-      <div class="nav-center">
-        <a href="whatyouget.html">What You Can Make</a>
-        <a href="video-tutorials.html">Video Tutorials</a>
-        <a href="meet-our-team.html">Meet Our Team</a>
-      </div>
-      <a href="https://app.mameon.com" class="nav-btn" data-location="navbar">Log in / Sign Up for Free</a>
-      <button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
-        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-    </div>
-  </nav>
-
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" onclick="toggleMenu()">
-      <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="6" x2="22" y2="22"/><line x1="22" y1="6" x2="6" y2="22"/></svg>
-    </button>
-    <a href="whatyouget.html" onclick="toggleMenu()">What You Can Make</a>
-    <a href="video-tutorials.html" onclick="toggleMenu()">Video Tutorials</a>
-    <a href="meet-our-team.html" onclick="toggleMenu()">Meet Our Team</a>
-    <a href="https://app.mameon.com" class="nav-btn" data-location="mobile-menu" onclick="toggleMenu()">Log in / Sign Up for Free</a>
+  <div class="nav-panel" id="navPanel">
+    <a href="whatyouget.html">What you Can Make</a>
+    <a href="how-mameon-works.html">How mameon Works</a>
+    <a href="meet-our-team.html">Meet Our Team</a>
   </div>
+</nav>
 
-  <!-- ══════════ PRIVACY CONTENT ══════════ -->
-  <div class="privacy-page">
-    <h1>Privacy Policy</h1>
-    <p class="privacy-last-updated">Effective date: 26 February 2025</p>
+<!-- ================= MASTHEAD ================= -->
+<header class="page-hero grain">
+  <div class="page-hero-bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="eyebrow">Legal</p>
+    <h1>Privacy Policy.</h1>
+    <p class="lede">How we collect, use, and protect your data. The short version: we never sell, rent, or share your personal information.</p>
+    <div class="tagrow">
+      <span>Effective date: 26 February 2025</span>
+    </div>
+  </div>
+</header>
 
-    <div class="privacy-section">
+<!-- ================= CONTENT ================= -->
+<section class="sec">
+  <div class="wrap legal">
+<div class="privacy-section">
       <h2>1. Who we are</h2>
       <p>mameon is a story-driven content and marketing platform that helps founders, marketers, and agencies create and publish campaign content. mameon operates under dual incorporation in Ireland (EU) and the State of Delaware, USA.</p>
       <p>For users in the European Union and European Economic Area, the data controller is mameon's Irish entity. For users in the United States, the data controller is mameon's Delaware entity.</p>
@@ -562,42 +254,19 @@
       <p>For any questions about this privacy policy or how we handle your data, use the contact form on our website at mameon.com.</p>
     </div>
   </div>
+</section>
 
-  <!-- ══════════ FOOTER ══════════ -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-left">
-        <span class="nav-logo">
-          <img src="logo.png" alt="mameon logo" class="nav-logo-icon" />
-          <img src="wordmark.png" alt="mameon" class="nav-logo-wordmark" />
-        </span>
-        <span>&copy; 2026 mameon. All rights reserved.</span>
-      </div>
-      <div class="footer-links">
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-        <a href="index.html#contactSection">Contact</a>
-      </div>
-    </div>
-  </footer>
+<footer>
+  <span class="foot-brand">
+    <img class="brand-ink foot-word" src="wordmark.png" alt="mameon" width="94" height="24">
+    © 2026 mameon. All rights reserved.
+  </span>
+  <nav>
+    <a aria-current="page">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="index.html#contactSection">Contact</a>
+  </nav>
+</footer>
 
-  <script>
-    function toggleMenu() {
-      document.getElementById('mobileMenu').classList.toggle('open');
-    }
-  </script>
-  <!-- GA4: track signup / login CTA clicks (delegated, so buttons added later are covered too) -->
-  <script>
-    document.addEventListener('click', function (e) {
-      if (!e.target || !e.target.closest) return;
-      var btn = e.target.closest('a[href^="https://app.mameon.com"]');
-      if (!btn) return;
-      gtag('event', 'signup_click', {
-        button_location: btn.dataset.location || 'unknown',
-        link_text: (btn.textContent || '').trim(),
-        transport_type: 'beacon'
-      });
-    });
-  </script>
 </body>
 </html>

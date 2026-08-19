@@ -1,2172 +1,1557 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5YZHC5Z63S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5YZHC5Z63S');
+  gtag('config', 'AW-10802565257');
+</script>
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5YZHC5Z63S"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-5YZHC5Z63S');
-    gtag('config', 'AW-10802565257');
-  </script>
+<title>mameon - AI Storyteller</title>
+<meta name="description" content="mameon is your AI-powered storytelling and advertising platform. Create social media campaigns, video ads, and brand content in minutes — built for founders and startups.">
+<link rel="canonical" href="https://mameon.com/">
 
-  <title>mameon - AI Storyteller</title>
-  <meta name="description" content="mameon is your AI-powered storytelling and advertising platform. Create social media campaigns, video ads, and brand content in minutes — built for founders and startups." />
-  <link rel="canonical" href="https://mameon.com/" />
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="mameon">
+<meta property="og:title" content="mameon - AI Storyteller">
+<meta property="og:description" content="Create advertising and social media campaigns in minutes. mameon is the AI storytelling platform built for founders and startups.">
+<meta property="og:url" content="https://mameon.com/">
+<meta property="og:image" content="https://mameon.com/hero_city_night.jpg">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="mameon" />
-  <meta property="og:title" content="mameon - AI Storyteller" />
-  <meta property="og:description" content="Create advertising and social media campaigns in minutes. mameon is the AI storytelling platform built for founders and startups." />
-  <meta property="og:url" content="https://mameon.com/" />
-  <meta property="og:image" content="https://mameon.com/hero_city_night.jpg" />
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="mameon - AI Storyteller">
+<meta name="twitter:description" content="Create advertising and social media campaigns in minutes. mameon is the AI storytelling platform built for founders and startups.">
+<meta name="twitter:image" content="https://mameon.com/hero_city_night.jpg">
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="mameon - AI Storyteller" />
-  <meta name="twitter:description" content="Create advertising and social media campaigns in minutes. mameon is the AI storytelling platform built for founders and startups." />
-  <meta name="twitter:image" content="https://mameon.com/hero_city_night.jpg" />
+<!-- JSON-LD Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "mameon",
+  "url": "https://mameon.com",
+  "logo": "https://mameon.com/logo.png",
+  "description": "AI-powered storytelling and advertising platform for founders and startups",
+  "sameAs": []
+}
+</script>
 
-  <!-- JSON-LD Organization -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "mameon",
-    "url": "https://mameon.com",
-    "logo": "https://mameon.com/logo.png",
-    "description": "AI-powered storytelling and advertising platform for founders and startups",
-    "sameAs": []
+<link rel="icon" type="image/png" href="logo.png">
+
+<!-- the loader paints the mark immediately, so fetch it at highest priority -->
+<link rel="preload" as="image" href="logo.png" fetchpriority="high">
+<link rel="preload" as="image" href="wordmark.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Marks that JS is alive. Reveal styles hang off this class, so if the
+     script or the GSAP CDN ever fails, every section renders fully visible. -->
+<script>document.documentElement.className += " js";</script>
+
+<style>
+/* ============================================================
+   DESIGN TOKENS
+   Editorial light theme built on the mameon brand blue (#2563EB).
+   ============================================================ */
+:root{
+  /* paper & ink */
+  --paper:        #F7F5F1;   /* warm editorial paper */
+  --paper-pure:   #FFFFFF;
+  --ink:          #0F1420;   /* existing mameon ink */
+  --ink-soft:     #545B69;
+  /* was #8A90A0 — only 2.93:1 on paper / 3.19:1 on white, below the 4.5:1
+     AA floor. This carries the footer and every quote attribution. */
+  --ink-faint:    #666D7A;   /* 4.78:1 on paper, 5.21:1 on white */
+
+  /* brand ramp */
+  --brand:        #2563EB;
+  --brand-lift:   #4C8BF9;
+  --brand-deep:   #16337F;
+  --brand-abyss:  #0B1F52;
+  --brand-wash:   #EFF4FE;
+  --brand-edge:   #D7E3FB;
+  /* recessed-but-legible tint for the oversized step numeral;
+     --brand-edge is too close to --paper to read at display size */
+  --brand-tint:   #A3BBE6;
+
+  /* signature gradient card */
+  --card-blue: radial-gradient(95% 80% at 50% 28%,
+                #FFFFFF 0%, #DFE7F5 34%, #6E90D4 66%, #24427F 100%);
+  --hero-grad: radial-gradient(125% 100% at 60% 55%,
+                #7C9BD8 0%, #4C74C4 30%, #24427F 68%, #142A54 100%);
+
+  /* chrome */
+  --nav-surface:  rgba(10,10,11,.82);   /* black floating menu bar */
+  --nav-border:   rgba(255,255,255,.14);
+  --nav-shadow:   rgba(0,0,0,.5);
+  --glass:        rgba(255,255,255,.14);
+  --glass-border: rgba(255,255,255,.22);
+  --hairline:     rgba(255,255,255,.32);
+
+  /* type */
+  --display: "Fraunces", Georgia, serif;
+  --body:    "Inter", system-ui, sans-serif;
+
+  --radius-xl: 28px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --gutter: clamp(20px, 4vw, 56px);
+
+  /* Carousel geometry. Single source of truth — the cards' translateZ reads
+     --ring-r directly, and the morph math measures these rather than
+     re-deriving them, so CSS and JS can never drift apart.
+     --ring-r must be >= (--card-w / 2) / tan(180deg/6) = 0.866 * --card-w. */
+  --card-w: 34vmin;
+  --card-h: 52vmin;
+  --ring-r: 33vmin;    /* min 29.4vmin */
+}
+@media (max-width:760px){
+  :root{
+    /* vmin-based cards collapse to ~133px on a phone. Switch to vw. */
+    --card-w: 62vw;
+    --card-h: 94vw;
+    --ring-r: 58vw;    /* min 53.7vw */
   }
-  </script>
+}
 
-  <link rel="icon" type="image/png" href="logo.png" />
-  <!-- hero photograph is the LCP element — fetch it alongside the CSS, not after it -->
-  <link rel="preload" as="image" href="home.jpg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <!-- GSAP + ScrollTrigger -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <style>
-    /* -- RESET -- */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{ box-sizing:border-box; }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--body); font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+h1,h2,h3{ font-family:var(--display); font-weight:400; margin:0; }
+p{ margin:0; }
+/* figure defaults to margin:16px 40px, which pushed the testimonial cards past
+   their clipping edge and squared off their bottom corners. */
+figure,blockquote,figcaption{ margin:0; }
+a{ color:inherit; text-decoration:none; }
+img{ max-width:100%; display:block; }
 
-    :root {
-      --bg: #ffffff;
-      --bg-card: #f4f5f7;
-      --bg-card-border: rgba(16, 22, 35, 0.10);
-      /* ── PRIMARY BLUE ──
-         Hue 221°, matching the ink/grey ramp (~220°) so the blue reads as the
-         saturated sibling of the neutrals rather than a bolted-on accent.
-         --blue carries white text at 5.2:1 (AA at every size). */
-      --blue: #2563EB;
-      --blue-hover: #1D4FD8;
-      --blue-deep: #16337F;   /* gradient floor + text on tints */
-      --blue-lift: #4C8BF9;   /* highlight end of gradients */
-      --blue-wash: #EFF4FE;   /* whisper tint for large sections */
-      --blue-edge: #D7E3FB;   /* border that sits on the wash */
-      --btn: #2563EB;
-      --btn-hover: #1D4FD8;
-      --white: #ffffff;
-      --ink: #0f1420;
-      --gray: #545b69;
-      --gray-dark: #656C7B;
-      --font-heading: 'Space Grotesk', sans-serif;
-      --font-body: 'Inter', sans-serif;
-      --font-mono: 'IBM Plex Mono', monospace;
-      /* height of the fixed nav — the partners strip sits under it and pads clear */
-      --nav-h: 80px;
-    }
+/* subtle paper grain for depth */
+.grain::after{
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:2;
+  opacity:.16; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
 
-    html { scroll-behavior: auto; /* GSAP handles scrolling */ }
+/* ============================================================
+   LOADER
+   Hidden by default and only shown once JS is confirmed alive, so it can
+   never strand the page. Dismissed on load, with a hard timeout backstop.
+   ============================================================ */
+.loader{ display:none; }
+.js .loader{
+  /* flex, not grid: a grid's default align-content:stretch spreads the three
+     items across the full viewport height instead of stacking them */
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:14px;
+  position:fixed; inset:0; z-index:200;
+  background:var(--paper);
+  transition:opacity .55s ease, visibility .55s ease;
+}
+.js .loader.done{ opacity:0; visibility:hidden; }
+.loader-mark{
+  width:76px; height:76px;
+  animation:pulse 1.6s ease-in-out infinite;
+}
+.loader-word{ width:150px; height:auto; margin-top:-2px; }
+@keyframes pulse{
+  0%,100%{ transform:scale(1);    opacity:.9; }
+  50%    { transform:scale(1.05); opacity:1;  }
+}
+.loader-line{
+  width:132px; height:2px; border-radius:2px;
+  background:var(--brand-edge); overflow:hidden; margin-top:8px;
+}
+.loader-line i{
+  display:block; width:40%; height:100%; border-radius:2px;
+  background:var(--brand);
+  animation:sweep 1.15s cubic-bezier(.55,0,.35,1) infinite;
+}
+@keyframes sweep{
+  0%  { transform:translateX(-110%); }
+  100%{ transform:translateX(360%); }
+}
+/* motion-averse users get no loader at all */
+@media (prefers-reduced-motion:reduce){ .js .loader{ display:none; } }
 
-    body {
-      font-family: var(--font-body);
-      background: var(--bg);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
+/* ============================================================
+   FLOATING PILL NAV
+   ============================================================ */
+.nav{
+  position:fixed; top:18px; left:50%; transform:translateX(-50%);
+  z-index:100; display:flex; align-items:center; gap:6px;
+  /* The bar is content-sized, so without a ceiling it runs off both edges on a
+     narrow screen. Percentages resolve against the viewport for a fixed box. */
+  width:max-content; max-width:calc(100% - 24px);
+  padding:7px 7px 7px 9px; border-radius:999px;
+  background:var(--nav-surface);
+  border:1px solid var(--nav-border);
+  box-shadow:0 10px 34px -12px var(--nav-shadow);
+  backdrop-filter:blur(18px) saturate(1.5);
+  -webkit-backdrop-filter:blur(18px) saturate(1.5);
+}
+/* The logo art is a pale silver gradient. brightness(0) flattens it to a
+   silhouette; on the black bar it is inverted back up to platinum. */
+.brand-ink{ filter:brightness(0); opacity:.9; }
+.nav .brand-ink{ filter:brightness(0) invert(90%); opacity:.95; }
 
-    h1, h2, h3, h4, h5 {
-      font-family: var(--font-heading);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-    }
+.nav-brand{
+  display:flex; align-items:center; gap:7px; flex:none;
+  padding:2px 6px 2px 2px; border-radius:999px;
+}
+.nav-brand:hover .brand-ink{ opacity:1; }
+.nav-mark-img{ width:32px; height:32px; }
+.nav-word{ width:70px; height:auto; }
+@media (max-width:420px){ .nav-word{ display:none; } }
+.nav a.link{
+  padding:8px 13px; border-radius:999px; font-size:14.5px;
+  color:#E5E4E2; white-space:nowrap; transition:background .18s ease;
+}
+.nav a.link:hover{ background:rgba(255,255,255,.10); }
+.nav a.cta{
+  padding:9px 17px; border-radius:999px; font-size:14.5px; font-weight:500;
+  background:#E5E4E2; color:#0A0A0B; white-space:nowrap;
+  transition:background .18s ease, transform .2s cubic-bezier(.22,.8,.3,1);
+}
+.nav a.cta:hover{ background:#FFFFFF; transform:translateY(-2px) scale(1.03); }
+/* The CTA holds the longest string in the bar, so it is what sets the bar's
+   width. Past the tablet break it swaps to a short label instead of pushing the
+   pill off screen; the accessible name stays whole via aria-label. */
+.nav a.cta .cta-short{ display:none; }
+@media (max-width:600px){
+  .nav a.cta{ padding:9px 14px; }
+  .nav a.cta .cta-full{ display:none; }
+  .nav a.cta .cta-short{ display:inline; }
+}
+@media (max-width:360px){
+  .nav{ gap:4px; padding:6px 6px 6px 8px; }
+  .nav a.cta{ padding:8px 12px; font-size:14px; }
+}
 
-    a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
-    button { font-family: inherit; cursor: pointer; border: none; }
-    ul { list-style: none; }
+/* --- mobile menu --- */
+.nav-toggle{
+  display:none; width:38px; height:38px; flex:none; padding:0;
+  border:0; border-radius:999px; background:transparent; cursor:pointer;
+  align-items:center; justify-content:center;
+}
+.nav-toggle:hover{ background:rgba(255,255,255,.10); }
+.nav-toggle span{
+  display:block; width:16px; height:1.5px; background:#E5E4E2; border-radius:2px;
+  transition:transform .22s ease, opacity .22s ease;
+}
+.nav-toggle span + span{ margin-top:4px; }
+.nav-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(5.5px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3){ transform:translateY(-5.5px) rotate(-45deg); }
 
-    /* -- GRAIN OVERLAY -- */
-    .grain-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.04;
-      mix-blend-mode: overlay;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    }
+.nav-panel{
+  position:absolute; top:calc(100% + 8px); left:0; right:0;
+  display:none; flex-direction:column; gap:2px; padding:8px;
+  border-radius:20px;
+  background:rgba(10,10,11,.94);
+  border:1px solid var(--nav-border);
+  box-shadow:0 14px 40px -14px var(--nav-shadow);
+  backdrop-filter:blur(18px) saturate(1.5);
+  -webkit-backdrop-filter:blur(18px) saturate(1.5);
+}
+.nav-panel.open{ display:flex; }
+.nav-panel a{
+  padding:11px 14px; border-radius:13px; font-size:15px; color:#E5E4E2;
+}
+.nav-panel a:hover, .nav-panel a:focus-visible{ background:rgba(255,255,255,.10); }
 
-    /* -- NAV -- */
-    .nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 1000;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      background: rgba(4, 7, 20, 0.94);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(76,139,249,0.16);
-    }
-    .nav-inner {
-      width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .nav-logo-icon {
-      height: 70px;
-      width: auto;
-      object-fit: contain;
-    }
-    .nav-logo-wordmark {
-      height: 42px;
-      width: auto;
-      object-fit: contain;
-    }
-    .nav-center {
-      display: flex;
-      gap: 36px;
-    }
-    .nav-center a {
-      font-size: 0.9rem;
-      color: var(--gray);
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-center a:hover { color: var(--ink); }
-    .nav-btn {
-      display: inline-flex;
-      align-items: center;
-      padding: 10px 22px;
-      background: var(--btn);
-      color: #fff;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      border: none;
-      transition: background 0.2s;
-      cursor: pointer;
-    }
-    .nav-btn {
-      box-shadow: 0 6px 16px rgba(16,22,35,0.16);
-    }
-    .nav-btn:hover { background: var(--btn-hover); box-shadow: 0 10px 24px rgba(16,22,35,0.24); }
-    .nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--ink);
-      padding: 4px;
-      cursor: pointer;
-    }
+/* The bar wants 819px with every link and the CTA showing, so it has to fold
+   into the hamburger at 843 and up — not 720, where it used to clip the CTA. */
+@media (max-width:860px){
+  .nav a.link{ display:none; }
+  .nav-toggle{ display:flex; }
+}
+@media (min-width:861px){
+  .nav-panel{ display:none !important; }
+}
 
-    /* -- PINNED SECTIONS -- */
-    .section-pinned {
-      position: relative;
-      /* 100vh first as the fallback for browsers without dynamic units; dvh then
-         wins where supported so the pinned height tracks the mobile URL bar
-         collapsing instead of jumping. */
-      height: 100vh;
-      height: 100dvh;
-      /* 100vw counts the scrollbar and can force a sliver of horizontal scroll;
-         100% is the padding-box width and avoids it. Body already clips overflow-x,
-         but this removes the cause rather than masking it. */
-      width: 100%;
-      overflow: hidden;
-    }
-    .bg-image {
-      position: absolute;
-      inset: 0;
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-    }
-    .bg-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to right, rgba(7,10,18,0.7), rgba(7,10,18,0.3));
-    }
-    .bg-overlay-center {
-      position: absolute;
-      inset: 0;
-      background: rgba(7, 10, 18, 0.45);
-    }
+/* visible keyboard focus everywhere — the pill nav sits on varied backdrops */
+a:focus-visible, button:focus-visible{
+  outline:2px solid var(--brand); outline-offset:3px; border-radius:8px;
+}
+.hero a:focus-visible, .hero button:focus-visible,
+.close-card button:focus-visible{ outline-color:#fff; }
 
-    /* BG wrappers must be absolute to fill pinned sections */
-    .hero-bg-wrap,
-    .manifesto-bg-wrap,
-    .product-bg-wrap,
-    .speed-bg-wrap {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-    }
+/* ============================================================
+   HERO
+   ============================================================ */
+/* The hero is an overlay on the shared stage; it fades out to uncover the
+   ring's front card, which is sitting behind it scaled up to cover. */
+.hero{
+  position:absolute; inset:14px; z-index:6; overflow:hidden;
+  border-radius:var(--radius-xl);
+  background:var(--hero-grad);
+  display:flex; flex-direction:column; justify-content:space-between;
+  padding:clamp(28px,5vw,64px);
+  color:#fff;
+}
+/* auto margins centre the copy in the space the footer leaves behind */
+.hero-inner{
+  position:relative; z-index:3; max-width:1180px; width:100%;
+  margin:auto auto 0;
+}
+.hero h1{
+  /* ramp reduced from 6.4rem — the keyword-bearing headline runs three lines */
+  font-size:clamp(2.3rem, 5.5vw, 4.9rem);
+  line-height:1.0; letter-spacing:-.03em; margin-bottom:clamp(22px,3.4vw,42px);
+  max-width:20ch;
+}
+.hero h1 .dim{ color:rgba(255,255,255,.42); }
+.hero-sub{
+  max-width:34ch; font-size:clamp(15px,1.15vw,17px);
+  color:rgba(255,255,255,.80); margin-bottom:26px;
+}
+.hero-btns{ display:flex; gap:11px; flex-wrap:wrap; }
+/* CTAs are anchors now — keep them rendering exactly like the buttons */
+a.btn{ display:inline-block; text-decoration:none; text-align:center; }
+.btn{
+  padding:13px 24px; border-radius:11px; font-size:15px; font-weight:500;
+  border:1px solid transparent; cursor:pointer; font-family:var(--body);
+  transition:background .2s ease, transform .2s cubic-bezier(.22,.8,.3,1),
+             box-shadow .2s ease;
+}
+/* every CTA lifts on hover */
+.btn:hover{ transform:translateY(-2px) scale(1.02); box-shadow:0 10px 24px -10px rgba(0,0,0,.45); }
+.btn:active{ transform:translateY(0) scale(.99); }
+.btn-ghost{
+  background:var(--glass); border-color:var(--glass-border); color:#fff;
+  backdrop-filter:blur(10px);
+}
+.btn-ghost:hover{ background:rgba(255,255,255,.24); }
+.btn-solid{ background:#fff; color:var(--ink); }
+.btn-solid:hover{ background:var(--brand-wash); }
 
-    /* -- FIRST SCREEN (partners marquee, then hero) --
-       One viewport, split by flex rather than by arithmetic: the marquee is
-       sized by its own content (flex: none) and the hero absorbs whatever is
-       left. No --partners-h magic number to drift out of sync when the logo
-       tiles or title change size at a breakpoint. */
-    .first-screen {
-      height: 100vh;
-      height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    /* beats .section-pinned's own 100dvh — inside the wrapper the hero is a flex
-       child, and min-height:0 lets it shrink below its content instead of
-       overflowing the viewport and pushing the marquee off-screen */
-    .first-screen > #hero { height: auto; flex: 1 1 auto; min-height: 0; }
-    .first-screen > .partners { flex: 0 0 auto; }
+.hero-foot{
+  position:relative; z-index:3; max-width:1180px; width:100%;
+  margin:clamp(36px,6vh,80px) auto 0;
+  padding-top:26px;
+  border-top:1px solid var(--hairline);
+  display:flex; align-items:center; justify-content:space-between;
+  gap:24px; flex-wrap:wrap;
+}
+.proof{
+  display:flex; align-items:center; gap:11px;
+  padding:6px 16px 6px 6px; border-radius:999px;
+  background:var(--glass); border:1px solid var(--glass-border);
+  backdrop-filter:blur(10px);
+  font-size:13.5px; color:#fff;
+}
+.avatars{ display:flex; }
+.avatars img{
+  width:30px; height:30px; border-radius:999px; object-fit:cover;
+  border:2px solid rgba(255,255,255,.85); margin-left:-9px;
+}
+.avatars img:first-child{ margin-left:0; }
+.hero-foot-note{
+  text-align:right; max-width:46ch; font-size:13.5px; line-height:1.6;
+  color:rgba(255,255,255,.70);
+}
+@media (max-width:760px){
+  .hero-foot-note{ text-align:left; }
+}
 
-    /* -- HERO -- */
-    .hero-content {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      height: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-      /* no nav clearance needed — the partners strip above absorbs it */
-      padding: 0 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 60px;
-    }
-    .hero-left {
-      flex: 1;
-      max-width: 550px;
-    }
-    .hero-left h1 {
-      font-size: clamp(2.8rem, 5vw, 4.2rem);
-      line-height: 1.08;
-      margin-bottom: 20px;
-      white-space: nowrap;
-    }
-    .hero-left p {
-      font-size: 1.05rem;
-      color: var(--gray);
-      line-height: 1.6;
-    }
-    .hero-right {
-      flex-shrink: 0;
-      width: 380px;
-    }
+/* ============================================================
+   SCROLL MARQUEE + 3D CARD CAROUSEL
+   ============================================================ */
+/* Track covers both acts: the hero->card morph, then the rotation.
+   At 460vh and MORPH_END 0.28 that is ~129vh of morph and ~55vh per card. */
+.stage{ position:relative; height:460vh; }
+.stage-pin{
+  position:sticky; top:0; height:100vh; overflow:hidden;
+  display:grid; place-items:center;
+}
+/* Everything the morph reveals starts hidden and is faded in by the timeline.
+   Scoped to .motion so a no-JS / no-GSAP render still shows the whole page. */
+.motion .marquee,
+.motion .ring-card > *{ opacity:0; }
 
-    /* -- GLASS CARD -- */
-    .glass-card {
-      border-radius: 14px;
-      border: 1px solid var(--bg-card-border);
-      background-color: #ffffff;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 18px 50px rgba(16,22,35,0.10);
-      padding: 36px 32px;
-    }
-    .glass-card h3 {
-      font-size: 1.6rem;
-      margin-bottom: 16px;
-    }
-    .glass-card > p {
-      font-size: 0.95rem;
-      color: var(--gray);
-      line-height: 1.65;
-      margin-bottom: 28px;
-    }
+/* Fallback: without the timeline the hero must not sit on top of the ring
+   forever, so it returns to normal flow and the stage stops being a track. */
+html:not(.motion) .stage{ height:auto; }
+html:not(.motion) .stage-pin{ position:relative; height:auto; display:block; padding:14px 0; }
+html:not(.motion) .hero{ position:relative; inset:auto; min-height:calc(100vh - 28px); margin:0 14px 40px; }
+html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh; }
 
-    /* -- BUTTONS -- */
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 14px 28px;
-      background: var(--btn);
-      color: #fff;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      font-family: var(--font-body);
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 6px 18px rgba(37,99,235,0.26);
-    }
-    .btn-primary:hover {
-      background: var(--btn-hover);
-      box-shadow: 0 10px 26px rgba(37,99,235,0.34);
-      transform: scale(1.02);
-    }
-    .btn-primary.full-width { width: 100%; }
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 14px 28px;
-      background: transparent;
-      color: var(--blue-hover);
-      /* was rgba(16,22,35,0.18) = 1.47:1 against white, which read as a disabled
-         control and failed WCAG 1.4.11 (3:1 for UI boundaries). 0.70 alpha of the
-         brand blue lands at 3.02:1 and pairs the outline button with the solid one. */
-      border: 1px solid rgba(37,99,235,0.70);
-      border-radius: 10px;
-      font-size: 0.95rem;
-      font-weight: 500;
-      font-family: var(--font-body);
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .btn-secondary:hover {
-      border-color: var(--blue);
-      background: rgba(37,99,235,0.08);
-      color: var(--blue-deep);
-    }
+.marquee{
+  position:absolute; top:50%; left:0; transform:translateY(-50%);
+  white-space:nowrap; z-index:1;
+  font-size:clamp(4rem,11vw,9.5rem); letter-spacing:-.04em;
+  font-weight:400; color:var(--ink); opacity:.92;
+  will-change:transform;
+}
+/* Brand logos ride inline with the marquee type. Sized in em so they scale
+   with the clamp()ed font; line-height:1 tightens the box so align-items
+   centres on the glyphs rather than the taller default line box. */
+.marquee .mq{
+  display:inline-flex; align-items:center; gap:.24em; margin-right:.54em;
+  line-height:1;
+}
+.marquee .mq img{ width:.72em; height:.72em; object-fit:contain; flex:none; }
+/* The trailing item's right margin would otherwise sit between the last mark
+   and the viewport edge once the strip has travelled its full width. The
+   padding gives back exactly the negative tracking, which is applied after the
+   final glyph as well and would otherwise pull the box in over the tail of a
+   descender like the "y" in Bluesky — shearing it against the flush edge. */
+.marquee .mq:last-child{ margin-right:0; padding-right:.04em; }
 
-    /* -- MANIFESTO -- */
-    .manifesto-content {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 80px 40px;
-    }
-    .manifesto-content h2 {
-      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-      font-style: italic;
-      line-height: 1.15;
-      max-width: 900px;
-    }
-    .manifesto-content .sub {
-      margin-top: 28px;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--gray-dark);
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-weight: 500;
-    }
+.ring-wrap{ position:relative; z-index:3; perspective:1400px; }
+.ring{
+  position:relative; width:var(--card-w); height:var(--card-h);
+  transform-style:preserve-3d; will-change:transform;
+}
+/* Zero-height probe: lets JS read --ring-r resolved to px in whatever unit
+   the current breakpoint uses, without duplicating the value in script. */
+.ring-probe{
+  position:absolute; width:var(--ring-r); height:0;
+  visibility:hidden; pointer-events:none;
+}
+.ring-card{
+  position:absolute; inset:0; border-radius:22px; overflow:hidden;
+  background:var(--card-blue);
+  box-shadow:0 30px 70px -30px rgba(11,31,82,.6);
+  backface-visibility:hidden;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  padding:22px; color:#fff;
+}
+/* photo cards: image fills the face, with a scrim so the copy stays legible */
+.ring-card .card-img{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; z-index:0;
+}
+.ring-card.has-img::after{
+  content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(20,42,84,.52) 0%, rgba(20,42,84,.10) 34%, rgba(11,31,82,.88) 100%);
+}
+.ring-card > div{ position:relative; z-index:2; }
 
-    /* -- PRODUCT -- */
-    .product-content {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      height: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 60px;
-    }
-    .product-left {
-      flex: 1;
-      max-width: 520px;
-    }
-    .product-left h2 {
-      font-size: clamp(2.5rem, 4.5vw, 3.5rem);
-      line-height: 1.08;
-      margin-bottom: 24px;
-      white-space: nowrap;
-    }
-    .product-left p {
-      font-size: clamp(15px, 1.2vw, 18px);
-      color: var(--gray);
-      line-height: 1.75;
-    }
-    .product-right {
-      flex-shrink: 0;
-      width: 460px;
-    }
+.ring-card h3{ font-size:clamp(1.25rem,2.4vmin,1.9rem); line-height:1.08; letter-spacing:-.02em; }
+.ring-card .cap{ font-size:12.5px; color:rgba(255,255,255,.72); margin-top:7px; }
 
-    /* Checklist */
-    .checklist { margin-bottom: 24px; }
-    .checklist-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 0;
-      font-size: 0.95rem;
-      color: var(--gray);
-    }
-    .check-icon {
-      flex-shrink: 0;
-      width: 18px;
-      height: 18px;
-      color: var(--blue);
-    }
-    .product-buttons {
-      display: flex;
-      gap: 12px;
-    }
-    .product-buttons .btn-primary,
-    .product-buttons .btn-secondary { font-size: 0.9rem; padding: 12px 24px; }
 
-    /* -- SPEED -- */
-    .speed-content {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 80px 40px;
-    }
-    .speed-content h2 {
-      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-      line-height: 1.12;
-      max-width: 1100px;
-      margin-bottom: 24px;
-    }
-    .speed-content .sub {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--gray);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
+/* ============================================================
+   GENERIC SECTIONS
+   ============================================================ */
+.sec{ padding:clamp(80px,12vh,150px) var(--gutter); }
+.wrap{ max-width:1180px; margin:0 auto; }
+.eyebrow{
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--brand); font-weight:600; margin-bottom:18px;
+}
+.sec h2{
+  font-size:clamp(2.1rem,4.6vw,3.9rem); line-height:1.03;
+  letter-spacing:-.03em; max-width:18ch;
+}
+.sec .lede{
+  margin-top:20px; max-width:52ch; font-size:clamp(15px,1.1vw,17.5px);
+  color:var(--ink-soft);
+}
 
-    /* -- TESTIMONIALS -- */
-    .testimonials {
-      position: relative;
-      background: var(--bg);
-      padding: 100px 0;
-    }
-    .testimonials-inner {
-      max-width: 100%;
-    }
-    .testimonials-header {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-    .testimonials h2 {
-      font-size: clamp(2rem, 3.6vw, 3rem);
-      text-align: center;
-      margin-bottom: 48px;
-      font-style: italic;
-    }
-    /* Drag/swipe rail. Unlike the partners strip (a pure CSS transform marquee),
-       this one is a real horizontally-scrollable box: the auto-advance is JS
-       nudging scrollLeft, so the drift and the user's own dragging live in the
-       same coordinate system and can't fight each other. */
-    .testimonials-scroll-wrapper {
-      position: relative;
-      overflow: hidden;
-    }
-    .testimonials-viewport {
-      position: relative;
-      overflow-x: auto;
-      overflow-y: hidden;
-      /* a horizontal swipe here must not trigger the browser's back-navigation */
-      overscroll-behavior-x: contain;
-      cursor: grab;
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-      mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-      /* the rail loops, so a scrollbar would show a meaningless thumb position */
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-    .testimonials-viewport::-webkit-scrollbar { display: none; }
-    .testimonials-viewport.is-dragging { cursor: grabbing; scroll-behavior: auto; }
-    /* a drag must not fire the click that a card's contents would otherwise take */
-    .testimonials-viewport.is-dragging * { pointer-events: none; }
-    .testimonials-track {
-      display: flex;
-      width: max-content;
-    }
+/* how it works — pinned counter */
+.steps{ position:relative; }
+.steps-grid{
+  display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
+  gap:clamp(32px,6vw,90px); align-items:start;
+}
+.steps-sticky{ position:sticky; top:22vh; }
+.step-num{
+  font-family:var(--display); font-size:clamp(5rem,14vw,11rem);
+  line-height:.8; letter-spacing:-.05em; color:var(--brand-tint);
+}
+.step{
+  padding:clamp(30px,5vh,58px) 0; border-bottom:1px solid rgba(15,20,32,.10);
+  opacity:.42; transition:opacity .45s ease;
+}
+.step.on{ opacity:1; }
+.step h3{ font-size:clamp(1.5rem,2.7vw,2.3rem); letter-spacing:-.02em; line-height:1.1; }
+.step p{ margin-top:12px; color:var(--ink-soft); max-width:44ch; font-size:15.5px; }
+.step .tag{
+  display:inline-block; margin-top:14px; font-size:11px; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase;
+  padding:5px 11px; border-radius:999px;
+  background:var(--brand-wash); color:var(--brand-deep);
+}
+@media (max-width:860px){
+  .steps-grid{ grid-template-columns:1fr; }
+  .steps-sticky{ position:static; }
+}
 
-    /* -- RAIL ARROWS --
-       Desktop affordance: touch users swipe, but a mouse user has no way to know
-       the rail moves until they try. Hidden from a11y tree — they duplicate the
-       keyboard scrolling the focusable viewport already provides. */
-    .tst-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      border: 1px solid var(--bg-card-border);
-      background: #fff;
-      color: var(--ink);
-      box-shadow: 0 8px 24px rgba(16,22,35,0.14);
-      cursor: pointer;
-      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
-    }
-    .tst-nav:hover {
-      background: var(--blue-wash);
-      box-shadow: 0 12px 30px rgba(16,22,35,0.20);
-    }
-    .tst-nav:active { transform: translateY(-50%) scale(0.94); }
-    .tst-prev { left: 16px; }
-    .tst-next { right: 16px; }
-    /* fingers, not buttons, on touch — and they'd sit on top of the cards */
-    @media (hover: none) { .tst-nav { display: none; } }
-    .testimonials-group {
-      display: flex;
-      align-items: stretch;
-      gap: 28px;
-      padding-right: 28px;
-    }
-    .testimonial-card {
-      flex: 0 0 380px;
-      max-width: 380px;
-      min-height: 320px;
-      display: flex;
-      flex-direction: column;
-    }
-    .testimonial-card .quote-icon {
-      color: var(--blue);
-      margin-bottom: 16px;
-    }
-    .testimonial-card .quote-text {
-      font-size: 1rem;
-      color: var(--ink);
-      line-height: 1.7;
-      flex: 1;
-      margin-bottom: 24px;
-    }
-    .testimonial-card .author-info {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .testimonial-card .author-details {
-      display: flex;
-      flex-direction: column;
-    }
-    .testimonial-card .author-name {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--ink);
-    }
-    .testimonial-card .author-role {
-      font-size: 0.85rem;
-      color: var(--gray);
-    }
-    .testimonial-card .author-logo {
-      height: 80px;
-      width: auto;
-      max-width: 220px;
-      object-fit: contain;
-      opacity: 0.9;
-      margin-top: 10px;
-    }
-    /* reduced-motion is handled in JS: the auto-advance simply never starts, and
-       the rail stays fully draggable. No CSS override needed. */
+/* testimonials — horizontal filmstrip of tall photo cards, matching the
+   services fold on the reference site: several cards in view, content laid
+   over the image, and the next card peeking past the right edge. */
+.tcar{ margin-top:38px; }
+.tcar-head{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:20px; flex-wrap:wrap;
+}
+.tcar-progress{
+  flex:1; min-width:120px; max-width:320px; height:3px;
+  border-radius:999px; background:rgba(15,20,32,.14); overflow:hidden;
+}
+.tcar-progress i{
+  display:block; height:100%; width:34%; border-radius:999px;
+  background:var(--brand-deep); transform-origin:left center;
+}
+.tcar-nav{ display:flex; gap:10px; }
+.tcar-btn{
+  width:44px; height:44px; border-radius:999px; cursor:pointer;
+  border:1px solid rgba(15,20,32,.16); background:var(--paper-pure);
+  color:var(--ink); display:grid; place-items:center;
+  transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+.tcar-btn:hover{
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:0 10px 24px -12px rgba(0,0,0,.45);
+}
+.tcar-btn:active{ transform:translateY(0) scale(.99); }
+.tcar-btn[disabled]{ opacity:.32; pointer-events:none; }
+.tcar-btn svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.9; }
 
-    /* -- HOW IT WORKS -- */
-    .how-it-works {
-      position: relative;
-      background: var(--bg);
-      padding: 56px 40px 30px;
-    }
-    .how-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      min-height: calc(100vh - 120px);
-      display: flex;
-      flex-direction: column;
-    }
-    .how-inner > h2 {
-      font-size: clamp(2rem, 3.6vw, 2.8rem);
-      font-style: italic;
-      margin-bottom: 10px;
-    }
-    .how-inner > p {
-      font-size: 1rem;
-      color: var(--gray);
-      margin-bottom: 24px;
-    }
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 0;
-    }
-    .step-card {
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.3s;
-      padding-bottom: 0;
-    }
-    .how-it-works .step-card {
-      padding: 20px 17px;
-      /* 315deg, not 135deg: the wash now starts strong at the bottom-right and
-         fades out toward the top-left, the mirror of what it used to do */
-      background-image: linear-gradient(315deg, rgba(37,99,235,0.22) 0%, rgba(37,99,235,0.08) 45%, rgba(37,99,235,0) 100%);
-      border-color: rgba(37,99,235,0.22);
-    }
-    .how-it-works .step-card:hover {
-      background-image: linear-gradient(315deg, rgba(37,99,235,0.32) 0%, rgba(37,99,235,0.12) 45%, rgba(37,99,235,0) 100%);
-      border-color: rgba(37,99,235,0.4);
-    }
-    .how-it-works .steps-grid {
-      gap: 12px;
-    }
-    .step-card:hover { border-color: rgba(37,99,235,0.2); }
-    .step-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: rgba(37,99,235,0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      color: var(--blue);
-      transition: background 0.3s;
-    }
-    .how-it-works .step-icon {
-      width: 40px;
-      height: 40px;
-      margin-bottom: 12px;
-      margin-left: auto;
-    }
-    .step-card:hover .step-icon { background: rgba(37,99,235,0.25); }
-    .step-number {
-      position: absolute;
-      top: 16px;
-      left: 20px;
-      font-family: var(--font-mono);
-      font-size: 2.8rem;
-      font-weight: 700;
-      color: rgba(16, 22, 35, 0.05);
-      line-height: 1;
-    }
-    .how-it-works .step-number {
-      font-size: 2.6rem;
-      top: 12px;
-      left: 14px;
-      color: var(--gray);
-    }
-    .step-card h4 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-    .how-it-works .step-card h4 {
-      font-size: 1.1rem;
-      margin-bottom: 6px;
-    }
-    .step-card p {
-      font-size: 0.9rem;
-      color: var(--gray);
-      line-height: 1.6;
-    }
-    .how-it-works .step-card p {
-      font-size: 0.9rem;
-      line-height: 1.55;
-      margin: 0;
-    }
+/* Fallback layer: a plain scroll-snapped strip. Keyboard, trackpad and touch
+   all work for free here, and the arrows drive scrollLeft. Scroll-driven mode
+   below switches this off and takes over with transforms instead. */
+.tcar-view{
+  margin-top:24px; overflow-x:auto; overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory; scrollbar-width:none; padding-bottom:4px;
+}
+.tcar-view::-webkit-scrollbar{ display:none; }
+.tcar-view.drag{ scroll-snap-type:none; cursor:grabbing; }
+.tcar-track{ display:flex; gap:3vmin; }
 
-    /* -- ABOUT VIDEO -- */
-    .about-video-wrap {
-      margin-bottom: 24px;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid rgba(37,99,235,0.3);
-      box-shadow: 0 0 20px rgba(37,99,235,0.25), 0 0 60px rgba(37,99,235,0.15), 0 0 120px rgba(37,99,235,0.08);
-      width: min(520px, 46vw);
-      max-width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-      aspect-ratio: 16 / 9;
-    }
-    .about-video {
-      width: 100%;
-      height: 100%;
-      display: block;
-      background: #000;
-      object-fit: contain;
-    }
-    .about-video-wrap {
-      position: relative;
-    }
-    .video-play-btn {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      cursor: pointer;
-      z-index: 10;
-      transition: transform 0.2s, opacity 0.2s;
-    }
-    .video-play-btn:hover {
-      transform: translate(-50%, -50%) scale(1.1);
-      opacity: 0.9;
-    }
-    .video-play-btn svg {
-      width: 56px;
-      height: 56px;
-      display: block;
-    }
-    @media (max-width: 1200px) {
-      .how-inner {
-        min-height: auto;
-      }
-      .about-video-wrap {
-        width: min(520px, 100%);
-      }
-    }
+/* Scroll-driven mode, built the way the reference builds it: the fold pins to
+   the viewport, an opaque full-screen strip panel rises over the title, and the
+   track inside it is translated horizontally — transforms throughout, never
+   scrollLeft, so nothing competes with the page's own scrolling. Both classes
+   are added by script, so no-JS and reduced-motion keep the plain strip above. */
+.tcar.scrolldriven .tcar-nav{ display:none; }
 
-    /* -- CTA -- */
-    .cta {
-      position: relative;
-      background: var(--bg);
-      padding: 120px 40px;
-      text-align: center;
-    }
-    .cta-inner {
-      max-width: 920px;
-      margin: 0 auto;
-    }
-    .cta h2 {
-      font-size: clamp(2.2rem, 4.5vw, 4rem);
-      margin-bottom: 20px;
-      font-style: italic;
-    }
-    .cta p {
-      font-size: 1.1rem;
-      color: var(--gray);
-      line-height: 1.7;
-      margin-bottom: 40px;
-    }
-    .cta-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
+#customers.pinned{
+  position:relative; display:block; overflow:hidden;
+  height:100vh; min-height:100vh; padding:0;
+}
+/* The title holds the screen on its own — centred and set large, since it is
+   the only thing on it — then the panel slides up over it. */
+#customers.pinned .tcar-title{
+  position:absolute; inset:0; z-index:1;
+  display:flex; align-items:center; justify-content:center;
+  padding:0 var(--gutter); text-align:center;
+}
+#customers.pinned .tcar-title .wrap{ width:100%; }
+#customers.pinned .tcar-title h2{
+  max-width:22ch; margin:0 auto;
+  font-size:clamp(2.6rem,7.4vw,6.4rem);
+}
 
-    /* -- FOOTER -- */
-    /* -- CONTACT SECTION -- */
-    .contact-section {
-      background: var(--bg);
-      padding: 60px 40px;
-      display: none;
-    }
-    .contact-section.open {
-      display: block;
-    }
-    .contact-card {
-      max-width: 900px;
-      margin: 0 auto;
-      background: #ffffff;
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(37,99,235,0.3);
-      border-radius: 16px;
-      padding: 48px 56px;
-      display: flex;
-      align-items: center;
-      gap: 40px;
-      box-shadow: 0 0 20px rgba(37,99,235,0.25), 0 0 60px rgba(37,99,235,0.15), 0 0 120px rgba(37,99,235,0.08);
-    }
-    .contact-heading {
-      font-size: 1.6rem;
-      color: var(--ink);
-    }
-    .contact-form {
-      flex: 1;
-    }
-    .contact-form-group label {
-      font-size: 0.9rem;
-      color: var(--blue);
-      font-weight: 500;
-      margin-bottom: 8px;
-      display: block;
-    }
-    .contact-input-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 8px;
-    }
-    .contact-input {
-      flex: 1;
-      padding: 12px 16px;
-      border: 1px solid rgba(16,22,35,0.15);
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-family: var(--font-body);
-      outline: none;
-      color: var(--ink);
-      background: rgba(16,22,35,0.04);
-    }
-    .contact-input::placeholder {
-      color: var(--gray-dark);
-    }
-    .contact-input:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 8px rgba(37,99,235,0.3);
-    }
-    .contact-btn {
-      white-space: nowrap;
-    }
-    .contact-note {
-      margin-top: 8px;
-      font-size: 0.8rem;
-      color: var(--blue);
-    }
-    .contact-success {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      text-align: center;
-      padding: 20px 0;
-    }
-    .contact-success p {
-      font-size: 1.1rem;
-      color: var(--ink);
-      font-weight: 500;
-    }
-    @media (max-width: 640px) {
-      .contact-card {
-        flex-direction: column;
-        padding: 32px 24px;
-        gap: 20px;
-        text-align: center;
-      }
-      .contact-input-row {
-        flex-direction: column;
-      }
-    }
+/* The strip becomes the whole page: full-bleed, full height, and opaque so it
+   covers the title as it arrives. Script parks it a screen below until the
+   fold pins. */
+#customers.pinned .tcar{
+  position:absolute; inset:0; z-index:2; margin:0;
+  display:flex; flex-direction:column;
+  padding:clamp(34px,6vh,58px) 0 clamp(30px,5vh,50px);
+  background:var(--brand-wash);
+}
+#customers.pinned .tcar-head{
+  flex:0 0 auto; margin-bottom:clamp(18px,2.4vh,28px);
+  padding-left:max(var(--gutter), calc(50vw - 590px));
+  padding-right:var(--gutter);
+}
+.tcar.scrolldriven .tcar-view{
+  flex:1 1 auto; min-height:0; margin-top:0;
+  overflow:hidden; scroll-snap-type:none;
+}
+/* First card lines up under where the title sat. Percentages, not vw: vw counts
+   the scrollbar, which threw the alignment out by several pixels. */
+.tcar.scrolldriven .tcar-track{
+  height:100%; will-change:transform;
+  padding-left:max(var(--gutter), calc(50% - 590px));
+}
+/* Height-led now: the card fills the panel and the 3/4 ratio gives its width. */
+.tcar.scrolldriven .tcard{ flex:0 0 auto; height:100%; width:auto; }
 
-    .footer {
-      padding: 28px 40px;
-      border-top: 1px solid rgba(76,139,249,0.14);
-      background: #0A0F22;
-    }
-    .footer-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    .footer-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .footer-left span:last-child {
-      font-size: 0.85rem;
-      color: var(--gray);
-    }
-    .footer-links {
-      display: flex;
-      gap: 28px;
-    }
-    .footer-links a {
-      font-size: 0.85rem;
-      color: var(--gray);
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--ink); }
+/* Act 3 — the last card grows out of the strip into the closing CTA, so the
+   view must stop clipping and the card must ride over the head chrome. */
+.tcar.scrolldriven.morphing .tcar-view{ overflow:visible; }
+.tcar.scrolldriven .tcard:last-child{ z-index:5; will-change:transform; }
 
-    /* -- RESPONSIVE -- */
-    @media (max-width: 1024px) {
-      .nav { height: 70px; }
-      .nav-logo-icon { height: 50px; }
-      .nav-logo-wordmark { height: 30px; }
-      .nav-btn { padding: 8px 16px; font-size: 0.8rem; }
-      .hero-content { flex-direction: column; justify-content: center; padding: 24px 40px 40px; gap: 32px; }
-      /* stacked: let the block centre itself instead of stretching to the full height */
-      .hero-left { flex: 0 0 auto; max-width: 100%; }
-      .hero-left h1 { white-space: normal; }
-      .hero-right { width: 100%; max-width: 420px; }
-      .product-content { flex-direction: column; justify-content: center; }
-      .product-left { max-width: 100%; }
-      .product-left h2 { white-space: normal; }
-      .product-right { width: 100%; max-width: 420px; }
-      .steps-grid { grid-template-columns: repeat(2, 1fr); }
-      .testimonial-card { flex: 0 0 320px; max-width: 320px; min-height: 280px; }
-    }
 
-    @media (max-width: 960px) {
-      .nav-center { display: none; }
-      .nav-toggle { display: block; }
-    }
-    @media (max-width: 640px) {
-      .nav { height: 60px; }
-      .nav-logo-icon { height: 40px; }
-      .nav-logo-wordmark { height: 22px; }
-      /* keep the label small, but hold the tappable area at the 44px min: extra
-         padding + min-height expand the hit target without a chunkier pill */
-      .nav-btn { padding: 8px 14px; font-size: 0.75rem; min-height: 44px; }
-      /* keep the hero inside one viewport on small phones — .section-pinned clips overflow */
-      .hero-content { padding: 14px 20px 22px; gap: 20px; }
-      .hero-left h1 { font-size: 1.95rem; margin-bottom: 12px; white-space: normal; }
-      .hero-left p { font-size: 0.95rem; }
-      .hero-card { padding: 24px 20px; }
-      .hero-card h3 { font-size: 1.3rem; margin-bottom: 10px; }
-      .hero-card > p { font-size: 0.9rem; line-height: 1.55; margin-bottom: 18px; }
-      .product-content { padding: 0 20px; }
-      .steps-grid { grid-template-columns: 1fr; }
-      .product-buttons { flex-direction: column; }
-      .product-buttons .btn-primary,
-      .product-buttons .btn-secondary { width: 100%; }
-      .cta-buttons { flex-direction: column; align-items: center; }
-      /* the rail now drifts at a fixed px/sec, so no per-breakpoint cycle to tune */
-      .testimonials-group { gap: 18px; padding-right: 18px; }
-      .footer-inner { flex-direction: column; text-align: center; }
-      .footer-links { justify-content: center; }
-      .how-it-works, .cta { padding-left: 20px; padding-right: 20px; }
-      .manifesto-content { padding: 80px 20px; }
-      .testimonial-card { flex: 0 0 280px; max-width: 280px; }
-    }
+.tcard{
+  position:relative; flex:0 0 clamp(268px,30vw,430px);
+  aspect-ratio:3/4; border-radius:var(--radius-lg); overflow:hidden;
+  scroll-snap-align:start; background:var(--hero-grad);
+  isolation:isolate; backface-visibility:hidden;
+}
+.tcard img.photo{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; display:block;
+}
+/* Placeholder until real photos land: the company mark on the brand gradient. */
+.tcard img.mark{
+  position:absolute; left:50%; top:42%; transform:translate(-50%,-50%);
+  width:42%; max-width:150px; height:auto; opacity:.92;
+  filter:drop-shadow(0 12px 30px rgba(0,0,0,.45));
+}
+/* Scrim guarantees the overlaid text keeps AA contrast on any photo.
+   --scrim lets the morph fade it with the rest of the card copy. */
+.tcard::after{
+  content:""; position:absolute; inset:0; z-index:1; opacity:var(--scrim,1);
+  background:linear-gradient(to top,
+    rgba(8,15,35,.92) 0%, rgba(8,15,35,.74) 34%,
+    rgba(8,15,35,.28) 66%, rgba(8,15,35,.42) 100%);
+}
+.tcard-top, .tcard-body{ position:relative; z-index:2; color:#FFFFFF; }
+.tcard-top{
+  position:absolute; top:clamp(16px,1.6vw,22px); left:clamp(18px,1.8vw,26px);
+  right:clamp(18px,1.8vw,26px);
+  display:flex; align-items:center; gap:9px;
+  font-size:12.5px; letter-spacing:.01em; color:rgba(255,255,255,.86);
+}
+.tcard-top b{ font-weight:600; color:#FFFFFF; }
+.tcard-body{
+  position:absolute; left:clamp(18px,1.8vw,26px); right:clamp(18px,1.8vw,26px);
+  bottom:clamp(18px,1.8vw,26px);
+}
+.tcard-body blockquote{
+  margin:0; font-family:var(--display); font-weight:400;
+  font-size:clamp(1.12rem,1.45vw,1.5rem); line-height:1.22;
+  letter-spacing:-.015em; color:#FFFFFF;
+}
+.tcard-who{
+  margin-top:12px; font-size:13px; line-height:1.5;
+  color:rgba(255,255,255,.82);
+}
+.tcard-who b{ color:#FFFFFF; font-weight:600; }
 
-    /* -- MOBILE MENU -- */
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(4, 7, 20, 0.98);
-      backdrop-filter: blur(20px);
-      z-index: 999;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-    }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-family: var(--font-heading);
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--gray);
-      transition: color 0.2s;
-    }
-    .mobile-menu a:hover { color: var(--ink); }
-    .mobile-close {
-      position: absolute;
-      top: 18px; right: 24px;
-      background: none;
-      border: none;
-      color: var(--ink);
-      cursor: pointer;
-    }
-    /* ── PARTNERS MARQUEE ── */
-    .partners {
-      /* height follows the content — a fixed height clipped the logos on short
-         screens. Kept tight: this band shares the first viewport with the hero,
-         so every pixel here is a pixel the hero copy does not get. The top pad
-         also clears the fixed nav, which overlays this strip. */
-      padding: calc(var(--nav-h) + 22px) 0 22px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      border-bottom: 1px solid var(--bg-card-border);
-      background: rgba(16,22,35,0.02);
-      overflow: hidden;
-    }
-    .partners-title {
-      font-family: var(--font-mono);
-      font-size: 1.15rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gray);
-      text-align: center;
-      margin-bottom: 22px;
-    }
-    .partners-viewport {
-      position: relative;
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-      mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-    }
-    .partners-track {
-      display: flex;
-      width: max-content;
-      animation: partners-scroll 38s linear infinite;
-    }
-    .partners-viewport:hover .partners-track { animation-play-state: paused; }
-    .partners-group {
-      display: flex;
-      align-items: center;
-      gap: 56px;
-      padding-right: 56px;
-    }
-    .partner {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 74px;
-      height: 74px;
-      flex: 0 0 auto;
-      border-radius: 18px;
-      background: rgba(16,22,35,0.03);
-      border: 1px solid var(--bg-card-border);
-      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
-    }
-    .partner:hover {
-      transform: translateY(-4px);
-      background: rgba(16,22,35,0.06);
-      border-color: rgba(16,22,35,0.14);
-    }
-    .partner img {
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-      display: block;
-    }
-    @keyframes partners-scroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-    @media (max-width: 1024px) {
-      :root { --nav-h: 70px; }
-    }
-    @media (max-width: 640px) {
-      :root { --nav-h: 60px; }
-      .partners { padding: calc(var(--nav-h) + 16px) 0 16px; }
-      .partners-title { font-size: 0.95rem; letter-spacing: 0.18em; margin-bottom: 18px; }
-      .partners-group { gap: 36px; padding-right: 36px; }
-      .partner { width: 60px; height: 60px; border-radius: 15px; }
-      .partner img { width: 32px; height: 32px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .partners-track { animation: none; }
-      .partners-viewport { overflow-x: auto; }
-    }
-    /* ─────────────  LIGHT-THEME OVERRIDES  ───────────── */
-    /* Dark chrome (nav / mobile menu / footer) keeps light text so the silver logo stays legible */
-    .nav .nav-center a { color: rgba(255,255,255,0.72); }
-    .nav .nav-center a:hover { color: #fff; }
-    .nav-toggle { color: #fff; }
-    .mobile-menu a { color: rgba(255,255,255,0.78); }
-    .mobile-menu a:hover { color: #fff; }
-    .mobile-close { color: #fff; }
-    .footer .footer-left span:last-child { color: rgba(255,255,255,0.6); }
-    .footer .footer-links a { color: rgba(255,255,255,0.6); }
-    .footer .footer-links a:hover { color: #fff; }
+@media (max-width:760px){
+  .tcard{ flex:0 0 82vw; }
+}
 
-    /* Hero is now imageless — soft light background, dark copy */
-    #hero .hero-left h1 { color: var(--ink); }
-    #hero .hero-left p  { color: var(--gray); }
-    .glass-card h3 { color: var(--ink); }
-    .glass-card > p { color: var(--gray); }
+/* platform strip */
+.platforms{
+  display:flex; flex-wrap:wrap; gap:12px; margin-top:44px;
+}
+.platforms div{
+  width:52px; height:52px; border-radius:14px; background:var(--paper-pure);
+  border:1px solid rgba(15,20,32,.09); display:grid; place-items:center;
+}
+.platforms img{ width:24px; height:24px; }
 
-    /* Floating cards get a subtle light surface on the new white background */
-    .testimonial-card {
-      background: var(--bg-card);
-      border: 1px solid var(--bg-card-border);
-      border-radius: 14px;
-      padding: 26px 24px;
-      box-shadow: 0 10px 30px rgba(16,22,35,0.06);
-    }
-    .contact-card { box-shadow: 0 18px 50px rgba(16,22,35,0.10); }
-    /* ── HERO PHOTOGRAPH ── */
-    #hero .hero-photo {
-      position: absolute; inset: 0;
-      height: 100%;
-      object-fit: cover;
-      /* Shave the right edge — the bright window and brick wall, no subject.
-         It has to be done by over-widening rather than with object-position,
-         because the hero box is WIDER than the photo's 1.83 aspect: `cover` then
-         overflows vertically and the horizontal half of object-position has
-         nothing left to slide. Anchored left (inset sets left:0, and width wins
-         over right when both are specified), so the surplus hangs off the right
-         and .hero-bg-wrap's overflow:hidden clips it. */
-      width: 110%;
-      /* X still bites at tall/narrow viewports, where cover overflows sideways
-         instead — keep biasing toward the subject at centre-right. Y sits above
-         centre so the wider frame's deeper vertical crop takes sky and window
-         tops rather than the top of her head. */
-      object-position: 62% 45%;
-    }
-    #hero .hero-bg-wrap::after {
-      content: ""; position: absolute; inset: 0; pointer-events: none;
-      background:
-        /* Legibility by construction, not by measurement. Worst case is the scrim
-           over pure black, so alpha alone sets a contrast floor: 0.84 is the
-           minimum that holds --gray (16.8px, needs 4.5:1). The copy column runs
-           to 46% of the viewport at 1280-2560px and to 53% at ~1025px, where the
-           flex row is most compressed — so the scrim stays >=0.88 out to 56%,
-           giving >=5.17:1 at every breakpoint no matter what the crop lands on.
-           90deg not a tilted angle: a tilt makes the stop positions drift with
-           vertical position, which would eat that margin unpredictably. */
-        linear-gradient(90deg,
-          rgba(255,255,255,0.97) 0%,
-          rgba(255,255,255,0.93) 38%,
-          rgba(255,255,255,0.88) 56%,
-          rgba(255,255,255,0.46) 70%,
-          rgba(255,255,255,0.24) 86%,
-          rgba(255,255,255,0.20) 100%),
-        /* the photo is warm wood and cream against a cool blue palette. A light
-           blue wash pulls it into the family without desaturating it — warm and
-           cool stay complementary, they just stop looking unrelated. */
-        linear-gradient(180deg, rgba(37,99,235,0.05), rgba(37,99,235,0.11)),
-        /* settles the bottom edge into the white section that follows */
-        linear-gradient(180deg, rgba(255,255,255,0) 72%, rgba(255,255,255,0.85) 100%);
-    }
-    /* Stacked layout: the copy and the blue card cover most of the frame, so the
-       photo steps back to a texture rather than competing with the type. */
-    @media (max-width: 1024px) {
-      #hero .hero-bg-wrap::after {
-        background:
-          linear-gradient(180deg, rgba(255,255,255,0.93), rgba(255,255,255,0.95)),
-          linear-gradient(180deg, rgba(37,99,235,0.05), rgba(37,99,235,0.10));
-      }
-    }
+/* closing CTA — the gradient card again, full width */
+.close-card{
+  position:relative; overflow:hidden; margin:0 14px 14px;
+  border-radius:var(--radius-xl); background:var(--brand-abyss);
+  padding:clamp(56px,11vh,132px) clamp(28px,5vw,64px); color:#fff;
+  text-align:center;
+}
+/* separate layer so the gradient can parallax without moving the copy */
+.close-bg{
+  position:absolute; inset:-16% 0; z-index:0;
+  background:var(--hero-grad); will-change:transform;
+}
+.close-card h2{
+  position:relative; z-index:3; margin:0 auto;
+  font-size:clamp(2.2rem,5.6vw,4.6rem); line-height:1.02; letter-spacing:-.03em;
+  max-width:16ch;
+}
+.close-card .dim{ color:rgba(255,255,255,.42); }
+.close-card p{
+  position:relative; z-index:3;
+  margin:22px auto 30px; max-width:46ch; color:rgba(255,255,255,.78); font-size:16px;
+}
+.close-card .hero-btns{ position:relative; z-index:3; justify-content:center; }
 
-    /* ─────────────  BLUE PRIMARY SURFACES  ─────────────
-       Exactly two solid-blue anchors — the hero card and the closing CTA — so the
-       page still reads as white with two deliberate points of emphasis. Everything
-       else stays neutral or takes a whisper-thin blue wash. */
+/* Scroll-driven mode adopts the closing CTA into the pinned customers stage:
+   it becomes an overlay the grown last card fades into — the hero morph,
+   reversed. Script moves the element; without JS it stays a stacked section. */
+#customers.pinned .close-card{
+  position:absolute; inset:14px; margin:0; z-index:3;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  opacity:0; pointer-events:none;
+}
+#customers.pinned .close-card.on{ pointer-events:auto; }
 
-    /* Hero ground picks up the faintest blue so the card sits in-family */
-    #hero { background: linear-gradient(180deg, #ffffff 0%, var(--blue-wash) 100%); }
+/* contact — hidden until "Talk to us" opens it, then an email-capture card
+   in the site's paper style. Ported from the previous index.html. */
+.contact-sec{ display:none; padding:26px var(--gutter) 40px; }
+.contact-sec.open{ display:block; }
+.contact-card{
+  max-width:900px; margin:0 auto; background:var(--paper-pure);
+  border:1px solid rgba(15,20,32,.10); border-radius:var(--radius-lg);
+  padding:clamp(30px,4vw,48px) clamp(24px,4.5vw,56px);
+  display:flex; align-items:center; gap:clamp(22px,4vw,40px);
+  box-shadow:0 18px 50px -28px rgba(15,20,32,.25);
+}
+.contact-card h2{
+  margin:0; font-size:clamp(1.4rem,2.4vw,1.9rem);
+  letter-spacing:-.02em; line-height:1.1; white-space:nowrap;
+}
+.contact-form{ flex:1; }
+.contact-form label{
+  display:block; font-size:13px; font-weight:600; color:var(--brand-deep);
+  margin-bottom:8px;
+}
+.contact-input-row{ display:flex; gap:12px; }
+.contact-input{
+  flex:1; min-width:0; padding:12px 16px; font-size:15px; font-family:var(--body);
+  color:var(--ink); background:rgba(15,20,32,.04);
+  border:1px solid rgba(15,20,32,.15); border-radius:11px; outline:none;
+}
+.contact-input::placeholder{ color:var(--ink-soft); }
+.contact-input:focus{
+  border-color:var(--brand); box-shadow:0 0 0 3px var(--brand-wash);
+}
+.contact-submit{
+  white-space:nowrap; background:var(--brand-deep); color:#fff;
+  border-color:var(--brand-deep);
+}
+.contact-submit:hover{ background:var(--brand); }
+.contact-note{ margin-top:10px; font-size:12.5px; color:var(--brand-deep); }
+.contact-success{
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  text-align:center; padding:14px 0;
+}
+.contact-success p{ font-size:1.05rem; font-weight:500; color:var(--ink); }
+@media (max-width:640px){
+  .contact-card{ flex-direction:column; text-align:center; }
+  .contact-card h2{ white-space:normal; }
+  .contact-input-row{ flex-direction:column; }
+}
 
-    /* ── ANCHOR 1 — hero card ── */
-    #hero .hero-card {
-      position: relative;
-      /* --blue is the LIGHTEST stop on purpose: it is the palest ground that
-         still carries 15px body copy at AA (4.82:1 at 95% white). An earlier
-         version started at --blue-lift and washed the heading out to 2.8:1. */
-      background: linear-gradient(158deg, var(--blue) 0%, var(--blue-hover) 100%);
-      border: 1px solid rgba(255,255,255,0.18);
-      /* dimensionality comes from a 1px specular top edge, not an area wash —
-         an inset highlight lights the card without lifting the ground under text */
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.22),
-                  0 24px 60px rgba(22,51,127,0.28),
-                  0 2px 6px rgba(22,51,127,0.16);
-    }
-    #hero .hero-card > * { position: relative; z-index: 1; }
-    #hero .hero-card h3 { color: #fff; }
-    #hero .hero-card > p { color: rgba(255,255,255,0.95); }
-    /* on blue the CTA inverts to white — the highest-contrast element on the page */
-    #hero .hero-card .btn-primary {
-      background: #fff; color: var(--blue-hover);
-      box-shadow: 0 8px 22px rgba(11,26,64,0.26);
-    }
-    #hero .hero-card .btn-primary:hover {
-      background: #fff; color: var(--blue-deep);
-      box-shadow: 0 12px 30px rgba(11,26,64,0.34);
-    }
+/* black + rounded, matching the floating menu bar */
+footer{
+  padding:40px clamp(24px,4vw,56px); display:flex; justify-content:space-between;
+  align-items:center; gap:20px; flex-wrap:wrap;
+  font-size:13.5px; color:#9A9994;
+  background:#0A0A0B; border-radius:var(--radius-xl);
+  margin:0 14px 14px;
+}
+footer nav{ display:flex; gap:22px; }
+footer a{ color:#E5E4E2; }
+footer a:hover{ color:#FFFFFF; }
+.foot-brand{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.foot-word{ width:94px; height:auto; opacity:.85; filter:brightness(0) invert(90%); }
 
-    /* ── ANCHOR 2 — closing CTA callout ── */
-    .cta { padding: 100px 40px; }
-    .cta-inner {
-      position: relative;
-      /* same rule as the hero card — --blue is the lightest permissible ground */
-      background: linear-gradient(150deg, var(--blue) 0%, var(--blue-hover) 100%);
-      border-radius: 26px;
-      padding: 76px 56px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.22),
-                  0 30px 70px rgba(22,51,127,0.26);
-    }
-    .cta-inner > * { position: relative; z-index: 1; }
-    .cta h2 { color: #fff; }
-    .cta p  { color: rgba(255,255,255,0.95); }
-    .cta-buttons .btn-primary {
-      background: #fff; color: var(--blue-hover);
-      box-shadow: 0 8px 22px rgba(11,26,64,0.26);
-    }
-    .cta-buttons .btn-primary:hover {
-      background: #fff; color: var(--blue-deep);
-      box-shadow: 0 12px 30px rgba(11,26,64,0.34);
-    }
-    .cta-buttons .btn-secondary { color: #fff; border-color: rgba(255,255,255,0.45); }
-    .cta-buttons .btn-secondary:hover {
-      color: #fff; border-color: #fff; background: rgba(255,255,255,0.14);
-    }
-    @media (max-width: 640px) {
-      .cta { padding: 64px 20px; }
-      .cta-inner { padding: 44px 24px; border-radius: 20px; }
-    }
+/* ============================================================
+   ENTRANCE + REVEAL
+   CSS-driven so content is never left invisible by a failed script.
+   ============================================================ */
+@keyframes rise{ from{ opacity:0; transform:translateY(26px);} to{ opacity:1; transform:none; } }
 
-    /* ── STATEMENT SECTION (#connect) ──
-       #manifesto used to be a full-bleed blue field here; it is now a blue card
-       (reusing .cta/.cta-inner, see the CTA rules above). #connect remains a
-       full-height statement — a soft blue swell that starts and ends on white. */
-    .statement-bg { position: absolute; inset: 0; overflow: hidden; }
+.js .hero h1,
+.js .hero-sub,
+.js .hero-btns,
+.js .hero-foot{ animation:rise .95s cubic-bezier(.22,.8,.3,1) backwards; }
+.js .hero h1{ animation-delay:.10s; }
+.js .hero-sub{ animation-delay:.19s; }
+.js .hero-btns{ animation-delay:.28s; }
+.js .hero-foot{ animation-delay:.37s; }
 
-    /* #manifesto reuses the CTA card; only tweak needed is dropping the trailing
-       paragraph's CTA margin so the card doesn't carry dead space with no buttons */
-    .manifesto-cta .cta-inner p { margin-bottom: 0; }
+/* platform tiles cascade in once their row reveals */
+.js .platforms div{ opacity:0; transform:translateY(14px) scale(.94); }
+.js .platforms.in div{
+  opacity:1; transform:none;
+  transition:opacity .5s cubic-bezier(.22,.8,.3,1), transform .5s cubic-bezier(.22,.8,.3,1);
+}
+.js .platforms.in div:nth-child(1){ transition-delay:0s }
+.js .platforms.in div:nth-child(2){ transition-delay:.045s }
+.js .platforms.in div:nth-child(3){ transition-delay:.09s }
+.js .platforms.in div:nth-child(4){ transition-delay:.135s }
+.js .platforms.in div:nth-child(5){ transition-delay:.18s }
+.js .platforms.in div:nth-child(6){ transition-delay:.225s }
+.js .platforms.in div:nth-child(7){ transition-delay:.27s }
+.js .platforms.in div:nth-child(8){ transition-delay:.315s }
+.js .platforms.in div:nth-child(9){ transition-delay:.36s }
+.js .platforms.in div:nth-child(10){ transition-delay:.405s }
 
-    /* #connect is a soft blue swell that starts and ends on pure white, so it
-       joins seamlessly to the white sections on either side (the blue-card
-       manifesto above and the white CTA section below). */
-    .statement-bg--wash {
-      background: linear-gradient(180deg, #ffffff 0%, var(--blue-wash) 48%, #ffffff 100%);
-    }
-    .statement-bg--wash::after {
-      content: ""; position: absolute; inset: 0;
-      background: radial-gradient(58% 44% at 50% 58%, rgba(37,99,235,0.09), rgba(37,99,235,0) 70%);
-    }
-    /* whole heading reads as one black statement — no blue emphasis on the tail */
-    #connect .connect-heading .accent { color: var(--ink); }
+.js .reveal{ opacity:0; transform:translateY(22px); }
+.js .reveal.in{
+  opacity:1; transform:none;
+  transition:opacity .8s cubic-bezier(.22,.8,.3,1), transform .8s cubic-bezier(.22,.8,.3,1);
+}
 
-    /* a short rule gives the centred type something to sit under, so the
-       section reads as composed rather than as text floating in a void */
-    .statement-rule {
-      display: block;
-      width: 56px; height: 3px;
-      border-radius: 2px;
-      margin: 0 auto 30px;
-      background: var(--blue);
-    }
-    @media (max-width: 640px) {
-      .statement-rule { width: 42px; height: 2px; margin-bottom: 20px; }
-    }
-
-    /* ── SUPPORTING BLUE — wash only, never solid, so the anchors stay dominant ── */
-    .partners { background: var(--blue-wash); border-bottom-color: var(--blue-edge); }
-    .partner { background: #fff; border-color: var(--blue-edge); }
-    .partner:hover {
-      background: #fff;
-      border-color: rgba(37,99,235,0.34);
-      box-shadow: 0 8px 20px rgba(37,99,235,0.14);
-    }
-    /* testimonials stay neutral grey on purpose — a third blue block would flatten the hierarchy */
-
-    /* Nav CTA sits on the dark nav bar -> inverse (light) button so it stands out */
-    .nav-btn { background: #fff; color: var(--blue-hover); box-shadow: 0 2px 10px rgba(0,0,0,0.30); }
-    .nav-btn:hover { background: var(--blue-wash); color: var(--blue-deep); box-shadow: 0 4px 14px rgba(0,0,0,0.36); }
-    /* the same pill also renders inside the mobile menu, where `.mobile-menu a`
-       (0,1,1) outranks `.nav-btn` (0,1,0) and would paint the label white-on-white */
-    .mobile-menu .nav-btn { color: var(--blue-hover); }
-    .mobile-menu .nav-btn:hover { color: var(--blue-deep); }
-
-    /* ── FOCUS RING ──
-       There was no :focus-visible styling anywhere on the site, and the contact
-       input additionally set outline:none — keyboard users had no indicator at
-       all. The brand blue doubles as the ring; it inverts to white on the dark
-       chrome and the blue panels, where a blue ring would vanish. */
-    :focus-visible {
-      outline: 2px solid var(--blue);
-      outline-offset: 3px;
-    }
-    .nav :focus-visible,
-    .mobile-menu :focus-visible,
-    .footer :focus-visible,
-    #hero .hero-card :focus-visible,
-    .cta-inner :focus-visible {
-      outline-color: #fff;
-    }
-  </style>
+@media (prefers-reduced-motion:reduce){
+  *{ animation:none !important; transition:none !important; }
+  .js .reveal{ opacity:1 !important; transform:none !important; }
+  .js .step{ opacity:1 !important; }
+  .js .platforms div{ opacity:1 !important; transform:none !important; }
+}
+</style>
 </head>
 <body>
 
-  <!-- GRAIN -->
-  <div class="grain-overlay"></div>
+<!-- ================= LOADER ================= -->
+<div class="loader" id="loader" role="status" aria-live="polite" aria-label="Loading">
+  <img class="brand-ink loader-mark" src="logo.png" alt="" width="76" height="76">
+  <img class="brand-ink loader-word" src="wordmark.png" alt="mameon" width="150" height="38">
+  <span class="loader-line"><i></i></span>
+</div>
 
-  <!-- -- NAV -- -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="#" class="nav-logo">
-        <img src="logo.png" alt="mameon logo" class="nav-logo-icon" />
-        <img src="wordmark.png" alt="mameon" class="nav-logo-wordmark" />
-      </a>
-      <div class="nav-center">
-        <a href="whatyouget.html">What You Can Make</a>
-        <a href="video-tutorials.html">Video Tutorials</a>
-        <a href="meet-our-team.html">Meet Our Team</a>
+<!-- ================= NAV ================= -->
+<nav class="nav" id="top">
+  <a class="nav-brand" href="#top" aria-label="mameon — home">
+    <img class="brand-ink nav-mark-img" src="logo.png" alt="" width="32" height="32">
+    <img class="brand-ink nav-word" src="wordmark.png" alt="mameon" width="70" height="18">
+  </a>
+  <a class="link" href="whatyouget.html">What you Can Make</a>
+  <a class="link" href="how-mameon-works.html">How mameon Works</a>
+  <a class="link" href="meet-our-team.html">Meet Our Team</a>
+  <a class="cta" href="https://app.mameon.com" data-location="navbar" aria-label="Log in or sign up for free"><span class="cta-full">Log in / Sign up for free</span><span class="cta-short">Sign up free</span></a>
+  <button class="nav-toggle" id="navToggle" type="button"
+          aria-expanded="false" aria-controls="navPanel" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="nav-panel" id="navPanel">
+    <a href="whatyouget.html">What you Can Make</a>
+    <a href="how-mameon-works.html">How mameon Works</a>
+    <a href="meet-our-team.html">Meet Our Team</a>
+  </div>
+</nav>
+
+<!-- ============ HERO + MARQUEE + 3D CARD CAROUSEL ============
+     One pinned stage. The hero and the carousel share it, so the hero
+     hands off to the REAL ring (card 01 scaled up to cover the viewport)
+     rather than to a stand-in card. -->
+<section class="stage" id="make">
+  <div class="stage-pin">
+
+  <header class="hero grain">
+    <div class="hero-inner">
+      <!-- Keeps the keywords the live site ranks for ("AI-powered social media
+           & advertising campaigns", "in minutes") in a single H1, set as two
+           tonal lines so it still reads editorially. -->
+      <h1><span class="dim">Social media &amp; advertising<br>is hard for startups</span><br>mameon makes it easy</h1>
+      <p class="hero-sub">
+        Create, manage and optimise social media and advertising campaigns
+        across all platforms in minutes. It's free to create, now and forever,
+        so sign up today!
+      </p>
+      <div class="hero-btns">
+        <a class="btn btn-solid" href="https://app.mameon.com" data-location="hero">Create Your First Campaign Today</a>
       </div>
-      <a href="https://app.mameon.com" class="nav-btn" data-location="navbar">Log in / Sign Up for Free</a>
-      <button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
-        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
     </div>
-  </nav>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" onclick="toggleMenu()">
-      <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="6" x2="22" y2="22"/><line x1="22" y1="6" x2="6" y2="22"/></svg>
-    </button>
-    <a href="whatyouget.html" onclick="toggleMenu()">What You Can Make</a>
-    <a href="video-tutorials.html" onclick="toggleMenu()">Video Tutorials</a>
-    <a href="meet-our-team.html" onclick="toggleMenu()">Meet Our Team</a>
-    <a href="https://app.mameon.com" class="nav-btn" data-location="mobile-menu" onclick="toggleMenu()">Log in / Sign Up for Free</a>
+    <div class="hero-foot">
+      <div class="proof">
+        <span class="avatars">
+          <img src="team/Oussama.jpeg" alt="" width="30" height="30">
+          <img src="team/Dave.png" alt="" width="30" height="30">
+          <img src="team/Wayne.jpg" alt="" width="30" height="30">
+          <img src="team/Jason.jpg" alt="" width="30" height="30">
+          <img src="team/Hatim.jpeg" alt="" width="30" height="30">
+        </span>
+        Join 1000+ founders
+      </div>
+      <p class="hero-foot-note">
+        Campaigns are created in your unique voice. We create a brand profile
+        based on your website. Everything starts with you!
+      </p>
+    </div>
+  </header>
+
+    <div class="marquee" id="marquee">
+      <span class="mq"><img src="platforms/official/google-ads.svg" alt="" width="24" height="24" decoding="async">Google Ads</span>
+      <span class="mq"><img src="platforms/official/instagram.png" alt="" width="24" height="24" decoding="async">Instagram</span>
+      <span class="mq"><img src="platforms/official/facebook.png" alt="" width="24" height="24" decoding="async">Facebook</span>
+      <span class="mq"><img src="platforms/official/x.png" alt="" width="24" height="24" decoding="async">X</span>
+      <span class="mq"><img src="platforms/official/pinterest.png" alt="" width="24" height="24" decoding="async">Pinterest</span>
+      <span class="mq"><img src="platforms/official/linkedin.svg" alt="" width="24" height="24" decoding="async">LinkedIn</span>
+      <span class="mq"><img src="platforms/official/reddit.svg" alt="" width="24" height="24" decoding="async">Reddit</span>
+      <span class="mq"><img src="platforms/official/telegram.svg" alt="" width="24" height="24" decoding="async">Telegram</span>
+      <span class="mq"><img src="platforms/official/bluesky.svg" alt="" width="24" height="24" decoding="async">Bluesky</span>
+    </div>
+
+    <div class="ring-wrap">
+      <div class="ring-probe" id="ringProbe" aria-hidden="true"></div>
+      <div class="ring" id="ring">
+        <!-- cards injected by JS -->
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= ONE PLACE ================= -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">Everything you Need Under the Hood</p>
+    <h2>One-Stop Marketing Shop</h2>
+    <p class="lede">
+      FB, IG, Reddit, Snapchat, Google Ads, even audio and video, we do it all.
+      We connect businesses with customers so they scale profitably, solving a
+      hair-on-fire problem for startups and SMEs.
+    </p>
+    <div class="platforms">
+      <div><img src="platforms/official/google-ads.svg" alt="Google Ads" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="platforms/official/instagram.png" alt="Instagram" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="platforms/official/facebook.png" alt="Facebook" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="platforms/official/x.png" alt="X" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="platforms/official/pinterest.png" alt="Pinterest" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="platforms/official/linkedin.svg" alt="LinkedIn" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="platforms/official/reddit.svg" alt="Reddit" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="platforms/official/telegram.svg" alt="Telegram" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="platforms/official/bluesky.svg" alt="Bluesky" width="24" height="24" loading="lazy" decoding="async"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section class="sec steps" id="how">
+  <div class="wrap steps-grid">
+    <div class="steps-sticky">
+      <div class="step-num" id="stepNum">01</div>
+      <h2 style="font-size:clamp(1.9rem,3.4vw,2.9rem); margin-top:20px;">
+        Live campaigns in four steps.
+      </h2>
+    </div>
+
+    <div id="stepList">
+      <article class="step">
+        <h3>Sign up in Seconds</h3>
+        <p>We learn your brand voice from your website.</p>
+      </article>
+      <article class="step">
+        <h3>Create Content in Minutes</h3>
+        <p>Edit copy, choose visuals, pick your channels.</p>
+      </article>
+      <article class="step">
+        <h3>Publish Everywhere Instantly</h3>
+        <p>Schedule and launch social and advertising campaigns.</p>
+      </article>
+      <article class="step">
+        <h3>Optimize Continuously</h3>
+        <p>Data-driven, iterative improvements that optimize ROI.</p>
+        <span class="tag">Coming soon</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section class="sec" id="customers" style="background:var(--brand-wash);">
+  <div class="tcar-title" id="tcarTitle">
+    <div class="wrap">
+      <p class="eyebrow">Customers</p>
+      <h2>Loved by our customers</h2>
+    </div>
   </div>
 
-  <!-- ===== FIRST SCREEN — platform marquee under the nav, then the hero. The two
-       share one viewport and pin as a single unit, so the logos stay welded above
-       the headline instead of scrolling away from it ===== -->
-  <div class="first-screen" id="firstScreen">
-
-  <!-- ── PARTNERS ── -->
-  <section class="partners" id="partners">
-    <h2 class="partners-title">Publish on all platforms...</h2>
-    <div class="partners-viewport">
-      <div class="partners-track">
-        <div class="partners-group">
-          <div class="partner"><img src="platforms/facebook.svg" alt="Facebook" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/linkedin.svg" alt="LinkedIn" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/instagram.svg" alt="Instagram" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/x.svg" alt="X" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/pinterest.svg" alt="Pinterest" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/bluesky.svg" alt="Bluesky" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/telegram.svg" alt="Telegram" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/reddit.svg" alt="Reddit" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/snapchat.svg" alt="Snapchat" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/google-ads.svg" alt="Google Ads" loading="lazy" /></div>
-        </div>
-        <div class="partners-group" aria-hidden="true">
-          <div class="partner"><img src="platforms/facebook.svg" alt="" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/linkedin.svg" alt="" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/instagram.svg" alt="" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/x.svg" alt="" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/pinterest.svg" alt="" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/bluesky.svg" alt="" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/telegram.svg" alt="" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/reddit.svg" alt="" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/snapchat.svg" alt="" loading="lazy" /></div>
-          <div class="partner"><img src="platforms/google-ads.svg" alt="" loading="lazy" /></div>
+    <!-- Filmstrip carousel. Cards show the company mark on the brand gradient
+         until real photos land — swap <img class="mark"> for
+         <img class="photo" src="..."> and the card fills edge to edge. -->
+    <div class="tcar" id="tcar" aria-roledescription="carousel" aria-label="Customer stories">
+      <div class="tcar-head">
+        <div class="tcar-progress" aria-hidden="true"><i id="tcarBar"></i></div>
+        <div class="tcar-nav">
+          <button class="tcar-btn" type="button" data-dir="-1" aria-label="Previous stories">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <button class="tcar-btn" type="button" data-dir="1" aria-label="More stories">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ===== HERO ===== -->
-  <section class="section-pinned" id="hero">
-    <div class="hero-bg-wrap">
-      <!-- The photograph is the whole hero background. A floating "social-scene"
-           layer (Pinterest/Facebook chips, an engagement pill and a fake post
-           card) used to sit on top of it; both said the same thing, so the
-           overlay is gone — markup and styles are recoverable from git. -->
-      <img class="hero-photo" src="home.jpg" alt="A woman at a sunlit desk taking notes beside a laptop showing a social media dashboard" fetchpriority="high" decoding="async" />
-    </div>
-    <div class="hero-content">
-      <div class="hero-left">
-        <h1 class="animate-item">Create AI-Powered </br> Social Media &amp; Advertising </br>Campaigns in Minutes<br/></h1>
-        <p class="animate-item">No Credit Card Required. Sign Up Free Today.</p>
-        <!-- TODO: hero video goes here -->
-      </div>
-      <div class="hero-right">
-        <div class="glass-card hero-card">
-          <h3>Create Campaigns Fast</h3>
-          <p>Enter your website URL. Our AI learns your brand. We create social media and advertising campaigns that you can edit and publish across all platforms. Creating campaigns is free now and forever more.</p>
-          <a href="https://app.mameon.com" class="btn-primary full-width" data-location="hero">Create Campaigns Free</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  </div><!-- /.first-screen -->
-
-  <section class="how-it-works how-it-works-steps" id="about">
-    <div class="how-inner">
-      <h2 class="how-title">How it works</h2>
-      <p class="how-sub">Live social media and advertising campaigns in four simple steps.</p>
-      <div class="about-video-wrap" id="aboutVideoWrap">
-        <video class="about-video" id="aboutVideo" controls preload="metadata">
-          <source src="https://storage.googleapis.com/mameon-website-assets/00.%20How%20it%20Works.mp4" type="video/mp4">
-        </video>
-        <div class="video-play-btn" id="videoPlayBtn" onclick="document.getElementById('aboutVideo').play(); this.style.display='none';">
-          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-            <circle cx="40" cy="40" r="39" stroke="rgba(255,255,255,0.6)" stroke-width="2" fill="rgba(0,0,0,0.5)"/>
-            <polygon points="32,24 58,40 32,56" fill="white"/>
-          </svg>
-        </div>
-      </div>
-      <div class="steps-grid" id="stepsGrid">
-        <div class="glass-card step-card">
-          <div class="step-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      <div class="tcar-view" id="tcarView" tabindex="0" role="group" aria-label="Customer stories, scrollable">
+       <div class="tcar-track" id="tcarTrack">
+        <figure class="tcard">
+          <img class="mark" src="logos/Tigre_motor_club.png" alt="" width="220" height="220" loading="lazy" decoding="async">
+          <figcaption class="tcard-top"><b>01</b> · <span>Tigre</span></figcaption>
+          <div class="tcard-body">
+            <blockquote>“We just pasted in our URL and mameon understood our brand
+              immediately. From there creating campaigns was simple and the best
+              thing is that it was absolutely free.”</blockquote>
+            <p class="tcard-who"><b>Peter O'Regan</b><br>CEO, Tigre</p>
           </div>
-          <span class="step-number">01</span>
-          <h4>Signup with your URL in seconds</h4>
-          <p>We learn your brand voice from your website.</p>
-        </div>
-        <div class="glass-card step-card">
-          <div class="step-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12.659 22H18a2 2 0 0 0 2-2V8l-6-6H6a2 2 0 0 0-2 2v9.34"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10.378 12.622a1 1 0 0 1 3 3L8.36 20.64a2 2 0 0 1-.855.506l-2.867.837a.5.5 0 0 1-.62-.62l.836-2.868a2 2 0 0 1 .506-.854z"/></svg>
+        </figure>
+
+        <figure class="tcard">
+          <img class="mark" src="logos/MESH.jpeg" alt="" width="220" height="220" loading="lazy" decoding="async">
+          <figcaption class="tcard-top"><b>02</b> · <span>Mesh Bioplastics</span></figcaption>
+          <div class="tcard-body">
+            <blockquote>“Their storytelling tools helped us communicate our mission with
+              greater clarity and consistency, while significantly improving efficiency
+              in our content creation process.”</blockquote>
+            <p class="tcard-who"><b>Shane Hannan</b><br>CEO, Mesh Bioplastics</p>
           </div>
-          <span class="step-number">02</span>
-          <h4>Create your campaign in minutes</h4>
-          <p>Edit copy, choose visuals, pick your channels.</p>
-        </div>
-        <div class="glass-card step-card">
-          <div class="step-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </figure>
+
+        <figure class="tcard">
+          <img class="mark" src="logos/Aromyx-Logo - Copy.png" alt="" width="220" height="220" loading="lazy" decoding="async">
+          <figcaption class="tcard-top"><b>03</b> · <span>Aromyx</span></figcaption>
+          <div class="tcard-body">
+            <blockquote>“The team quickly gave us several versions of our video and it
+              looks great it has been very effective with prospective customers. Super
+              easy, and a remarkably short turnaround.”</blockquote>
+            <p class="tcard-who"><b>Chris Hanson</b><br>Board Advisor, Aromyx</p>
           </div>
-          <span class="step-number">03</span>
-          <h4>Publish everywhere instantly</h4>
-          <p>Schedule and launch social and advertising campaigns.</p>
-        </div>
-        <div class="glass-card step-card">
-          <div class="step-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M7 16l4-8 4 5 4-7"/></svg>
+        </figure>
+
+        <figure class="tcard">
+          <img class="mark" src="logos/SPSV.jpeg" alt="" width="220" height="220" loading="lazy" decoding="async">
+          <figcaption class="tcard-top"><b>04</b> · <span>SPSV Pro Training</span></figcaption>
+          <div class="tcard-body">
+            <blockquote>“mameon makes it easier to turn complex messaging into clear,
+              engaging campaigns delivered quickly and professionally. An invaluable
+              addition to our toolkit.”</blockquote>
+            <p class="tcard-who"><b>SPSV Pro Training</b><br>CEO, SPSV Pro Training</p>
           </div>
-          <span class="step-number">04</span>
-          <h4>Campaign optimization </br>(coming soon)</h4>
-          <p>Data-driven improvements for better engagement.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+        </figure>
 
-
-
-  <!-- ===== TESTIMONIALS ===== -->
-  <section class="testimonials" id="customers">
-    <div class="testimonials-inner">
-      <div class="testimonials-header">
-        <h2 class="testimonials-title">Loved by our customers</h2>
-      </div>
-      <div class="testimonials-scroll-wrapper">
-        <button class="tst-nav tst-prev" id="testimonialsPrev" type="button" aria-hidden="true" tabindex="-1">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button class="tst-nav tst-next" id="testimonialsNext" type="button" aria-hidden="true" tabindex="-1">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
-        <div class="testimonials-viewport" id="testimonialsViewport" tabindex="0" role="region" aria-label="Customer testimonials, scrollable">
-          <div class="testimonials-track" id="testimonialsTrack">
-            <div class="testimonials-group">
-              <div class="glass-card testimonial-card">
-                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-                <p class="quote-text">"The team at mameon quickly provided several versions of our Aromyx video and it looks great and has been very effective with prospective customers! The process was super easy and the turnaround time was remarkably short. If you've ever made a traditional cumbersome product or company video, you will love this new process."</p>
-                <div class="author-info">
-                  <div class="author-details">
-                    <div class="author-name">Chris Hanson</div>
-                    <div class="author-role">Board Advisor, Aromyx</div>
-                    <img src="logos/Aromyx-Logo - Copy.png" alt="Aromyx logo" class="author-logo" style="background:#fff;border-radius:6px;padding:4px;" />
-                  </div>
-                </div>
-              </div>
-              <div class="glass-card testimonial-card">
-                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-                <p class="quote-text">"We've been using mameon to support our digital media campaigns, and the experience has been seamless. Their AI-driven storytelling tools have helped us communicate our mission with greater clarity and consistency, while significantly improving efficiency in our content creation process. mameon has added real strategic value to our brand communications."</p>
-                <div class="author-info">
-                  <div class="author-details">
-                    <div class="author-name">Shane Hannan</div>
-                    <div class="author-role">CEO, Mesh Bioplastics</div>
-                    <img src="logos/MESH.jpeg" alt="Mesh Bioplastics logo" class="author-logo" style="background:#fff;border-radius:6px;padding:4px;" />
-                  </div>
-                </div>
-              </div>
-              <div class="glass-card testimonial-card">
-                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-                <p class="quote-text">"It was so easy to create social media campaigns. We just pasted in our URL and mameon understood our brand immediately. From there creating campaigns was simple! And the best thing about mameon is that it was absolutely free."</p>
-                <div class="author-info">
-                  <div class="author-details">
-                    <div class="author-name">Peter O'Regan</div>
-                    <div class="author-role">CEO, Tigre</div>
-                    <img src="logos/TIGRE - Copy.png" alt="Tigre logo" class="author-logo" />
-                  </div>
-                </div>
-              </div>
-              <div class="glass-card testimonial-card">
-                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-                <p class="quote-text">"mameon has helped us elevate our digital storytelling. mameon makes it easier to transform complex messaging into clear, engaging campaigns delivered quickly and professionally. It's been an invaluable addition to our communications toolkit."</p>
-                <div class="author-info">
-                  <div class="author-details">
-                    <div class="author-name">SPSV Pro Training</div>
-                    <div class="author-role">CEO, SPSV Pro Training</div>
-                    <img src="logos/SPSV.jpeg" alt="SPSV Pro Training logo" class="author-logo" style="background:#f5f5f3;border-radius:6px;padding:4px;" />
-                  </div>
-                </div>
-              </div>
-              <div class="glass-card testimonial-card">
-                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-                <p class="quote-text">"Running a startup or a small business isn't one hard thing. It's twenty easy things, ten medium things, and five impossibly hard things all at once. mameon looks after all aspects of social media and advertising for me. After setup it runs away in the background, getting our story in front of the right people, and allowing me to focus on all the other things that come with running a startup!"</p>
-                <div class="author-info">
-                  <div class="author-details">
-                    <div class="author-name">Cian Mahony</div>
-                    <div class="author-role">Mara Botanics</div>
-                    <img src="logos/Mara Botanics Transparent Logo.png" alt="Mara Botanics logo" class="author-logo" style="background:#f5f5f3;border-radius:6px;padding:4px;" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="testimonials-group" aria-hidden="true">
-              <div class="glass-card testimonial-card">
-                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-                <p class="quote-text">"The team at mameon quickly provided several versions of our Aromyx video and it looks great and has been very effective with prospective customers! The process was super easy and the turnaround time was remarkably short. If you've ever made a traditional cumbersome product or company video, you will love this new process."</p>
-                <div class="author-info">
-                  <div class="author-details">
-                    <div class="author-name">Chris Hanson</div>
-                    <div class="author-role">Board Advisor, Aromyx</div>
-                    <img src="logos/Aromyx-Logo - Copy.png" alt="" class="author-logo" style="background:#fff;border-radius:6px;padding:4px;" />
-                  </div>
-                </div>
-              </div>
-              <div class="glass-card testimonial-card">
-                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-                <p class="quote-text">"We've been using mameon to support our digital media campaigns, and the experience has been seamless. Their AI-driven storytelling tools have helped us communicate our mission with greater clarity and consistency, while significantly improving efficiency in our content creation process. mameon has added real strategic value to our brand communications."</p>
-                <div class="author-info">
-                  <div class="author-details">
-                    <div class="author-name">Shane Hannan</div>
-                    <div class="author-role">CEO, Mesh Bioplastics</div>
-                    <img src="logos/MESH.jpeg" alt="" class="author-logo" style="background:#fff;border-radius:6px;padding:4px;" />
-                  </div>
-                </div>
-              </div>
-              <div class="glass-card testimonial-card">
-                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-                <p class="quote-text">"It was so easy to create social media campaigns. We just pasted in our URL and mameon understood our brand immediately. From there creating campaigns was simple! And the best thing about mameon is that it was absolutely free."</p>
-                <div class="author-info">
-                  <div class="author-details">
-                    <div class="author-name">Peter O'Regan</div>
-                    <div class="author-role">CEO, Tigre</div>
-                    <img src="logos/TIGRE - Copy.png" alt="" class="author-logo" />
-                  </div>
-                </div>
-              </div>
-              <div class="glass-card testimonial-card">
-                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-                <p class="quote-text">"mameon has helped us elevate our digital storytelling. mameon makes it easier to transform complex messaging into clear, engaging campaigns delivered quickly and professionally. It's been an invaluable addition to our communications toolkit."</p>
-                <div class="author-info">
-                  <div class="author-details">
-                    <div class="author-name">SPSV Pro Training</div>
-                    <div class="author-role">CEO, SPSV Pro Training</div>
-                    <img src="logos/SPSV.jpeg" alt="" class="author-logo" style="background:#f5f5f3;border-radius:6px;padding:4px;" />
-                  </div>
-                </div>
-              </div>
-              <div class="glass-card testimonial-card">
-                <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/><path d="M19 21a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2 1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1 6 6 0 0 0-6 6v8a2 2 0 0 0 2 2z"/></svg>
-                <p class="quote-text">"Running a startup or a small business isn't one hard thing. It's twenty easy things, ten medium things, and five impossibly hard things all at once. mameon looks after all aspects of social media and advertising for me. After setup it runs away in the background, getting our story in front of the right people, and allowing me to focus on all the other things that come with running a startup!"</p>
-                <div class="author-info">
-                  <div class="author-details">
-                    <div class="author-name">Cian Mahony</div>
-                    <div class="author-role">Mara Botanics</div>
-                    <img src="logos/Mara Botanics Transparent Logo.png" alt="" class="author-logo" style="background:#f5f5f3;border-radius:6px;padding:4px;" />
-                  </div>
-                </div>
-              </div>
-            </div>
+        <figure class="tcard">
+          <img class="mark" src="logos/Mara Botanics Transparent Logo.png" alt="" width="220" height="220" loading="lazy" decoding="async">
+          <figcaption class="tcard-top"><b>05</b> · <span>Mara Botanics</span></figcaption>
+          <div class="tcard-body">
+            <blockquote>“Running a startup isn't one hard thing. It's twenty easy things
+              and five impossibly hard things at once. mameon looks after all of social
+              and advertising for me.”</blockquote>
+            <p class="tcard-who"><b>Cian Mahony</b><br>Mara Botanics</p>
           </div>
+        </figure>
+       </div>
+      </div>
+    </div>
+</section>
+
+<!-- ================= CLOSING CTA ================= -->
+<section class="close-card grain">
+  <div class="close-bg" id="closeBg" aria-hidden="true"></div>
+  <h2>Your first campaign<br><span class="dim">is a few clicks away</span></h2>
+  <p>Create social media and advertising campaigns for free.<br> No credit card required.</p>
+  <div class="hero-btns">
+    <a class="btn btn-ghost" href="#contactSection">Talk to us</a>
+    <a class="btn btn-solid" href="https://app.mameon.com" data-location="footer-cta">Create campaigns free</a>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<!-- Hidden until "Talk to us" opens it. Posts to the same formsubmit
+     endpoint the previous site used. -->
+<section class="contact-sec" id="contactSection">
+  <div class="contact-card">
+    <h2>Want to learn more?</h2>
+    <form class="contact-form" id="contactForm">
+      <div id="contactFormFields">
+        <label for="contactEmail">Enter your email:</label>
+        <div class="contact-input-row">
+          <input type="email" name="email" id="contactEmail" placeholder="your@email.com"
+                 class="contact-input" autocomplete="email" required>
+          <button type="submit" class="btn contact-submit">Learn More Today! &rarr;</button>
         </div>
+        <p class="contact-note">We'll get back to you within 24 hrs!</p>
       </div>
-    </div>
-  </section>
-
-
-  <!-- ===== MANIFESTO — a blue card on white, reusing the CTA panel styling ===== -->
-  <section class="cta manifesto-cta">
-    <div class="cta-inner" id="manifestoContent">
-      <h2>You can use mameon to create social media &amp; advertising campaigns. And you can publish your campaigns across every platform.</h2>
-      <p>Facebook, Instagram, Google ads, even audio ads, you can use mameon to do it all.</p>
-    </div>
-  </section>
-
-
-
-  <!-- CONNECT -->
-  <section class="section-pinned" id="connect">
-    <div class="statement-bg statement-bg--wash"></div>
-    <div class="manifesto-content">
-      <span class="statement-rule" aria-hidden="true"></span>
-      <h2 class="connect-heading">The best brands have full marketing teams. <span class="accent">With mameon, you do too.</span></h2>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-
-  <!-- ===== CTA ===== -->
-  <section class="cta">
-    <div class="cta-inner" id="ctaContent">
-      <h2>Create social and advertising campaigns for free. No credit card required.</h2>
-      <div class="cta-buttons" id="ctaButtons">
-        <a href="https://app.mameon.com" class="btn-primary" data-location="footer-cta">Join 1000+ Founders</a>
-        <a href="#contactSection" class="btn-secondary" onclick="openContact(event)">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          Talk to us
-        </a>
+      <div class="contact-success" id="contactSuccess" style="display:none;">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <circle cx="24" cy="24" r="23" stroke="var(--brand)" stroke-width="2" fill="var(--brand-wash)"/>
+          <path d="M14 24l7 7 13-13" stroke="var(--brand)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <p>Your email has been sent, you'll hear from us soon</p>
       </div>
-    </div>
-  </section>
+    </form>
+  </div>
+</section>
 
-  <!-- ===== FOOTER ===== -->
-  <!-- ===== CONTACT SECTION ===== -->
-  <section class="contact-section" id="contactSection">
-    <div class="contact-card">
-      <h2 class="contact-heading">Want to learn more?</h2>
-      <form class="contact-form" id="contactForm" onsubmit="submitContact(event)">
-        <div class="contact-form-group" id="contactFormFields">
-          <label for="contactEmail">Enter your email:</label>
-          <div class="contact-input-row">
-            <input type="email" name="email" id="contactEmail" placeholder="your@email.com" class="contact-input" required />
-            <button type="submit" class="btn-primary contact-btn">Learn More Today! &rarr;</button>
-          </div>
-          <p class="contact-note">We'll get back to you within 24 hrs!</p>
-        </div>
-        <div class="contact-success" id="contactSuccess" style="display:none;">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-            <circle cx="24" cy="24" r="23" stroke="var(--blue)" stroke-width="2" fill="rgba(37,99,235,0.1)"/>
-            <path d="M14 24l7 7 13-13" stroke="var(--blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
-          <p>Your email has been sent, you'll hear from us soon</p>
-        </div>
-      </form>
-    </div>
-  </section>
+<footer>
+  <span class="foot-brand">
+    <img class="brand-ink foot-word" src="wordmark.png" alt="mameon" width="94" height="24">
+    © 2026 mameon. All rights reserved.
+  </span>
+  <nav><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="#contactSection">Contact</a></nav>
+</footer>
 
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-left">
-        <span class="nav-logo">
-          <img src="logo.png" alt="mameon logo" class="nav-logo-icon" />
-          <img src="wordmark.png" alt="mameon" class="nav-logo-wordmark" />
-        </span>
-        <span>&copy; 2026 mameon. All rights reserved.</span>
-      </div>
-      <div class="footer-links">
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-        <a href="#contactSection" onclick="openContact(event)">Contact</a>
-      </div>
-    </div>
-  </footer>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"
+        integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"
+        integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  <script>
-    gsap.registerPlugin(ScrollTrigger);
+/* ---------- loader dismissal ----------
+   Fires on whichever comes first: window load, or a hard 1.8s backstop so a
+   stalled font/CDN can never keep the page behind the overlay. */
+(() => {
+  const el = document.getElementById("loader");
+  if (!el) return;
+  const MIN_MS = 620, MAX_MS = 1800;
+  const shownAt = performance.now();
+  let dismissed = false;
+  const dismiss = () => {
+    if (dismissed) return;
+    dismissed = true;
+    const wait = Math.max(0, MIN_MS - (performance.now() - shownAt));
+    setTimeout(() => {
+      el.classList.add("done");
+      setTimeout(() => el.remove(), 600);
+    }, wait);
+  };
+  if (document.readyState === "complete") dismiss();
+  else addEventListener("load", dismiss);
+  setTimeout(dismiss, MAX_MS);
+})();
 
-    // -- MOBILE MENU --
-    function submitContact(e) {
-      e.preventDefault();
-      const email = document.getElementById('contactEmail').value;
-      const formData = new FormData();
-      formData.append('email', email);
-      formData.append('_subject', 'New contact from mameon website');
-      formData.append('_captcha', 'false');
+/* ---------- mobile menu ---------- */
+const navToggle = document.getElementById("navToggle");
+const navPanel  = document.getElementById("navPanel");
+const setMenu = (open) => {
+  navPanel.classList.toggle("open", open);
+  navToggle.setAttribute("aria-expanded", String(open));
+  navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+};
+navToggle.addEventListener("click", () =>
+  setMenu(navToggle.getAttribute("aria-expanded") !== "true"));
+navPanel.addEventListener("click", (e) => { if (e.target.tagName === "A") setMenu(false); });
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && navToggle.getAttribute("aria-expanded") === "true") {
+    setMenu(false); navToggle.focus();
+  }
+});
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".nav") && navToggle.getAttribute("aria-expanded") === "true") setMenu(false);
+});
 
-      fetch('https://formsubmit.co/ajax/jom@mameon.com', {
-        method: 'POST',
-        body: formData
-      }).then(res => res.json()).then(data => {
-        document.getElementById('contactFormFields').style.display = 'none';
-        document.getElementById('contactSuccess').style.display = 'flex';
-      }).catch(() => {
-        document.getElementById('contactFormFields').style.display = 'none';
-        document.getElementById('contactSuccess').style.display = 'flex';
+/* ---------- build the 3D card ring ---------- */
+const LAUNCH = "mameon-mvp-launch-images/";
+
+const CARDS = [
+  // `pos` is object-position. The card face is portrait (0.65) while the launch
+  // images are square, so cover trims the sides and only the X value matters —
+  // each is set so the subject lands in the middle of the visible 65% band.
+  // Ad Campaigns keeps its own landscape poster, which needs Y steering too.
+  { title:"Social Posts",   cap:"On-brand copy and creative for every platform.",
+    img:LAUNCH + "Social%20posts.jpg",    w:1024, h:1024, pos:"36% 50%" },
+  { title:"Ad Campaigns",   cap:"Killer campaigns for Google Ads, created and optimized.",
+    img:"ads_poster.png",              w:1896, h:972,  pos:"54% 45%" },
+  { title:"Video",          cap:"Tell the whole world your story in short form video.",
+    img:LAUNCH + "Video.jpg",             w:474,  h:474,  pos:"72% 50%" },
+  { title:"Audio Ads",      cap:"Make audio ads with just a few clicks.",
+    img:LAUNCH + "Audio%20Ads.jpg",       w:1024, h:1024, pos:"46% 50%" },
+  { title:"Brand Profile",  cap:"We create a unique brand profile just for you.",
+    img:LAUNCH + "Brand%20profile.jpg",   w:1024, h:1024, pos:"54% 50%" },
+  { title:"Marketing Brain",cap:"The biggest brands have entire marketing teams. Now you do too.",
+    img:LAUNCH + "Marketing%20Brain.jpg", w:1024, h:1024, pos:"38% 50%" },
+];
+
+const ring = document.getElementById("ring");
+const ringProbe = document.getElementById("ringProbe");
+CARDS.forEach((c, i) => {
+  const el = document.createElement("article");
+  el.className = "ring-card";
+  const angle = (360 / CARDS.length) * i;
+  // reads the CSS token directly, so the ring re-sizes at the mobile
+  // breakpoint with no JS involvement
+  el.style.transform = `rotateY(${angle}deg) translateZ(var(--ring-r))`;
+  if (c.img) el.classList.add("has-img");
+  const photo = c.img
+    // eager: lazy-loading is unreliable for children of a preserve-3d ring
+    // (rotated faces read as off-viewport), and the carousel is the first
+    // section after the hero, so these are effectively above the fold.
+    ? `<img class="card-img" src="${c.img}" alt="" width="${c.w}" height="${c.h}"
+            style="object-position:${c.pos}" decoding="async">`
+    : "";
+  el.innerHTML = `
+    ${photo}
+    <div>
+      <h3>${c.title}</h3>
+      <p class="cap">${c.cap}</p>
+    </div>`;
+  ring.appendChild(el);
+});
+
+/* ------------------------------------------------------------
+   Reveals + step tracking: plain IntersectionObserver, no GSAP.
+   These control content visibility, so they must not depend on a CDN.
+   ------------------------------------------------------------ */
+document.querySelectorAll(".sec .wrap > *, .close-card > *").forEach(el => {
+  el.classList.add("reveal");
+});
+
+const revealIO = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add("in"); revealIO.unobserve(e.target); }
+  });
+}, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
+document.querySelectorAll(".reveal").forEach(el => revealIO.observe(el));
+
+const steps = Array.from(document.querySelectorAll("#stepList .step"));
+const numEl = document.getElementById("stepNum");
+steps[0].classList.add("on");
+
+const stepIO = new IntersectionObserver((entries) => {
+  // pick the entry nearest the 62% line
+  const visible = entries.filter(e => e.isIntersecting);
+  if (!visible.length) return;
+  const best = visible.reduce((a, b) =>
+    Math.abs(a.boundingClientRect.top - innerHeight * .38) <
+    Math.abs(b.boundingClientRect.top - innerHeight * .38) ? a : b);
+  const i = steps.indexOf(best.target);
+  if (i < 0) return;
+  steps.forEach(s => s.classList.remove("on"));
+  best.target.classList.add("on");
+  numEl.textContent = String(i + 1).padStart(2, "0");
+}, { rootMargin: "-30% 0px -45% 0px", threshold: 0 });
+steps.forEach(s => stepIO.observe(s));
+
+/* ------------------------------------------------------------
+   Testimonial filmstrip.
+
+   Two modes over one piece of markup:
+   • Fallback — the view is a scroll-snapped strip, driven by the arrows
+     and pointer dragging. This is what no-JS and reduced-motion get.
+   • Scroll-driven — the fold pins to the viewport and the track slides
+     horizontally as the page scrolls, which is how the reference site
+     works: a fixed panel holding a flex track it translates with
+     transforms. Pinning is what makes the cards read as a carousel
+     rather than drifting past.
+   ------------------------------------------------------------ */
+(() => {
+  const root  = document.getElementById("tcar");
+  const rail  = document.getElementById("tcarView");
+  const track = document.getElementById("tcarTrack");
+  const bar   = document.getElementById("tcarBar");
+  const sec   = document.getElementById("customers");
+  const title = document.getElementById("tcarTitle");
+  if (!root || !rail || !track || !bar || !sec || !title) return;
+
+  const prev = root.querySelector('[data-dir="-1"]');
+  const next = root.querySelector('[data-dir="1"]');
+  const DRAG_SLOP = 4;   // px before a press counts as a drag, not a click
+
+  // one card + one gap, read from the DOM so the CSS clamp stays authoritative
+  function stepPx() {
+    const card = track.firstElementChild;
+    if (!card) return rail.clientWidth;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    return card.getBoundingClientRect().width + gap;
+  }
+
+  function sync() {
+    const max = rail.scrollWidth - rail.clientWidth;
+    const seen = max > 0 ? (rail.scrollLeft + rail.clientWidth) / rail.scrollWidth : 1;
+    bar.style.width = `${Math.min(100, Math.max(12, seen * 100))}%`;
+    prev.disabled = rail.scrollLeft <= 2;
+    next.disabled = rail.scrollLeft >= max - 2;
+  }
+
+  root.querySelectorAll("[data-dir]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      rail.scrollBy({
+        left: stepPx() * Number(btn.dataset.dir),
+        behavior: reduced ? "auto" : "smooth",
       });
-    }
-
-    function openContact(e) {
-      if (e) e.preventDefault();
-      const section = document.getElementById('contactSection');
-      if (!section) return;
-      section.classList.add('open');
-      setTimeout(() => {
-        section.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        const emailEl = document.getElementById('contactEmail');
-        if (emailEl) emailEl.focus();
-      }, 50);
-    }
-
-    // If we land on index.html#contactSection from another page, open the contact panel.
-    if (window.location.hash === '#contactSection') {
-      openContact();
-    }
-
-    function toggleMenu() {
-      document.getElementById('mobileMenu').classList.toggle('open');
-    }
-
-    // ===================
-    //  FIRST SCREEN - pinned, hero content exits on scroll
-    //  The PIN is on the wrapper, not #hero: the marquee shares this viewport, so
-    //  pinning the hero alone would hold it still while the logos scrolled out
-    //  from under it. Pinning the pair keeps them welded for the whole exit.
-    // ===================
-    const heroSection = document.getElementById('hero');
-    const firstScreen = document.getElementById('firstScreen') || heroSection;
-    const heroBgWrap = heroSection.querySelector('.hero-bg-wrap');
-    const heroItems = heroSection.querySelectorAll('.animate-item');
-    const heroCard = heroSection.querySelector('.hero-card');
-
-    const heroTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: firstScreen,
-        start: 'top top',
-        end: '+=130%',
-        pin: true,
-        scrub: 0.6,
-        onLeaveBack: () => {
-          gsap.set(heroItems, { y: 0, opacity: 1 });
-          gsap.set(heroCard, { y: 0, opacity: 1 });
-          gsap.set(heroBgWrap, { scale: 1 });
-        }
-      }
     });
-    heroTl.fromTo(heroItems, { y: 0, opacity: 1 }, { y: '-18vh', opacity: 0, ease: 'power2.in' }, 0.7);
-    heroTl.fromTo(heroCard, { y: 0, opacity: 1 }, { y: '22vh', opacity: 0, ease: 'power2.in' }, 0.7);
-    heroTl.fromTo(heroBgWrap, { scale: 1 }, { scale: 1.06, ease: 'none' }, 0.7);
+  });
 
-    // ── PARTNERS — no scroll animation, by design. It used to fade OUT as it
-    //    scrolled off the top, handing over to the pinned hero; now that it sits
-    //    BELOW the hero that handoff is meaningless. An entrance fade was tried
-    //    and reverted: it starts the strip at opacity 0, and directly under a
-    //    section pinned for +=130% the trigger did not reliably fire, leaving the
-    //    logos invisible. Same rule as the manifesto card below — a content band
-    //    renders visible, full stop. Its logos already animate on their own via
-    //    the CSS `partners-scroll` marquee. ──
+  // Drag to scroll. Pointer events cover mouse, touch and pen in one path;
+  // vertical gestures are left to the browser via touch-action.
+  let down = false, moved = false, startX = 0, startLeft = 0;
+  rail.addEventListener("pointerdown", e => {
+    if (e.button !== 0) return;
+    down = true; moved = false;
+    startX = e.clientX; startLeft = rail.scrollLeft;
+  });
+  rail.addEventListener("pointermove", e => {
+    if (!down) return;
+    const dx = e.clientX - startX;
+    if (!moved && Math.abs(dx) < DRAG_SLOP) return;
+    if (!moved) { moved = true; rail.classList.add("drag"); rail.setPointerCapture(e.pointerId); }
+    rail.scrollLeft = startLeft - dx;
+  });
+  const release = () => {
+    if (!down) return;
+    down = false;
+    rail.classList.remove("drag");
+  };
+  rail.addEventListener("pointerup", release);
+  rail.addEventListener("pointercancel", release);
 
-    // ===================
-    //  MANIFESTO - blue card (reuses .cta/.cta-inner). No longer pinned, so it
-    //  drops out of the snap system automatically (that filters on st.vars.pin).
-    //  Intentionally NO scroll entrance: it's a static content card, and gating a
-    //  content section's visibility on a ScrollTrigger is a needless failure mode
-    //  (a mis-fire leaves the whole card blank). It renders visible, full stop.
-    // ===================
+  rail.addEventListener("scroll", sync, { passive: true });
+  addEventListener("resize", sync);
+  sync();
 
+  /* Scroll-driven mode. The fold pins, then two acts play out over the pinned
+     scroll: the strip panel rises a full screen to cover the title, and then
+     the track runs sideways by exactly its overflow.
 
-    // ===================
-    //  SPEED - pinned, text scrolls in then out
-    // ===================
-    const speed = document.getElementById('pricing');
-    if (speed) {
-      const speedBg = speed.querySelector('.speed-bg-wrap');
-      const speedH2 = speed.querySelector('.speed-heading');
-      const speedSub = speed.querySelector('.speed-sub');
+     Distances are in pixels of page scroll, so the mapping is 1:1 — a pixel of
+     scrolling is a pixel of travel, which is the reference's pacing. They are
+     recomputed every tick rather than baked in, so a resize (which changes both
+     card size and viewport height) needs no rebuild.
 
-      const speedTl = gsap.timeline({
+     quickTo supplies the smoothing: every property eases toward its target
+     instead of snapping to it, which is what makes the whole thing glide. */
+  if (reduced || !window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+  root.classList.add("scrolldriven");
+  sec.classList.add("pinned");
+
+  // Adopt the closing CTA into the pinned stage: Act 3 grows the last card to
+  // page size and fades the CTA in over it — the hero->card morph, reversed.
+  const close    = document.querySelector(".close-card");
+  const head     = root.querySelector(".tcar-head");
+  const lastCard = track.lastElementChild;
+  sec.appendChild(close);
+
+  const RISE  = 0.8;   // viewports of scroll spent bringing the panel up
+  const TAIL  = 0.15;  // viewports held on the last card before the morph starts
+  const MORPH = 1.1;   // viewports spent growing the last card into the CTA
+  const LIFT = 14;     // % of its own height the title drifts up as it goes
+  // The title finishes clearing before the panel reaches it, so it is never
+  // seen being cut off by the panel's edge — it leaves under its own steam.
+  const FADE_BY = 0.78;
+  const fadeCurve = gsap.parseEase("power2.in");   // lingers, then goes
+
+  /* Measured on refresh, never inside onUpdate. Reading layout (scrollWidth and
+     friends) between GSAP's writes forces a synchronous reflow on every frame,
+     which makes a scrubbed section feel gritty however well the numbers ease. */
+  let travelPx = 0;
+  const morph = { dx: 0, dy: 0, sx: 1, sy: 1 };
+  const PAGE_INSET = 14;   // matches .close-card's page margin
+  const measure = () => {
+    travelPx = Math.max(0, track.scrollWidth - rail.clientWidth);
+    // Last card's end-of-run box -> the CTA's page box. Transforms are backed
+    // out (track x, panel y) so this is layout truth at any breakpoint.
+    gsap.set(lastCard, { x: 0, y: 0, scaleX: 1, scaleY: 1 });
+    const r    = lastCard.getBoundingClientRect();
+    const tx   = Number(gsap.getProperty(track, "x")) || 0;
+    const left = r.left - tx - travelPx;
+    const top  = r.top - root.getBoundingClientRect().top;
+    morph.sx = (innerWidth  - PAGE_INSET * 2) / r.width;
+    morph.sy = (innerHeight - PAGE_INSET * 2) / r.height;
+    morph.dx = innerWidth  / 2 - (left + r.width  / 2);
+    morph.dy = innerHeight / 2 - (top  + r.height / 2);
+  };
+  measure();
+  ScrollTrigger.addEventListener("refreshInit", measure);
+
+  const risePx  = () => innerHeight * RISE;
+  const morphPx = () => innerHeight * MORPH;
+  const totalPx = () => risePx() + travelPx + innerHeight * TAIL + morphPx();
+
+  const ease = { duration: 0.45, ease: "power3" };
+  const panelTo = gsap.quickTo(root,  "yPercent", ease);
+  const titleTo = gsap.quickTo(title, "yPercent", ease);
+  const fadeTo  = gsap.quickTo(title, "opacity",  ease);
+  const zoomTo  = gsap.quickTo(title, "scale",    ease);
+  const trackTo = gsap.quickTo(track, "x", { duration: 0.55, ease: "power3" });
+  const cardX   = gsap.quickTo(lastCard, "x",      ease);
+  const cardY   = gsap.quickTo(lastCard, "y",      ease);
+  const cardSX  = gsap.quickTo(lastCard, "scaleX", ease);
+  const cardSY  = gsap.quickTo(lastCard, "scaleY", ease);
+  const growCurve = gsap.parseEase("power2.inOut");
+  const cardBits  = lastCard.querySelectorAll(".tcard-top, .tcard-body, .mark, .photo");
+  const otherCards = Array.from(track.children).filter(c => c !== lastCard);
+
+  gsap.set(root, { yPercent: 100 });   // parked one screen below, title clear
+
+  ScrollTrigger.create({
+    trigger: sec,
+    start: "top top",
+    end: () => `+=${totalPx()}`,
+    pin: true,
+    anticipatePin: 1,
+    invalidateOnRefresh: true,
+    onUpdate: self => {
+      const px = self.progress * totalPx();
+
+      // Act 1 — panel rises; the title lifts, shrinks back and fades out ahead
+      // of it on its own eased curve.
+      const rise = Math.min(1, px / risePx());
+      const gone = fadeCurve(Math.min(1, rise / FADE_BY));
+      titleTo(-LIFT * gone);
+      fadeTo(1 - gone);
+      zoomTo(1 - 0.07 * gone);
+
+      // Act 2 — the strip runs. Clamped, so the tail holds on the last card.
+      const run = Math.min(travelPx, Math.max(0, px - risePx()));
+      trackTo(-run);
+      bar.style.width = `${12 + 88 * (travelPx ? run / travelPx : 1)}%`;
+
+      panelTo((1 - rise) * 100);
+
+      // Act 3 — the hero morph, reversed: the card copy clears, the last card
+      // grows to page size, and the closing CTA fades in on top of it.
+      const m = Math.min(1, Math.max(0,
+        (px - risePx() - travelPx - innerHeight * TAIL) / morphPx()));
+      root.classList.toggle("morphing", m > 0);
+      const grow = growCurve(m);
+      cardX(morph.dx * grow);
+      cardY(morph.dy * grow);
+      cardSX(1 + (morph.sx - 1) * grow);
+      cardSY(1 + (morph.sy - 1) * grow);
+      const cleared = Math.min(1, m / 0.30);
+      gsap.set(cardBits, { opacity: 1 - cleared });
+      gsap.set(head, { opacity: 1 - cleared });
+      if (otherCards.length) gsap.set(otherCards, { opacity: 1 - cleared });
+      lastCard.style.setProperty("--scrim", String(1 - cleared));
+      // CTA copy arrives once the card is near its full size
+      gsap.set(close, { opacity: Math.min(1, Math.max(0, (m - 0.62) / 0.30)) });
+      close.classList.toggle("on", m > 0.62);
+    },
+  });
+})();
+
+/* ------------------------------------------------------------
+   GSAP is used ONLY for the scroll-scrubbed stage (marquee + ring).
+   If it fails to load, the stage simply sits still — nothing is hidden.
+   ------------------------------------------------------------ */
+if (!reduced && window.gsap && window.ScrollTrigger) {
+  // Unlocks the pinned-stage layout. Without it the page renders as plain
+  // stacked sections, so a CDN failure degrades instead of breaking.
+  document.documentElement.classList.add("motion");
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ---------- hero card morphs into the front carousel card ----------
+     Card 01 rests at translateZ(--ring-r), which the shared 1400px
+     perspective magnifies. Matching scale alone would land it too small,
+     so the cover scale is divided by that magnification.
+     All three inputs are measured from the DOM, so this stays correct at
+     any breakpoint. offsetWidth is layout size, unaffected by transforms. */
+  const PERSPECTIVE = 1400;
+  const mag    = () => PERSPECTIVE / (PERSPECTIVE - ringProbe.offsetWidth);
+  const coverX = () => (innerWidth  - 28) / (ring.offsetWidth  * mag());
+  const coverY = () => (innerHeight - 28) / (ring.offsetHeight * mag());
+
+  const mq = document.getElementById("marquee");
+
+  /* One timeline over the whole stage.
+     Act 1 (0 -> MORPH_END): the hero uncovers ring card 01, which is already
+     sitting behind it scaled up to fill the viewport, then shrinks to size.
+     Act 2 (MORPH_END -> 1): the ring rotates through all six cards. */
+  const MORPH_END = 0.28;
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".stage",
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 0.6,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  // Ring starts at cover scale. Anisotropic, so no rotation runs during Act 1 —
+  // rotating a non-uniformly scaled parent shears the cards.
+  tl.fromTo(ring,
+      { scaleX: coverX, scaleY: coverY, rotateY: 0, rotateX: 0 },
+      { scaleX: 1, scaleY: 1, ease: "power2.inOut", duration: MORPH_END }, 0)
+    // hero copy clears, then the hero card itself dissolves off the front card
+    .to(".hero-inner, .hero-foot", { opacity: 0, y: -30, ease: "power1.in", duration: MORPH_END * .30 }, 0)
+    .to(".hero", { opacity: 0, ease: "none", duration: MORPH_END * .22 }, MORPH_END * .16)
+    // card copy and stage chrome arrive once the card is near its real size
+    .to(".ring-card > *", { opacity: 1, ease: "none", duration: MORPH_END * .28 }, MORPH_END * .72)
+    .to(mq, { opacity: .92, ease: "none", duration: MORPH_END * .30 }, MORPH_END * .70)
+    // Act 2 — the existing carousel, now at its natural size
+    // Positive sweep (the original direction). Note the side effect: a card
+    // faces the viewer when the ring cancels its placement angle (+60deg *
+    // index), so turning positive surfaces them 06, 05, 04 ... — the reverse
+    // of their printed "· 01 ... · 06" kickers. To keep this direction AND
+    // have the labels count up, negate the placement angle where the cards
+    // are built instead of flipping this value.
+    .to(ring, { rotateY: 360, ease: "none", duration: 1 - MORPH_END }, MORPH_END)
+    // Starts flush to the left edge and ends flush to the right: x:0 puts the
+    // first mark against the viewport's left border, and travelling exactly
+    // -(scrollWidth - innerWidth) lands the last one on the right border. No
+    // overshoot on either side, so the strip is never inset from the frame.
+    .fromTo(mq,
+      { x: 0 },
+      { x: () => -(mq.scrollWidth - innerWidth),
+        ease: "none", duration: 1 - MORPH_END }, MORPH_END);
+
+  /* ---------- closing CTA: gradient drifts behind the copy ----------
+     Skipped when the CTA has been adopted into the pinned customers stage —
+     there the reverse morph owns it, and a parallax inside a pin misfires. */
+  if (!document.querySelector("#customers .close-card")) {
+    gsap.fromTo("#closeBg",
+      { yPercent: -7 },
+      {
+        yPercent: 7, ease: "none",
         scrollTrigger: {
-          trigger: speed,
-          start: 'top top',
-          end: '+=130%',
-          pin: true,
-          scrub: 0.6
-        }
-      });
-      speedTl.fromTo(speedH2, { y: '55vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0);
-      speedTl.fromTo(speedSub, { y: '10vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0.1);
-      speedTl.fromTo(speedBg, { scale: 1.08 }, { scale: 1, ease: 'none' }, 0);
-      speedTl.fromTo(speedH2, { y: 0, opacity: 1 }, { y: '-35vh', opacity: 0, ease: 'power2.in' }, 0.7);
-      speedTl.fromTo(speedSub, { y: 0, opacity: 1 }, { y: '-8vh', opacity: 0, ease: 'power2.in' }, 0.7);
-      speedTl.fromTo(speedBg, { scale: 1 }, { scale: 1.05, ease: 'none' }, 0.7);
-    }
-
-    // ===================
-    //  TESTIMONIALS — scrubbed fade in/out
-    // ===================
-    const testimonialsSection = document.querySelector('.testimonials');
-    if (testimonialsSection) {
-      const testimonialsTitle = testimonialsSection.querySelector('.testimonials-title');
-      const testimonialCards = testimonialsSection.querySelectorAll('.testimonial-card');
-
-      if (testimonialsTitle && testimonialCards.length) {
-        const testimonialsTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: testimonialsSection,
-            start: 'top 80%',
-            end: 'bottom 24%',
-            scrub: 0.48
-          }
-        });
-
-        testimonialsTl.fromTo(
-          testimonialsTitle,
-          { y: 18, opacity: 0.08 },
-          { y: 0, opacity: 1, duration: 0.22, ease: 'none' },
-          0
-        );
-        testimonialsTl.fromTo(
-          testimonialCards,
-          { y: 18, opacity: 0.08 },
-          { y: 0, opacity: 1, duration: 0.22, stagger: 0.05, ease: 'none' },
-          0.04
-        );
-        testimonialsTl.to(
-          testimonialsTitle,
-          { y: -14, opacity: 0.08, duration: 0.16, ease: 'none' },
-          0.82
-        );
-        testimonialsTl.to(
-          testimonialCards,
-          { y: -14, opacity: 0.08, duration: 0.16, stagger: 0.03, ease: 'none' },
-          0.82
-        );
+          trigger: ".close-card",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.6,
+        },
       }
-    }
+    );
+  }
+}
+</script>
+<!-- Contact: "Talk to us" reveals the email-capture section above the footer.
+     Ported from the previous index.html; posts to the same formsubmit endpoint. -->
+<script>
+(() => {
+  const section = document.getElementById("contactSection");
+  const form    = document.getElementById("contactForm");
+  if (!section || !form) return;
 
-    // ===================
-    //  TESTIMONIALS RAIL — drag / swipe / arrows, with a slow auto-drift
-    //  The track holds the cards twice (the second group is aria-hidden), so any
-    //  scrollLeft and scrollLeft ± half show identical pixels. Every wrap below
-    //  is that ± half, which is why the loop is seamless in both directions and
-    //  why overshooting the end mid-animation is harmless.
-    // ===================
-    (function initTestimonialsRail() {
-      const viewport = document.getElementById('testimonialsViewport');
-      const track = document.getElementById('testimonialsTrack');
-      if (!viewport || !track) return;
+  const openContact = () => {
+    section.classList.add("open");
+    // opening changes the document height under the pinned stages
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+    setTimeout(() => {
+      section.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+      const emailEl = document.getElementById("contactEmail");
+      if (emailEl) emailEl.focus({ preventScroll: true });
+    }, 50);
+  };
 
-      const prevBtn = document.getElementById('testimonialsPrev');
-      const nextBtn = document.getElementById('testimonialsNext');
-      const DRIFT_PX_PER_SEC = 32;   // fixed speed: independent of card width
-      const RESUME_AFTER_MS = 2500;  // quiet time before the drift creeps back in
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest && e.target.closest('a[href="#contactSection"]');
+    if (!link) return;
+    e.preventDefault();
+    openContact();
+  });
 
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let paused = false;
-      let dragging = false;
-      let lastX = 0;
-      let moved = 0;
-      let resumeTimer = 0;
-      let lastFrame = 0;
+  // Landing on index.html#contactSection from another page opens the panel.
+  if (location.hash === "#contactSection") openContact();
 
-      // one loop = half the track, i.e. exactly one copy of the card set
-      const half = () => track.scrollWidth / 2;
-
-      // Rightward looping is automatic: past one copy, rewind by one copy.
-      // Held off during an arrow's smooth scroll — that animates toward an
-      // ABSOLUTE target, so rewinding underneath it would send the rail lurching
-      // a whole copy forward. Sitting briefly past the loop point is harmless:
-      // it is the duplicate group, pixel-identical, and gets normalised after.
-      let smoothUntil = 0;
-      function wrapRight() {
-        if (performance.now() < smoothUntil) return;
-        const h = half();
-        if (h > 0 && viewport.scrollLeft >= h) viewport.scrollLeft -= h;
-      }
-      // Leftward can't be detected after the fact — the browser clamps scrollLeft
-      // at 0, so there is no negative value to catch. Instead, guarantee a full
-      // copy of runway to the left BEFORE any gesture starts.
-      function ensureLeftRoom() {
-        const h = half();
-        if (h > 0 && viewport.scrollLeft < 1) viewport.scrollLeft += h;
-      }
-
-      function holdDrift(ms) {
-        paused = true;
-        clearTimeout(resumeTimer);
-        if (ms) resumeTimer = setTimeout(() => { paused = false; }, ms);
-      }
-
-      // ── auto-drift ──
-      function tick(now) {
-        const dt = lastFrame ? Math.min((now - lastFrame) / 1000, 0.1) : 0;
-        lastFrame = now;
-        if (!paused && !dragging && !document.hidden) {
-          viewport.scrollLeft += DRIFT_PX_PER_SEC * dt;
-          wrapRight();
-        }
-        requestAnimationFrame(tick);
-      }
-      if (!reduceMotion) requestAnimationFrame(tick);
-
-      // ── hover / focus: hold still so a card can actually be read ──
-      viewport.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') holdDrift(0); });
-      viewport.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') holdDrift(400); });
-      viewport.addEventListener('focusin', () => holdDrift(0));
-      viewport.addEventListener('focusout', () => holdDrift(400));
-
-      // ── native scrolling (touch swipe, trackpad, keyboard arrows) ──
-      // Touch is deliberately left to the browser: hijacking it with preventDefault
-      // is what breaks vertical page scrolling on a horizontal rail.
-      viewport.addEventListener('scroll', wrapRight, { passive: true });
-      viewport.addEventListener('touchstart', () => { holdDrift(0); ensureLeftRoom(); }, { passive: true });
-      viewport.addEventListener('touchend', () => holdDrift(RESUME_AFTER_MS), { passive: true });
-      viewport.addEventListener('keydown', () => holdDrift(RESUME_AFTER_MS));
-
-      // ── mouse drag-to-slide ──
-      viewport.addEventListener('pointerdown', e => {
-        if (e.pointerType !== 'mouse' || e.button !== 0) return;
-        dragging = true;
-        moved = 0;
-        lastX = e.clientX;
-        holdDrift(0);
-        ensureLeftRoom();
-        viewport.setPointerCapture(e.pointerId);
-        e.preventDefault(); // stops the browser's native image/text drag
-      });
-
-      viewport.addEventListener('pointermove', e => {
-        if (!dragging) return;
-        // per-frame delta, not an offset from the press point: a wrap mid-drag
-        // moves scrollLeft by a whole copy, which would make an absolute
-        // origin snap the rail back on the very next move
-        const dx = e.clientX - lastX;
-        lastX = e.clientX;
-        moved += Math.abs(dx);
-        // only claim the gesture once it reads as a drag, so a sloppy click still clicks
-        if (moved > 4) viewport.classList.add('is-dragging');
-        viewport.scrollLeft -= dx;
-        if (dx > 0) ensureLeftRoom(); else wrapRight();
-      });
-
-      function endDrag(e) {
-        if (!dragging) return;
-        dragging = false;
-        viewport.classList.remove('is-dragging');
-        if (viewport.hasPointerCapture?.(e.pointerId)) viewport.releasePointerCapture(e.pointerId);
-        holdDrift(RESUME_AFTER_MS);
-      }
-      viewport.addEventListener('pointerup', endDrag);
-      viewport.addEventListener('pointercancel', endDrag);
-
-      // ── arrows ── one card per press
-      function step(dir) {
-        const card = track.querySelector('.testimonial-card');
-        const group = track.querySelector('.testimonials-group');
-        const gap = (group && parseFloat(getComputedStyle(group).gap)) || 28;
-        holdDrift(RESUME_AFTER_MS);
-        if (dir < 0) ensureLeftRoom();
-        if (!reduceMotion) smoothUntil = performance.now() + 700;
-        viewport.scrollBy({
-          left: ((card?.offsetWidth || 380) + gap) * dir,
-          behavior: reduceMotion ? 'auto' : 'smooth'
-        });
-      }
-      prevBtn?.addEventListener('click', () => step(-1));
-      nextBtn?.addEventListener('click', () => step(1));
-    })();
-
-
-    // ===================
-    //  CONNECT - pinned, text scrolls in then out
-    // ===================
-    const connect = document.getElementById('connect');
-    if (connect) {
-      const connectH2 = connect.querySelector('.connect-heading');
-      const connectRule = connect.querySelector('.statement-rule');
-
-      const connectTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: connect,
-          start: 'top top',
-          end: '+=130%',
-          pin: true,
-          scrub: 0.6
-        }
-      });
-      connectTl.fromTo(connectRule, { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, ease: 'none' }, 0);
-      connectTl.fromTo(connectH2, { y: '60vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0);
-      connectTl.fromTo(connectRule, { opacity: 1 }, { opacity: 0, ease: 'power2.in' }, 0.7);
-      connectTl.fromTo(connectH2, { y: 0, opacity: 1 }, { y: '-40vh', opacity: 0, ease: 'power2.in' }, 0.7);
-    }
-
-    // ===================
-    //  HOW IT WORKS — fade in only (steps)
-    // ===================
-    const howSteps = document.querySelector('.how-it-works-steps');
-    if (howSteps) {
-      const howTitle = howSteps.querySelector('.how-title');
-      const howSub = howSteps.querySelector('.how-sub');
-      const stepCards = howSteps.querySelectorAll('.step-card');
-
-      if (howTitle) {
-        gsap.fromTo(howTitle, { y: 24, opacity: 0 }, {
-          y: 0, opacity: 1, duration: 0.6, ease: 'power2.out',
-          scrollTrigger: { trigger: howTitle, start: 'top 80%' }
-        });
-      }
-      if (howSub) {
-        gsap.fromTo(howSub, { y: 24, opacity: 0 }, {
-          y: 0, opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.1,
-          scrollTrigger: { trigger: howSub, start: 'top 80%' }
-        });
-      }
-      if (stepCards.length) {
-        gsap.fromTo(stepCards, { y: 40, opacity: 0 }, {
-          y: 0, opacity: 1, duration: 0.6, stagger: 0.15, ease: 'power2.out',
-          scrollTrigger: { trigger: stepCards[0], start: 'top 80%' }
-        });
-      }
-    }
-
-    // Hide play button when video plays, show when paused
-    const aboutVid = document.getElementById('aboutVideo');
-    const playBtn = document.getElementById('videoPlayBtn');
-    aboutVid.addEventListener('play', () => { playBtn.style.display = 'none'; });
-    aboutVid.addEventListener('pause', () => { playBtn.style.display = ''; });
-    aboutVid.addEventListener('ended', () => { playBtn.style.display = ''; });
-    aboutVid.addEventListener('loadedmetadata', () => {
-      ScrollTrigger.refresh();
-      if (typeof scheduleBuildSnap === 'function') scheduleBuildSnap();
-    });
-
-    // About video — no fade in, only fade out on leave
-    const aboutVideoWrap = document.getElementById('aboutVideoWrap');
-    if (aboutVideoWrap) {
-      ScrollTrigger.create({
-        trigger: aboutVideoWrap,
-        start: 'top 60%',
-        end: 'bottom 40%',
-        onEnter: () => gsap.set(aboutVideoWrap, { opacity: 1, y: 0, scale: 1 }),
-        onEnterBack: () => gsap.set(aboutVideoWrap, { opacity: 1, y: 0, scale: 1 }),
-        onLeave: () => gsap.to(aboutVideoWrap, { opacity: 0, y: -20, duration: 0.35, ease: 'power2.out' })
-      });
-    }
-
-    // ===================
-    //  CTA - scroll-triggered
-    // ===================
-    // Play-once on enter, NOT scrub. This is the last content on the page — only
-    // the short footer follows — so a scrubbed reveal can never reach its
-    // completion point: at max scroll #ctaButtons' top only climbs to ~474px, but
-    // the old `end:'top 35%'` (~295px) demanded it climb higher, leaving the
-    // buttons permanently stuck at ~0.79 opacity. A one-shot tween on enter
-    // guarantees full reveal regardless of how little runway remains below it.
-    gsap.fromTo('#ctaContent', { y: 30, opacity: 0 }, {
-      y: 0, opacity: 1, duration: 0.7, ease: 'power2.out',
-      scrollTrigger: { trigger: '#ctaContent', start: 'top 82%' }
-    });
-    gsap.fromTo('#ctaButtons a', { scale: 0.98, opacity: 0 }, {
-      scale: 1, opacity: 1, stagger: 0.1, duration: 0.6, ease: 'power2.out',
-      scrollTrigger: { trigger: '#ctaButtons', start: 'top 88%' }
-    });
-
-    // ===================
-    //  SNAP SCROLLING between pinned sections (rebuild after refresh)
-    // ===================
-    let snapTrigger;
-    let snapBuildTimer;
-
-    function buildSnap() {
-      if (snapTrigger) {
-        snapTrigger.kill();
-        snapTrigger = null;
-      }
-
-      const pinned = ScrollTrigger.getAll().filter(st => st.vars.pin).sort((a, b) => a.start - b.start);
-      const maxScroll = ScrollTrigger.maxScroll(window);
-      if (!maxScroll) return;
-
-      const zones = pinned.map(st => ({
-        start: st.start / maxScroll,
-        end: (st.end ?? st.start) / maxScroll,
-        center: (st.start + ((st.end ?? st.start) - st.start) * 0.5) / maxScroll
-      }));
-
-      // The partners strip sits above the first pinned section, so it owns no zone of
-      // its own — without this the hero's zone reaches back over it and you can neither
-      // linger on it going down nor scroll back up to it. Make the top of the page a
-      // snap target covering the strip.
-      const firstPin = pinned[0];
-      if (firstPin && firstPin.start > 0) {
-        zones.push({ start: 0, end: firstPin.start / maxScroll, center: 0 });
-      }
-
-      if (howSteps) {
-        const rect = howSteps.getBoundingClientRect();
-        const sectionTop = window.scrollY + rect.top;
-        const navHeight = document.querySelector('.nav')?.offsetHeight || 0;
-        const aboutSnapOffsetPx = -50;
-        const targetPx = sectionTop - navHeight - aboutSnapOffsetPx;
-        if (targetPx >= 0) {
-          const snapWindowPx = Math.max(window.innerHeight * 0.16, 80);
-          zones.push({
-            start: gsap.utils.clamp(0, 1, (targetPx - snapWindowPx) / maxScroll),
-            end: gsap.utils.clamp(0, 1, (targetPx + snapWindowPx) / maxScroll),
-            center: gsap.utils.clamp(0, 1, targetPx / maxScroll)
-          });
-        }
-      }
-
-      if (zones.length === 0) return;
-      zones.sort((a, b) => a.start - b.start);
-
-      // Mark zones that butt directly against the one before them. Only those can hand
-      // back on an upward scroll — a non-adjacent neighbour is too far to jump to.
-      zones.forEach((z, i) => {
-        const prev = zones[i - 1];
-        z.prev = prev && Math.abs(z.start - prev.end) < 0.002 ? prev : null;
-      });
-
-      snapTrigger = ScrollTrigger.create({
-        snap: {
-          snapTo: (progress, self) => {
-            // Snap to the zone the scroll is actually inside. Picking the nearest centre
-            // instead put the hand-off at the midpoint between two centres — for the
-            // partners strip that sat ~160px past where the strip ends, so scrolling
-            // past it pulled you back to the top and scrolling back up pulled you down.
-            const inside = zones.find(z => progress >= z.start && progress <= z.end);
-            if (inside) {
-              // Scrolling up out of the early part of a zone hands back to the zone it
-              // butts against, so the short strip stays reachable from the tall hero pin.
-              if (self && self.direction < 0 && inside.prev && progress < inside.center) {
-                return inside.prev.center;
-              }
-              return inside.center;
-            }
-
-            // Outside every zone: only nudge if one is close, otherwise leave it alone.
-            const near = zones.filter(z => progress >= z.start - 0.02 && progress <= z.end + 0.02);
-            if (!near.length) return progress;
-            return near.reduce((best, z) =>
-              Math.abs(z.center - progress) < Math.abs(best - progress) ? z.center : best
-            , near[0].center);
-          },
-          duration: { min: 0.15, max: 0.35 },
-          delay: 0,
-          ease: 'power2.out'
-        }
-      });
-    }
-
-    function scheduleBuildSnap() {
-      clearTimeout(snapBuildTimer);
-      snapBuildTimer = setTimeout(buildSnap, 0);
-    }
-
-    ScrollTrigger.addEventListener('refresh', scheduleBuildSnap);
-    window.addEventListener('load', () => {
-      ScrollTrigger.refresh();
-      scheduleBuildSnap();
-    });
-  </script>
-  <!-- GA4: track signup / login CTA clicks (delegated, so buttons added later are covered too) -->
-  <script>
-    document.addEventListener('click', function (e) {
-      if (!e.target || !e.target.closest) return;
-      var btn = e.target.closest('a[href^="https://app.mameon.com"]');
-      if (!btn) return;
-      gtag('event', 'signup_click', {
-        button_location: btn.dataset.location || 'unknown',
-        link_text: (btn.textContent || '').trim(),
-        transport_type: 'beacon'
-      });
-    });
-  </script>
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("email", document.getElementById("contactEmail").value);
+    formData.append("_subject", "New contact from mameon website");
+    formData.append("_captcha", "false");
+    const showSuccess = () => {
+      document.getElementById("contactFormFields").style.display = "none";
+      document.getElementById("contactSuccess").style.display = "flex";
+    };
+    fetch("https://formsubmit.co/ajax/jom@mameon.com", { method: "POST", body: formData })
+      .then(showSuccess).catch(showSuccess);
+  });
+})();
+</script>
+<!-- GA4: track signup / login CTA clicks (delegated, so buttons added later are covered too) -->
+<script>
+document.addEventListener('click', function (e) {
+  if (!e.target || !e.target.closest) return;
+  var btn = e.target.closest('a[href^="https://app.mameon.com"]');
+  if (!btn) return;
+  gtag('event', 'signup_click', {
+    button_location: btn.dataset.location || 'unknown',
+    link_text: (btn.textContent || '').trim(),
+    transport_type: 'beacon'
+  });
+});
+</script>
 </body>
 </html>

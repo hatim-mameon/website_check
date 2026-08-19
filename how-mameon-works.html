@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5YZHC5Z63S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5YZHC5Z63S');
+  gtag('config', 'AW-10802565257');
+</script>
+<title>mameon — How mameon Works</title>
+<link rel="canonical" href="https://mameon.com/how-mameon-works.html">
+<link rel="icon" type="image/png" href="logo.png">
+
+<link rel="preload" as="image" href="wordmark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="preview.css">
+<script src="preview.js" defer></script>
+
+<script>document.documentElement.className += " js";</script>
+
+<style>
+/* ============================================================
+   FOUR STEPS
+   The same numbered-step idea as the landing page, laid out as a row so the
+   sequence is readable before any video is played.
+   ============================================================ */
+.steps{
+  display:grid; gap:clamp(18px,2vw,26px); margin-top:40px;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+}
+.step{
+  padding:26px 24px 28px; border-radius:var(--radius-lg);
+  background:var(--paper-pure); border:1px solid rgba(15,20,32,.08);
+}
+.step .n{
+  font-family:var(--display); font-size:2.4rem; line-height:1;
+  color:var(--brand-tint); letter-spacing:-.02em;
+}
+.step h3{ margin-top:16px; font-size:1.22rem; line-height:1.16; letter-spacing:-.02em; }
+.step p{ margin-top:10px; font-size:14.5px; color:var(--ink-soft); }
+
+/* The opening walkthrough is the one to watch first, so it gets the full
+   width rather than being one tile among nine. */
+.feature{ margin-top:44px; }
+.feature .vcard{ display:grid; grid-template-columns:1fr; }
+@media (min-width:901px){
+  .feature .vcard{ grid-template-columns:1.35fr 1fr; align-items:stretch; }
+  .feature .vcard video{ height:100%; aspect-ratio:auto; }
+  .feature .vcard-body{
+    display:flex; flex-direction:column; justify-content:center;
+    padding:clamp(28px,3vw,44px);
+  }
+  .feature .vcard-body h3{ font-size:clamp(1.5rem,2.2vw,2.1rem); }
+  .feature .vcard-body p{ font-size:16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="mameon — home">
+    <img class="brand-ink nav-mark-img" src="logo.png" alt="" width="32" height="32">
+    <img class="brand-ink nav-word" src="wordmark.png" alt="mameon" width="70" height="18">
+  </a>
+  <a class="link" href="whatyouget.html">What you Can Make</a>
+  <a class="link" aria-current="page">How mameon Works</a>
+  <a class="link" href="meet-our-team.html">Meet Our Team</a>
+  <a class="cta" href="https://app.mameon.com" aria-label="Log in or sign up for free"><span class="cta-full">Log in / Sign up for free</span><span class="cta-short">Sign up free</span></a>
+  <button class="nav-toggle" id="navToggle" type="button"
+          aria-expanded="false" aria-controls="navPanel" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="nav-panel" id="navPanel">
+    <a href="whatyouget.html">What you Can Make</a>
+    <a aria-current="page">How mameon Works</a>
+    <a href="meet-our-team.html">Meet Our Team</a>
+  </div>
+</nav>
+
+<!-- ================= MASTHEAD ================= -->
+<header class="page-hero grain">
+  <div class="page-hero-bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="eyebrow">How mameon works</p>
+    <h1>From your URL to a live campaign.</h1>
+    <p class="lede">Guided walkthroughs for every workflow on mameon — brand kit,
+      campaigns, insights and everything in between. Campaign creation is free.</p>
+    <div class="tagrow">
+      <span>9 walkthroughs</span>
+      <span>Campaigns · brand · insights</span>
+      <span>Step by step</span>
+    </div>
+  </div>
+</header>
+
+<!-- ================= THE FOUR STEPS ================= -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow">The short version</p>
+    <h2>Four steps, and the first one is a paste.</h2>
+
+    <div class="steps stagger">
+      <div class="step">
+        <span class="n" aria-hidden="true">01</span>
+        <h3>Paste your URL</h3>
+        <p>mameon reads your site and picks up your brand — voice, colours, what you
+          actually do.</p>
+      </div>
+      <div class="step">
+        <span class="n" aria-hidden="true">02</span>
+        <h3>Check your brand profile</h3>
+        <p>Adjust anything that isn't quite you. It becomes the brief for everything
+          that follows.</p>
+      </div>
+      <div class="step">
+        <span class="n" aria-hidden="true">03</span>
+        <h3>Create a campaign</h3>
+        <p>Scripts, posts and ads across every format, generated in minutes rather
+          than weeks.</p>
+      </div>
+      <div class="step">
+        <span class="n" aria-hidden="true">04</span>
+        <h3>Publish everywhere</h3>
+        <p>Push out across the platforms that matter, and watch what lands.</p>
+      </div>
+    </div>
+
+    <!-- ---------- lead walkthrough ---------- -->
+    <div class="feature">
+      <figure class="vcard">
+        <video controls preload="metadata" poster="https://storage.googleapis.com/mameon-website-assets/00.%20How%20it%20Works.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/00.%20How%20it%20Works.mp4" type="video/mp4">
+        </video>
+        <figcaption class="vcard-body">
+          <h3>How it works</h3>
+          <p>See how you can simply, easily and inexpensively start creating campaigns
+            on mameon in minutes. And remember — campaign creation is free.</p>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WALKTHROUGHS ================= -->
+<section class="sec sec-wash">
+  <div class="wrap">
+    <p class="eyebrow">Walkthroughs</p>
+    <h2>Every workflow, one video at a time.</h2>
+
+    <div class="vgrid stagger">
+      <figure class="vcard">
+        <video controls preload="metadata" poster="videos/mameon.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/01.%20Intro.mp4" type="video/mp4">
+        </video>
+        <figcaption class="vcard-body">
+          <h3>Getting started with mameon</h3>
+          <p>Set up your brand kit, create content, and launch your first campaign step
+            by step in just a few minutes.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="vcard">
+        <video controls preload="metadata" poster="videos/campaign.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/02.%20Your%20Campaigns.mp4" type="video/mp4">
+        </video>
+        <figcaption class="vcard-body">
+          <h3>Your first 5 minutes on mameon</h3>
+          <p>A quick walkthrough of everything you need to go from login to live
+            campaign with ease.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="vcard">
+        <video controls preload="metadata" poster="videos/Your%20Brand%20Profile.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/04.%20Your%20Brand%20Profile.mp4" type="video/mp4">
+        </video>
+        <figcaption class="vcard-body">
+          <h3>Your brand profile</h3>
+          <p>Understand and manage your brand profile setup in mameon.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="vcard">
+        <video controls preload="metadata" poster="videos/Your%20Info.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/06.%20Your%20Info.mp4" type="video/mp4">
+        </video>
+        <figcaption class="vcard-body">
+          <h3>Your info</h3>
+          <p>A walkthrough of the Your Info section and its key settings.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="vcard">
+        <video controls preload="metadata" poster="videos/Get%20Help.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/07.%20Get%20Help.mp4" type="video/mp4">
+        </video>
+        <figcaption class="vcard-body">
+          <h3>Get help</h3>
+          <p>An overview of the Get Help section and the support available to you.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="vcard">
+        <video controls preload="metadata" poster="videos/Your%20Chief%20Storytelling%20Officer.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/08.%20Your%20Chief%20Storytelling%20Officer.mp4" type="video/mp4">
+        </video>
+        <figcaption class="vcard-body">
+          <h3>Your Chief Storytelling Officer</h3>
+          <p>How to use the Chief Storytelling Officer features.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="vcard">
+        <video controls preload="metadata" poster="videos/Storytelling%20that%20Connects.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/09.%20Storytelling%20that%20Connects.mp4" type="video/mp4">
+        </video>
+        <figcaption class="vcard-body">
+          <h3>Storytelling that connects</h3>
+          <p>Techniques for telling a story your audience actually responds to.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="vcard">
+        <video controls preload="metadata" poster="videos/Your%20Story%20is%20Worth%20Telling.png">
+          <source src="https://storage.googleapis.com/mameon-website-assets/10.%20Your%20Story%20is%20Worth%20Telling.mp4" type="video/mp4">
+        </video>
+        <figcaption class="vcard-body">
+          <h3>Your story is worth telling</h3>
+          <p>Why your brand story matters, and how to tell it well.</p>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CLOSING CTA ================= -->
+<section class="close-card grain">
+  <div class="close-bg" aria-hidden="true"></div>
+  <h2>Create campaigns for free. No credit card required.</h2>
+  <p>Join 1000+ founders already telling their story with mameon.</p>
+  <div class="close-btns">
+    <a class="btn btn-solid" href="https://app.mameon.com">Get started free</a>
+    <a class="btn btn-ghost" href="whatyouget.html">See what you can make</a>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-brand">
+    <img class="brand-ink foot-word" src="wordmark.png" alt="mameon" width="94" height="24">
+    © 2026 mameon. All rights reserved.
+  </span>
+  <nav>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="index.html#contactSection">Contact</a>
+  </nav>
+</footer>
+
+</body>
+</html>

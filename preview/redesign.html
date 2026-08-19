@@ -539,6 +539,11 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
 /* Height-led now: the card fills the panel and the 3/4 ratio gives its width. */
 .tcar.scrolldriven .tcard{ flex:0 0 auto; height:100%; width:auto; }
 
+/* Act 3 — the last card grows out of the strip into the closing CTA, so the
+   view must stop clipping and the card must ride over the head chrome. */
+.tcar.scrolldriven.morphing .tcar-view{ overflow:visible; }
+.tcar.scrolldriven .tcard:last-child{ z-index:5; will-change:transform; }
+
 
 .tcard{
   position:relative; flex:0 0 clamp(268px,30vw,430px);
@@ -556,9 +561,10 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
   width:42%; max-width:150px; height:auto; opacity:.92;
   filter:drop-shadow(0 12px 30px rgba(0,0,0,.45));
 }
-/* Scrim guarantees the overlaid text keeps AA contrast on any photo. */
+/* Scrim guarantees the overlaid text keeps AA contrast on any photo.
+   --scrim lets the morph fade it with the rest of the card copy. */
 .tcard::after{
-  content:""; position:absolute; inset:0; z-index:1;
+  content:""; position:absolute; inset:0; z-index:1; opacity:var(--scrim,1);
   background:linear-gradient(to top,
     rgba(8,15,35,.92) 0%, rgba(8,15,35,.74) 34%,
     rgba(8,15,35,.28) 66%, rgba(8,15,35,.42) 100%);
@@ -623,6 +629,16 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
   margin:22px auto 30px; max-width:46ch; color:rgba(255,255,255,.78); font-size:16px;
 }
 .close-card .hero-btns{ position:relative; z-index:3; justify-content:center; }
+
+/* Scroll-driven mode adopts the closing CTA into the pinned customers stage:
+   it becomes an overlay the grown last card fades into — the hero morph,
+   reversed. Script moves the element; without JS it stays a stacked section. */
+#customers.pinned .close-card{
+  position:absolute; inset:14px; margin:0; z-index:3;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  opacity:0; pointer-events:none;
+}
+#customers.pinned .close-card.on{ pointer-events:auto; }
 
 /* black + rounded, matching the floating menu bar */
 footer{
@@ -1160,8 +1176,16 @@ steps.forEach(s => stepIO.observe(s));
   root.classList.add("scrolldriven");
   sec.classList.add("pinned");
 
-  const RISE = 0.8;    // viewports of scroll spent bringing the panel up
-  const TAIL = 0.25;   // viewports held on the last card before the pin releases
+  // Adopt the closing CTA into the pinned stage: Act 3 grows the last card to
+  // page size and fades the CTA in over it — the hero->card morph, reversed.
+  const close    = document.querySelector(".close-card");
+  const head     = root.querySelector(".tcar-head");
+  const lastCard = track.lastElementChild;
+  sec.appendChild(close);
+
+  const RISE  = 0.8;   // viewports of scroll spent bringing the panel up
+  const TAIL  = 0.15;  // viewports held on the last card before the morph starts
+  const MORPH = 1.1;   // viewports spent growing the last card into the CTA
   const LIFT = 14;     // % of its own height the title drifts up as it goes
   // The title finishes clearing before the panel reaches it, so it is never
   // seen being cut off by the panel's edge — it leaves under its own steam.
@@ -1172,14 +1196,28 @@ steps.forEach(s => stepIO.observe(s));
      friends) between GSAP's writes forces a synchronous reflow on every frame,
      which makes a scrubbed section feel gritty however well the numbers ease. */
   let travelPx = 0;
+  const morph = { dx: 0, dy: 0, sx: 1, sy: 1 };
+  const PAGE_INSET = 14;   // matches .close-card's page margin
   const measure = () => {
     travelPx = Math.max(0, track.scrollWidth - rail.clientWidth);
+    // Last card's end-of-run box -> the CTA's page box. Transforms are backed
+    // out (track x, panel y) so this is layout truth at any breakpoint.
+    gsap.set(lastCard, { x: 0, y: 0, scaleX: 1, scaleY: 1 });
+    const r    = lastCard.getBoundingClientRect();
+    const tx   = Number(gsap.getProperty(track, "x")) || 0;
+    const left = r.left - tx - travelPx;
+    const top  = r.top - root.getBoundingClientRect().top;
+    morph.sx = (innerWidth  - PAGE_INSET * 2) / r.width;
+    morph.sy = (innerHeight - PAGE_INSET * 2) / r.height;
+    morph.dx = innerWidth  / 2 - (left + r.width  / 2);
+    morph.dy = innerHeight / 2 - (top  + r.height / 2);
   };
   measure();
   ScrollTrigger.addEventListener("refreshInit", measure);
 
   const risePx  = () => innerHeight * RISE;
-  const totalPx = () => risePx() + travelPx + innerHeight * TAIL;
+  const morphPx = () => innerHeight * MORPH;
+  const totalPx = () => risePx() + travelPx + innerHeight * TAIL + morphPx();
 
   const ease = { duration: 0.45, ease: "power3" };
   const panelTo = gsap.quickTo(root,  "yPercent", ease);
@@ -1187,6 +1225,13 @@ steps.forEach(s => stepIO.observe(s));
   const fadeTo  = gsap.quickTo(title, "opacity",  ease);
   const zoomTo  = gsap.quickTo(title, "scale",    ease);
   const trackTo = gsap.quickTo(track, "x", { duration: 0.55, ease: "power3" });
+  const cardX   = gsap.quickTo(lastCard, "x",      ease);
+  const cardY   = gsap.quickTo(lastCard, "y",      ease);
+  const cardSX  = gsap.quickTo(lastCard, "scaleX", ease);
+  const cardSY  = gsap.quickTo(lastCard, "scaleY", ease);
+  const growCurve = gsap.parseEase("power2.inOut");
+  const cardBits  = lastCard.querySelectorAll(".tcard-top, .tcard-body, .mark, .photo");
+  const otherCards = Array.from(track.children).filter(c => c !== lastCard);
 
   gsap.set(root, { yPercent: 100 });   // parked one screen below, title clear
 
@@ -1214,6 +1259,25 @@ steps.forEach(s => stepIO.observe(s));
       bar.style.width = `${12 + 88 * (travelPx ? run / travelPx : 1)}%`;
 
       panelTo((1 - rise) * 100);
+
+      // Act 3 — the hero morph, reversed: the card copy clears, the last card
+      // grows to page size, and the closing CTA fades in on top of it.
+      const m = Math.min(1, Math.max(0,
+        (px - risePx() - travelPx - innerHeight * TAIL) / morphPx()));
+      root.classList.toggle("morphing", m > 0);
+      const grow = growCurve(m);
+      cardX(morph.dx * grow);
+      cardY(morph.dy * grow);
+      cardSX(1 + (morph.sx - 1) * grow);
+      cardSY(1 + (morph.sy - 1) * grow);
+      const cleared = Math.min(1, m / 0.30);
+      gsap.set(cardBits, { opacity: 1 - cleared });
+      gsap.set(head, { opacity: 1 - cleared });
+      if (otherCards.length) gsap.set(otherCards, { opacity: 1 - cleared });
+      lastCard.style.setProperty("--scrim", String(1 - cleared));
+      // CTA copy arrives once the card is near its full size
+      gsap.set(close, { opacity: Math.min(1, Math.max(0, (m - 0.62) / 0.30)) });
+      close.classList.toggle("on", m > 0.62);
     },
   });
 })();
@@ -1281,19 +1345,23 @@ if (!reduced && window.gsap && window.ScrollTrigger) {
       { x: () => -(mq.scrollWidth - innerWidth) - innerWidth * 0.15,
         ease: "none", duration: 1 - MORPH_END }, MORPH_END);
 
-  /* ---------- closing CTA: gradient drifts behind the copy ---------- */
-  gsap.fromTo("#closeBg",
-    { yPercent: -7 },
-    {
-      yPercent: 7, ease: "none",
-      scrollTrigger: {
-        trigger: ".close-card",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 0.6,
-      },
-    }
-  );
+  /* ---------- closing CTA: gradient drifts behind the copy ----------
+     Skipped when the CTA has been adopted into the pinned customers stage —
+     there the reverse morph owns it, and a parallax inside a pin misfires. */
+  if (!document.querySelector("#customers .close-card")) {
+    gsap.fromTo("#closeBg",
+      { yPercent: -7 },
+      {
+        yPercent: 7, ease: "none",
+        scrollTrigger: {
+          trigger: ".close-card",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.6,
+        },
+      }
+    );
+  }
 }
 </script>
 </body>

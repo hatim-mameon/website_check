@@ -1,567 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5YZHC5Z63S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5YZHC5Z63S');
+  gtag('config', 'AW-10802565257');
+</script>
+<title>mameon — Meet Our Team</title>
+<link rel="canonical" href="https://mameon.com/meet-our-team.html">
+<link rel="icon" type="image/png" href="logo.png">
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5YZHC5Z63S"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-5YZHC5Z63S');
-    gtag('config', 'AW-10802565257');
-  </script>
+<link rel="preload" as="image" href="wordmark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <title>mameon - Meet Our Team</title>
-  <link rel="icon" type="image/png" href="logo.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<link rel="stylesheet" href="preview.css">
+<script src="preview.js" defer></script>
 
-    :root {
-      --bg: #ffffff;
-      --bg-card: #f4f5f7;
-      --bg-card-border: rgba(16, 22, 35, 0.10);
-      /* ── PRIMARY BLUE ──
-         Hue 221°, matching the ink/grey ramp (~220°) so the blue reads as the
-         saturated sibling of the neutrals rather than a bolted-on accent.
-         --blue carries white text at 5.2:1 (AA at every size). */
-      --blue: #2563EB;
-      --blue-hover: #1D4FD8;
-      --blue-deep: #16337F;   /* gradient floor + text on tints */
-      --blue-lift: #4C8BF9;   /* highlight end of gradients */
-      --blue-wash: #EFF4FE;   /* whisper tint for large sections */
-      --blue-edge: #D7E3FB;   /* border that sits on the wash */
-      --btn: #2563EB;
-      --btn-hover: #1D4FD8;
-      --white: #ffffff;
-      --gray: #545b69;
-      --gray-dark: #656C7B;
-      --ink: #0f1420;
-      --font-heading: 'Space Grotesk', sans-serif;
-      --font-body: 'Inter', sans-serif;
-      --font-mono: 'IBM Plex Mono', monospace;
-    }
+<!-- Marks that JS is alive. Reveal styles hang off this class, so if the
+     script ever fails, every section renders fully visible. -->
+<script>document.documentElement.className += " js";</script>
 
-    html { scroll-behavior: smooth; }
+<style>
+/* ============================================================
+   TEAM GRID
+   Six columns so the founder's card can take half the row and the rest
+   sit two-up — an editorial break rather than five identical tiles.
+   ============================================================ */
+.team{
+  display:grid; gap:clamp(18px,2vw,28px); margin-top:44px;
+  grid-template-columns:repeat(6, 1fr);
+}
+.member{
+  grid-column:span 2;
+  background:var(--paper-pure); border-radius:var(--radius-lg);
+  border:1px solid rgba(15,20,32,.08); overflow:hidden;
+  display:flex; flex-direction:column;
+  transition:transform .25s cubic-bezier(.22,.8,.3,1), box-shadow .25s ease;
+}
+.member:hover{ transform:translateY(-3px); box-shadow:0 18px 40px -22px rgba(15,20,32,.5); }
 
-    body {
-      font-family: var(--font-body);
-      background: var(--bg);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
+.portrait{ position:relative; background:var(--hero-grad); }
+/* --focus-x is the per-portrait art direction: lowering it slides the subject
+   rightwards in the frame, raising it slides them left. */
+.portrait img{
+  width:100%; aspect-ratio:4/5; object-fit:cover;
+  object-position:var(--focus-x, 50%) 22%;
+}
+.member-hatim .portrait img{ --focus-x:36%; }
+.member-body{ padding:22px clamp(18px,1.6vw,24px) 26px; display:flex; flex-direction:column; flex:1; }
+.member-body h2{
+  font-size:clamp(1.15rem,1.5vw,1.5rem); line-height:1.14;
+  letter-spacing:-.02em; max-width:none;
+}
+.role{
+  align-self:flex-start; margin-top:11px;
+  padding:5px 12px; border-radius:999px;
+  background:var(--brand-wash); border:1px solid var(--brand-edge);
+  font-size:12px; font-weight:600; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--brand-deep);
+}
+.bio{ margin-top:16px; display:grid; gap:11px; }
+.bio p{ font-size:14.5px; line-height:1.62; color:var(--ink-soft); }
+.li{
+  margin-top:auto; align-self:flex-start;
+  display:flex; align-items:center; gap:8px; padding-top:20px;
+  font-size:13.5px; font-weight:500; color:var(--brand);
+}
+.li svg{ width:17px; height:17px; fill:currentColor; }
+.li:hover{ color:var(--brand-deep); }
 
-    h1, h2, h3, h4, h5 {
-      font-family: var(--font-heading);
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-    }
+/* Row one is three-up. That leaves two for row two, so those go wide and lay
+   the portrait beside the words — a change of rhythm, and no dead column. */
+.member.wide{ grid-column:span 3; }
+@media (min-width:901px){
+  .member.wide{ flex-direction:row; }
+  .member.wide .portrait{ flex:0 0 42%; }
+  .member.wide .portrait img{ height:100%; aspect-ratio:auto; }
+  .member.wide .member-body{ padding:clamp(24px,2.4vw,34px); }
+  .member.wide h2{ font-size:clamp(1.3rem,1.8vw,1.7rem); }
+}
 
-    a { color: inherit; text-decoration: none; }
-    button { font-family: inherit; cursor: pointer; border: none; }
-    ul { list-style: none; }
-
-    .grain-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.04;
-      mix-blend-mode: overlay;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    }
-
-    .nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 1000;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      background: rgba(4, 7, 20, 0.94);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(76,139,249,0.16);
-    }
-    .nav-inner {
-      width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .nav-logo-icon {
-      height: 70px;
-      width: auto;
-      object-fit: contain;
-    }
-    .nav-logo-wordmark {
-      height: 42px;
-      width: auto;
-      object-fit: contain;
-    }
-    .nav-center {
-      display: flex;
-      gap: 36px;
-    }
-    .nav-center a {
-      font-size: 0.9rem;
-      color: var(--gray);
-      font-weight: 500;
-      transition: color 0.2s;
-      white-space: nowrap;
-    }
-    .nav-center a:hover { color: var(--ink); }
-    .nav-center a.active { color: var(--ink); }
-    .nav-btn {
-      display: inline-flex;
-      align-items: center;
-      padding: 10px 22px;
-      background: var(--btn);
-      color: #fff;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      border: none;
-      transition: background 0.2s;
-      cursor: pointer;
-      box-shadow: 0 6px 16px rgba(16,22,35,0.16);
-    }
-    .nav-btn:hover { background: var(--btn-hover); box-shadow: 0 10px 24px rgba(16,22,35,0.24); }
-    .nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--ink);
-      padding: 4px;
-      cursor: pointer;
-    }
-
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      background: rgba(4, 7, 20, 0.98);
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-    }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-family: var(--font-heading);
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--gray);
-      transition: color 0.2s;
-    }
-    .mobile-menu a:hover { color: var(--ink); }
-    .mobile-close {
-      position: absolute;
-      top: 16px;
-      right: 20px;
-      background: none;
-      border: none;
-      color: var(--ink);
-      cursor: pointer;
-    }
-
-    .team-page {
-      padding: 120px 40px 80px;
-      max-width: 1240px;
-      margin: 0 auto;
-    }
-
-    .team-title {
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 16px;
-      text-align: center;
-      text-transform: none;
-    }
-
-    .team-subline {
-      font-size: 1rem;
-      color: var(--gray);
-      text-align: center;
-      margin: 0 auto 46px;
-      max-width: 700px;
-      line-height: 1.7;
-    }
-
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 24px;
-    }
-
-    /* Three per row, but on six half-columns so a short final row can sit on the
-       half-column boundary and centre itself under the full rows above. */
-    @media (min-width: 1201px) {
-      .team-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-      .team-card { grid-column: span 2; }
-      .team-card:nth-child(3n+1):nth-last-child(2) { grid-column: 2 / span 2; }
-      .team-card:nth-child(3n+1):nth-last-child(2) ~ .team-card { grid-column: 4 / span 2; }
-    }
-
-    .team-card {
-      background: var(--bg-card);
-      border: 1px solid var(--bg-card-border);
-      box-shadow: 0 10px 30px rgba(16,22,35,0.06);
-      border-radius: 14px;
-      padding: 28px 24px 24px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 560px;
-    }
-
-    .avatar {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-heading);
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--ink);
-      margin-bottom: 18px;
-      border: 1px solid rgba(16,22,35,0.2);
-      background: radial-gradient(circle at 30% 25%, rgba(37,99,235,0.7), rgba(37,99,235,0.2) 60%, rgba(16,22,35,0.08));
-      box-shadow: 0 8px 30px rgba(37,99,235,0.2);
-    }
-    .avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .team-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 8px;
-      line-height: 1.2;
-    }
-
-    .role {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      border: 1px solid rgba(37,99,235,0.35);
-      background: rgba(37,99,235,0.12);
-      color: var(--blue);
-      padding: 4px 12px;
-      font-size: 0.75rem;
-      font-family: var(--font-mono);
-      letter-spacing: 0.03em;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-    }
-
-    .bio p {
-      font-size: 0.95rem;
-      color: var(--gray);
-      line-height: 1.75;
-      margin-bottom: 14px;
-    }
-    .bio p:last-child { margin-bottom: 0; }
-
-    .linkedin-link {
-      margin-top: auto;
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
-      border: 1px solid var(--bg-card-border);
-      background: rgba(16,22,35,0.04);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color 0.2s, background 0.2s;
-      color: var(--gray);
-    }
-    .linkedin-link:hover {
-      border-color: rgba(37,99,235,0.55);
-      background: rgba(37,99,235,0.12);
-      color: var(--blue);
-    }
-
-    .footer {
-      background: #0A0F22;
-      border-top: 1px solid rgba(76,139,249,0.14);
-      padding: 32px 40px;
-    }
-    .footer-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      color: var(--gray-dark);
-    }
-    .footer-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .footer-links {
-      display: flex;
-      gap: 24px;
-    }
-    .footer-links a {
-      color: var(--gray-dark);
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--ink); }
-
-    @media (max-width: 1200px) {
-      /* two per row, same half-column trick so a lone final card centres */
-      .team-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-      .team-card { grid-column: span 2; }
-      .team-card:nth-child(2n+1):last-child { grid-column: 2 / span 2; }
-    }
-    @media (max-width: 1024px) {
-      .nav { height: 70px; }
-      .nav-logo-icon { height: 50px; }
-      .nav-logo-wordmark { height: 30px; }
-      .nav-btn { padding: 8px 16px; font-size: 0.8rem; }
-    }
-    @media (max-width: 960px) {
-      .nav-center { display: none; }
-      .nav-toggle { display: block; }
-    }
-    @media (max-width: 760px) {
-      .team-grid { grid-template-columns: 1fr; }
-      /* single column — drop the spans, or they'd add an implicit second column */
-      .team-card,
-      .team-card:nth-child(2n+1):last-child { grid-column: auto; }
-      .team-card { min-height: auto; }
-    }
-    @media (max-width: 640px) {
-      .nav { height: 60px; }
-      .nav-logo-icon { height: 40px; }
-      .nav-logo-wordmark { height: 22px; }
-      /* keep the label small, but hold the tappable area at the 44px min: extra
-         padding + min-height expand the hit target without a chunkier pill */
-      .nav-btn { padding: 8px 14px; font-size: 0.75rem; min-height: 44px; }
-      .team-page { padding: 100px 20px 60px; }
-      .team-title { font-size: 1.8rem; }
-      .footer-inner { flex-direction: column; text-align: center; gap: 12px; }
-      .footer-links { justify-content: center; }
-    }
-
-    /* light-theme chrome overrides */
-    .nav .nav-center a { color: rgba(255,255,255,0.72); }
-    .nav .nav-center a:hover, .nav .nav-center a.active { color: #fff; }
-    .nav-toggle { color: #fff; }
-    .mobile-menu a { color: rgba(255,255,255,0.78); }
-    .mobile-menu a:hover { color: #fff; }
-    .mobile-close { color: #fff; }
-    .footer .footer-links a { color: rgba(255,255,255,0.6); }
-    .footer .footer-links a:hover { color: #fff; }
-    .footer .footer-left span:last-child { color: rgba(255,255,255,0.6); }
-    /* Nav CTA sits on the dark nav bar -> inverse (light) button so it stands out */
-    .nav-btn { background: #fff; color: var(--blue-hover); box-shadow: 0 2px 10px rgba(0,0,0,0.30); }
-    .nav-btn:hover { background: var(--blue-wash); color: var(--blue-deep); box-shadow: 0 4px 14px rgba(0,0,0,0.36); }
-    /* the same pill also renders inside the mobile menu, where `.mobile-menu a`
-       (0,1,1) outranks `.nav-btn` (0,1,0) and would paint the label white-on-white */
-    .mobile-menu .nav-btn { color: var(--blue-hover); }
-    .mobile-menu .nav-btn:hover { color: var(--blue-deep); }
-
-    /* ── FOCUS RING ──
-       There was no :focus-visible styling anywhere on the site, and the contact
-       input additionally set outline:none — keyboard users had no indicator at
-       all. The brand blue doubles as the ring; it inverts to white on the dark
-       chrome and the blue panels, where a blue ring would vanish. */
-    :focus-visible {
-      outline: 2px solid var(--blue);
-      outline-offset: 3px;
-    }
-    .nav :focus-visible,
-    .mobile-menu :focus-visible,
-    .footer :focus-visible,
-    #hero .hero-card :focus-visible,
-    .cta-inner :focus-visible {
-      outline-color: #fff;
-    }
-  </style>
+@media (max-width:900px){
+  .team{ grid-template-columns:repeat(4, 1fr); }
+  .member, .member.wide{ grid-column:span 2; }
+}
+@media (max-width:640px){
+  .team{ grid-template-columns:1fr; }
+  .member, .member.wide{ grid-column:auto; }
+}
+</style>
 </head>
 <body>
 
-  <div class="grain-overlay"></div>
+<!-- ================= NAV ================= -->
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="mameon — home">
+    <img class="brand-ink nav-mark-img" src="logo.png" alt="" width="32" height="32">
+    <img class="brand-ink nav-word" src="wordmark.png" alt="mameon" width="70" height="18">
+  </a>
+  <a class="link" href="whatyouget.html">What you Can Make</a>
+  <a class="link" href="how-mameon-works.html">How mameon Works</a>
+  <a class="link" aria-current="page">Meet Our Team</a>
+  <a class="cta" href="https://app.mameon.com" aria-label="Log in or sign up for free"><span class="cta-full">Log in / Sign up for free</span><span class="cta-short">Sign up free</span></a>
+  <button class="nav-toggle" id="navToggle" type="button"
+          aria-expanded="false" aria-controls="navPanel" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <img src="logo.png" alt="mameon logo" class="nav-logo-icon" />
-        <img src="wordmark.png" alt="mameon" class="nav-logo-wordmark" />
-      </a>
-      <div class="nav-center">
-        <a href="whatyouget.html">What You Can Make</a>
-        <a href="video-tutorials.html">Video Tutorials</a>
-        <a href="meet-our-team.html" class="active">Meet Our Team</a>
-      </div>
-      <a href="https://app.mameon.com" class="nav-btn" data-location="navbar">Log in / Sign Up for Free</a>
-      <button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
-        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-    </div>
-  </nav>
-
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" onclick="toggleMenu()">
-      <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="6" x2="22" y2="22"/><line x1="22" y1="6" x2="6" y2="22"/></svg>
-    </button>
-    <a href="whatyouget.html" onclick="toggleMenu()">What You Can Make</a>
-    <a href="video-tutorials.html" onclick="toggleMenu()">Video Tutorials</a>
-    <a href="meet-our-team.html" onclick="toggleMenu()">Meet Our Team</a>
-    <a href="https://app.mameon.com" class="nav-btn" data-location="mobile-menu" onclick="toggleMenu()">Log in / Sign Up for Free</a>
+  <div class="nav-panel" id="navPanel">
+    <a href="whatyouget.html">What you Can Make</a>
+    <a href="how-mameon-works.html">How mameon Works</a>
+    <a aria-current="page">Meet Our Team</a>
   </div>
+</nav>
 
-  <main class="team-page">
-    <h1 class="team-title">Meet Our Team</h1>
-    <p class="team-subline">We're a small crew with big hearts, and bigger ambition. We want to make storytelling effortless and we're just getting started!</p>
-
-    <section class="team-grid">
-      <article class="team-card">
-        <div class="avatar">
-          <img src="team/Jason.jpg" alt="Jason O'Mahony portrait" />
-        </div>
-        <h3>JASON O'MAHONY</h3>
-        <span class="role">Founder &amp; CEO</span>
-        <div class="bio">
-          <p>Jason was born on the wild Atlantic coast of Ireland, and is a master storyteller.</p>
-          <p>He's made documentaries for PBS, was Head of Production at Udacity, and is a graduate of Stanford GSB.</p>
-          <p>He wants to build a world where every startup can connect and communicate with their customers as effectively as the biggest brands.</p>
-        </div>
-        <a class="linkedin-link" href="https://www.linkedin.com/in/omahonyjason/" target="_blank" rel="noopener noreferrer" aria-label="Jason O'Mahony LinkedIn">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.09H5.66V18H8.34V10.09ZM7 6.5A1.56 1.56 0 1 0 7 9.62A1.56 1.56 0 1 0 7 6.5ZM18.34 13.46C18.34 11.07 17.06 9.96 15.35 9.96C13.96 9.96 13.34 10.72 13 11.26V10.09H10.43V18H13.11V14.09C13.11 13.05 13.31 12.04 14.59 12.04C15.85 12.04 15.87 13.22 15.87 14.15V18H18.55V13.46H18.34Z"/></svg>
-        </a>
-      </article>
-
-      <article class="team-card">
-        <div class="avatar">
-          <img src="team/Wayne.jpg" alt="Wayne Gao portrait" />
-        </div>
-        <h3>WAYNE GAO</h3>
-        <span class="role">CTO</span>
-        <div class="bio">
-          <p>With over 20 years of experience in software and systems development, Wayne is a CTO rock star!</p>
-          <p>He led AI-driven projects at bitHuman and AiFi, covering multimodal visual agents, autonomous checkout, synthetic data, and digital twin platforms.</p>
-          <p>He also holds 12 national patents in areas as diverse as smart home devices and computer vision!</p>
-        </div>
-        <a class="linkedin-link" href="https://www.linkedin.com/in/wn80sr/" target="_blank" rel="noopener noreferrer" aria-label="Wayne Gao LinkedIn">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.09H5.66V18H8.34V10.09ZM7 6.5A1.56 1.56 0 1 0 7 9.62A1.56 1.56 0 1 0 7 6.5ZM18.34 13.46C18.34 11.07 17.06 9.96 15.35 9.96C13.96 9.96 13.34 10.72 13 11.26V10.09H10.43V18H13.11V14.09C13.11 13.05 13.31 12.04 14.59 12.04C15.85 12.04 15.87 13.22 15.87 14.15V18H18.55V13.46H18.34Z"/></svg>
-        </a>
-      </article>
-
-      <article class="team-card">
-        <div class="avatar">
-          <img src="team/Dave.png" alt="Dave Spillane portrait" />
-        </div>
-        <h3>DAVE SPILLANE</h3>
-        <span class="role">Chair of Board</span>
-        <div class="bio">
-          <p>Also hailing from Ireland, Dave holds a concurrent role at Catalyze Advisors and Point Arena LLC, where he helps run operations and finance.</p>
-          <p>Dave spent 12 years at Ernst &amp; Young before joining Facebook as its Chief Accounting Officer.</p>
-          <p>After helping to take Facebook public in 2012, Dave joined Stripe as its Chief Accountant.</p>
-        </div>
-        <a class="linkedin-link" href="https://www.linkedin.com/in/davespillane/" target="_blank" rel="noopener noreferrer" aria-label="Dave Spillane LinkedIn">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.09H5.66V18H8.34V10.09ZM7 6.5A1.56 1.56 0 1 0 7 9.62A1.56 1.56 0 1 0 7 6.5ZM18.34 13.46C18.34 11.07 17.06 9.96 15.35 9.96C13.96 9.96 13.34 10.72 13 11.26V10.09H10.43V18H13.11V14.09C13.11 13.05 13.31 12.04 14.59 12.04C15.85 12.04 15.87 13.22 15.87 14.15V18H18.55V13.46H18.34Z"/></svg>
-        </a>
-      </article>
-
-      <article class="team-card">
-        <div class="avatar">
-          <img src="team/Hatim.jpeg" alt="Hatim Filali portrait" />
-        </div>
-        <h3>HATIM FILALI</h3>
-        <span class="role">Software Engineer</span>
-        <div class="bio">
-          <p>Hatim trained in Morocco's famed 1337 Coding School, one of the most demanding and selective coding programmes anywhere in the world.</p>
-          <p>He's the rare engineer who is fluent across the whole backend: cloud infrastructure, payments, integrations, real-time systems. Give him something that doesn't exist yet and there's a great chance it'll exist by Friday!</p>
-          <p>He builds things that work, quietly and without fuss, and loves Real Madrid and Zack Snyder's 300.</p>
-        </div>
-        <a class="linkedin-link" href="https://www.linkedin.com/in/hatim-filali-091049249/" target="_blank" rel="noopener noreferrer" aria-label="Hatim Filali LinkedIn">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.09H5.66V18H8.34V10.09ZM7 6.5A1.56 1.56 0 1 0 7 9.62A1.56 1.56 0 1 0 7 6.5ZM18.34 13.46C18.34 11.07 17.06 9.96 15.35 9.96C13.96 9.96 13.34 10.72 13 11.26V10.09H10.43V18H13.11V14.09C13.11 13.05 13.31 12.04 14.59 12.04C15.85 12.04 15.87 13.22 15.87 14.15V18H18.55V13.46H18.34Z"/></svg>
-        </a>
-      </article>
-
-      <article class="team-card">
-        <div class="avatar">
-          <img src="team/Oussama.jpeg" alt="Oussama Ryadi portrait" />
-        </div>
-        <h3>OUSSAMA RYADI</h3>
-        <span class="role">Software Engineer</span>
-        <div class="bio">
-          <p>Oussama trained in Morocco's 1337 Coding School, where students learn by building, not by sitting on their ass in lectures.</p>
-          <p>He's a frontend engineer with a designer's eye and bags full of patience. He cares about the details most people never notice, which is exactly why everything he builds feels effortless.</p>
-          <p>Outside of work, he organises tech and athletic events, and loves film, particularly Japanese manga.</p>
-        </div>
-        <a class="linkedin-link" href="https://www.linkedin.com/in/oussama-ryadi/" target="_blank" rel="noopener noreferrer" aria-label="Oussama Ryadi LinkedIn">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.09H5.66V18H8.34V10.09ZM7 6.5A1.56 1.56 0 1 0 7 9.62A1.56 1.56 0 1 0 7 6.5ZM18.34 13.46C18.34 11.07 17.06 9.96 15.35 9.96C13.96 9.96 13.34 10.72 13 11.26V10.09H10.43V18H13.11V14.09C13.11 13.05 13.31 12.04 14.59 12.04C15.85 12.04 15.87 13.22 15.87 14.15V18H18.55V13.46H18.34Z"/></svg>
-        </a>
-      </article>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-left">
-        <span class="nav-logo">
-          <img src="logo.png" alt="mameon logo" class="nav-logo-icon" />
-          <img src="wordmark.png" alt="mameon" class="nav-logo-wordmark" />
-        </span>
-        <span>&copy; 2026 mameon. All rights reserved.</span>
-      </div>
-      <div class="footer-links">
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-        <a href="index.html#contactSection">Contact</a>
-      </div>
+<!-- ================= MASTHEAD ================= -->
+<header class="page-hero grain">
+  <div class="page-hero-bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="eyebrow">Our team</p>
+    <h1>Meet our team.</h1>
+    <p class="lede">We're a small crew with big hearts, and bigger ambition. We want to
+      make storytelling effortless — and we're just getting started.</p>
+    <div class="tagrow">
+      <span>Ireland · Morocco · San Francisco</span>
+      <span>Documentary, engineering &amp; fintech backgrounds</span>
     </div>
-  </footer>
+  </div>
+</header>
 
-  <script>
-    function toggleMenu() {
-      document.getElementById('mobileMenu').classList.toggle('open');
-    }
-  </script>
-  <!-- GA4: track signup / login CTA clicks (delegated, so buttons added later are covered too) -->
-  <script>
-    document.addEventListener('click', function (e) {
-      if (!e.target || !e.target.closest) return;
-      var btn = e.target.closest('a[href^="https://app.mameon.com"]');
-      if (!btn) return;
-      gtag('event', 'signup_click', {
-        button_location: btn.dataset.location || 'unknown',
-        link_text: (btn.textContent || '').trim(),
-        transport_type: 'beacon'
-      });
-    });
-  </script>
+<!-- ================= TEAM ================= -->
+<section class="sec">
+  <div class="wrap">
+    <div class="team stagger">
+
+      <article class="member">
+        <div class="portrait">
+          <img src="team/Jason.jpg" alt="Jason O'Mahony" width="640" height="800" loading="lazy" decoding="async">
+        </div>
+        <div class="member-body">
+          <h2>Jason O'Mahony</h2>
+          <span class="role">Founder &amp; CEO</span>
+          <div class="bio">
+            <p>Jason was born on the wild Atlantic coast of Ireland, and is a master storyteller.</p>
+            <p>He's made documentaries for PBS, was Head of Production at Udacity, and is a
+              graduate of Stanford GSB.</p>
+            <p>He wants to build a world where every startup can connect and communicate with
+              their customers as effectively as the biggest brands.</p>
+          </div>
+          <a class="li" href="https://www.linkedin.com/in/omahonyjason/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.09H5.66V18H8.34V10.09ZM7 6.5A1.56 1.56 0 1 0 7 9.62A1.56 1.56 0 1 0 7 6.5ZM18.34 13.46C18.34 11.07 17.06 9.96 15.35 9.96C13.96 9.96 13.34 10.72 13 11.26V10.09H10.43V18H13.11V14.09C13.11 13.05 13.31 12.04 14.59 12.04C15.85 12.04 15.87 13.22 15.87 14.15V18H18.55V13.46H18.34Z"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </article>
+
+      <article class="member">
+        <div class="portrait">
+          <img src="team/Wayne.jpg" alt="Wayne Gao" width="640" height="800" loading="lazy" decoding="async">
+        </div>
+        <div class="member-body">
+          <h2>Wayne Gao</h2>
+          <span class="role">CTO</span>
+          <div class="bio">
+            <p>With over 20 years of experience in software and systems development, Wayne is
+              a CTO rock star.</p>
+            <p>He led projects at bitHuman and AiFi covering multimodal visual agents,
+              autonomous checkout, synthetic data, and digital twin platforms.</p>
+            <p>He also holds 12 national patents, in areas as diverse as smart home devices
+              and computer vision.</p>
+          </div>
+          <a class="li" href="https://www.linkedin.com/in/wn80sr/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.09H5.66V18H8.34V10.09ZM7 6.5A1.56 1.56 0 1 0 7 9.62A1.56 1.56 0 1 0 7 6.5ZM18.34 13.46C18.34 11.07 17.06 9.96 15.35 9.96C13.96 9.96 13.34 10.72 13 11.26V10.09H10.43V18H13.11V14.09C13.11 13.05 13.31 12.04 14.59 12.04C15.85 12.04 15.87 13.22 15.87 14.15V18H18.55V13.46H18.34Z"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </article>
+
+      <article class="member">
+        <div class="portrait">
+          <img src="team/Dave.png" alt="Dave Spillane" width="640" height="800" loading="lazy" decoding="async">
+        </div>
+        <div class="member-body">
+          <h2>Dave Spillane</h2>
+          <span class="role">Chair of Board</span>
+          <div class="bio">
+            <p>Also hailing from Ireland, Dave holds a concurrent role at Catalyze Advisors
+              and Point Arena LLC, where he helps run operations and finance.</p>
+            <p>Dave spent 12 years at Ernst &amp; Young before joining Facebook as its Chief
+              Accounting Officer.</p>
+            <p>After helping to take Facebook public in 2012, Dave joined Stripe as its
+              Chief Accountant.</p>
+          </div>
+          <a class="li" href="https://www.linkedin.com/in/davespillane/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.09H5.66V18H8.34V10.09ZM7 6.5A1.56 1.56 0 1 0 7 9.62A1.56 1.56 0 1 0 7 6.5ZM18.34 13.46C18.34 11.07 17.06 9.96 15.35 9.96C13.96 9.96 13.34 10.72 13 11.26V10.09H10.43V18H13.11V14.09C13.11 13.05 13.31 12.04 14.59 12.04C15.85 12.04 15.87 13.22 15.87 14.15V18H18.55V13.46H18.34Z"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </article>
+
+      <article class="member wide member-hatim">
+        <div class="portrait">
+          <img src="team/Hatim.jpeg" alt="Hatim Filali" width="640" height="800" loading="lazy" decoding="async">
+        </div>
+        <div class="member-body">
+          <h2>Hatim Filali</h2>
+          <span class="role">Software Engineer</span>
+          <div class="bio">
+            <p>Hatim trained in Morocco's famed 1337 Coding School, one of the most demanding
+              and selective coding programmes anywhere in the world.</p>
+            <p>He's the rare engineer who is fluent across the whole backend: cloud
+              infrastructure, payments, integrations, real-time systems. Give him something
+              that doesn't exist yet and there's a great chance it'll exist by Friday.</p>
+            <p>He builds things that work, quietly and without fuss, and loves Real Madrid
+              and Zack Snyder's 300.</p>
+          </div>
+          <a class="li" href="https://www.linkedin.com/in/hatim-filali-091049249/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.09H5.66V18H8.34V10.09ZM7 6.5A1.56 1.56 0 1 0 7 9.62A1.56 1.56 0 1 0 7 6.5ZM18.34 13.46C18.34 11.07 17.06 9.96 15.35 9.96C13.96 9.96 13.34 10.72 13 11.26V10.09H10.43V18H13.11V14.09C13.11 13.05 13.31 12.04 14.59 12.04C15.85 12.04 15.87 13.22 15.87 14.15V18H18.55V13.46H18.34Z"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </article>
+
+      <article class="member wide">
+        <div class="portrait">
+          <img src="team/Oussama.jpeg" alt="Oussama Ryadi" width="640" height="800" loading="lazy" decoding="async">
+        </div>
+        <div class="member-body">
+          <h2>Oussama Ryadi</h2>
+          <span class="role">Software Engineer</span>
+          <div class="bio">
+            <p>Oussama trained in Morocco's 1337 Coding School, where students learn by
+              building rather than by sitting through lectures.</p>
+            <p>He's a frontend engineer with a designer's eye and bags full of patience. He
+              cares about the details most people never notice, which is exactly why
+              everything he builds feels effortless.</p>
+            <p>Outside of work he organises tech and athletic events, and loves film,
+              particularly Japanese manga.</p>
+          </div>
+          <a class="li" href="https://www.linkedin.com/in/oussama-ryadi/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.09H5.66V18H8.34V10.09ZM7 6.5A1.56 1.56 0 1 0 7 9.62A1.56 1.56 0 1 0 7 6.5ZM18.34 13.46C18.34 11.07 17.06 9.96 15.35 9.96C13.96 9.96 13.34 10.72 13 11.26V10.09H10.43V18H13.11V14.09C13.11 13.05 13.31 12.04 14.59 12.04C15.85 12.04 15.87 13.22 15.87 14.15V18H18.55V13.46H18.34Z"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= CLOSING CTA ================= -->
+<section class="close-card grain">
+  <div class="close-bg" aria-hidden="true"></div>
+  <h2>Create campaigns for free. No credit card required.</h2>
+  <p>Join 1000+ founders already telling their story with mameon.</p>
+  <div class="close-btns">
+    <a class="btn btn-solid" href="https://app.mameon.com">Get started free</a>
+    <a class="btn btn-ghost" href="how-mameon-works.html">See how it works</a>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-brand">
+    <img class="brand-ink foot-word" src="wordmark.png" alt="mameon" width="94" height="24">
+    © 2026 mameon. All rights reserved.
+  </span>
+  <nav>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="index.html#contactSection">Contact</a>
+  </nav>
+</footer>
+
 </body>
 </html>

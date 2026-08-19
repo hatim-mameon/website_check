@@ -1,651 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5YZHC5Z63S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5YZHC5Z63S');
+  gtag('config', 'AW-10802565257');
+</script>
+<title>mameon — What You Can Make</title>
+<link rel="canonical" href="https://mameon.com/whatyouget.html">
+<link rel="icon" type="image/png" href="logo.png">
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5YZHC5Z63S"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-5YZHC5Z63S');
-    gtag('config', 'AW-10802565257');
-  </script>
+<link rel="preload" as="image" href="wordmark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <title>mameon - What You Can Make</title>
-  <meta name="description" content="See sample ads made on mameon. Watch 60s, 30s, and 10s video ads in landscape and square formats — scripts created instantly, editing by mameon editors." />
-  <link rel="canonical" href="https://mameon.com/whatyouget.html" />
+<link rel="stylesheet" href="preview.css">
+<script src="preview.js" defer></script>
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="mameon" />
-  <meta property="og:title" content="mameon - What You Can Make" />
-  <meta property="og:description" content="See sample ads made on mameon. Watch 60s, 30s, and 10s video ads — scripts created instantly by AI." />
-  <meta property="og:url" content="https://mameon.com/whatyouget.html" />
-  <meta property="og:image" content="https://mameon.com/logo.png" />
+<script>document.documentElement.className += " js";</script>
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="mameon - What You Can Make" />
-  <meta name="twitter:description" content="See sample ads made on mameon. Watch 60s, 30s, and 10s video ads — scripts created instantly by AI." />
-  <meta name="twitter:image" content="https://mameon.com/logo.png" />
+<style>
+/* ============================================================
+   SAMPLE GROUPS
+   Three runs of ads by length. Each run gets a rule and a numeral so the page
+   reads as a contents list rather than one long scroll of video.
+   ============================================================ */
+.run{ margin-top:clamp(56px,8vh,96px); }
+.run:first-of-type{ margin-top:44px; }
+.run-head{
+  display:flex; align-items:baseline; gap:16px;
+  padding-bottom:16px; border-bottom:1px solid rgba(15,20,32,.12);
+}
+.run-head .num{
+  font-family:var(--display); font-size:clamp(1.6rem,2.6vw,2.4rem);
+  line-height:1; color:var(--brand-tint); letter-spacing:-.02em;
+}
+.run-head h2{
+  font-size:clamp(1.5rem,2.6vw,2.2rem); line-height:1.06;
+  letter-spacing:-.028em; max-width:none;
+}
+.run-head .count{ margin-left:auto; font-size:13px; color:var(--ink-faint); white-space:nowrap; }
+.run .vgrid{ margin-top:26px; }
 
-  <link rel="icon" type="image/png" href="logo.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* pull quote, set as an editorial break between the samples and the close */
+.pull{ text-align:center; }
+.pull blockquote{
+  margin:0 auto; max-width:24ch;
+  font-family:var(--display); font-weight:400;
+  font-size:clamp(1.7rem,3.6vw,3rem); line-height:1.1; letter-spacing:-.028em;
+}
+.pull .attr{ margin-top:24px; font-size:14px; color:var(--ink-soft); }
+.pull .attr b{ color:var(--ink); font-weight:600; }
 
-    :root {
-      --bg: #ffffff;
-      --bg-card: #f4f5f7;
-      --bg-card-border: rgba(16, 22, 35, 0.10);
-      /* ── PRIMARY BLUE ──
-         Hue 221°, matching the ink/grey ramp (~220°) so the blue reads as the
-         saturated sibling of the neutrals rather than a bolted-on accent.
-         --blue carries white text at 5.2:1 (AA at every size). */
-      --blue: #2563EB;
-      --blue-hover: #1D4FD8;
-      --blue-deep: #16337F;   /* gradient floor + text on tints */
-      --blue-lift: #4C8BF9;   /* highlight end of gradients */
-      --blue-wash: #EFF4FE;   /* whisper tint for large sections */
-      --blue-edge: #D7E3FB;   /* border that sits on the wash */
-      --btn: #2563EB;
-      --btn-hover: #1D4FD8;
-      --white: #ffffff;
-      --ink: #0f1420;
-      --gray: #545b69;
-      --gray-dark: #656C7B;
-      --font-heading: 'Space Grotesk', sans-serif;
-      --font-body: 'Inter', sans-serif;
-      --font-mono: 'IBM Plex Mono', monospace;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font-body);
-      background: var(--bg);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
-
-    h1, h2, h3, h4, h5 {
-      font-family: var(--font-heading);
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-    }
-
-    a { color: inherit; text-decoration: none; }
-    button { font-family: inherit; cursor: pointer; border: none; }
-    ul { list-style: none; }
-
-    /* ── GRAIN OVERLAY ── */
-    .grain-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.04;
-      mix-blend-mode: overlay;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    }
-
-    /* ── NAV ── */
-    .nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 1000;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      background: rgba(4, 7, 20, 0.94);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(76,139,249,0.16);
-    }
-    .nav-inner {
-      width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .nav-logo-icon {
-      height: 70px;
-      width: auto;
-      object-fit: contain;
-    }
-    .nav-logo-wordmark {
-      height: 42px;
-      width: auto;
-      object-fit: contain;
-    }
-    .nav-center {
-      display: flex;
-      gap: 36px;
-    }
-    .nav-center a {
-      font-size: 0.9rem;
-      color: var(--gray);
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-center a:hover { color: var(--ink); }
-    .nav-center a.active { color: var(--ink); }
-    .nav-btn {
-      display: inline-flex;
-      align-items: center;
-      padding: 10px 22px;
-      background: var(--btn);
-      color: #fff;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      border: none;
-      transition: background 0.2s;
-      cursor: pointer;
-    }
-    .nav-btn {
-      box-shadow: 0 6px 16px rgba(16,22,35,0.16);
-    }
-    .nav-btn:hover { background: var(--btn-hover); box-shadow: 0 10px 24px rgba(16,22,35,0.24); }
-    .nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--ink);
-      padding: 4px;
-      cursor: pointer;
-    }
-
-    /* ── MOBILE MENU ── */
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      background: #070a12;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-    }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-family: var(--font-heading);
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--gray);
-      transition: color 0.2s;
-    }
-    .mobile-menu a:hover { color: var(--ink); }
-    .mobile-close {
-      position: absolute;
-      top: 16px;
-      right: 20px;
-      background: none;
-      border: none;
-      color: var(--ink);
-      cursor: pointer;
-    }
-
-    /* ── PAGE CONTENT ── */
-    .wyg-page {
-      padding: 120px 40px 80px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .wyg-page h1 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 48px;
-      text-align: center;
-      text-transform: lowercase;
-    }
-
-    .wyg-formats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      justify-content: center;
-      margin-bottom: 56px;
-    }
-
-    .wyg-format-tag {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--blue-deep);
-      background: var(--blue-wash);
-      border: 1px solid var(--blue-edge);
-      border-radius: 8px;
-      padding: 10px 20px;
-    }
-
-    .wyg-footnote {
-      font-size: 0.85rem;
-      color: var(--gray-dark);
-      font-style: italic;
-      margin-top: 0;
-      margin-bottom: 32px;
-      text-align: center;
-    }
-    .wyg-section {
-      margin-bottom: 56px;
-    }
-
-    .wyg-section h2 {
-      font-size: 1.5rem;
-      margin-bottom: 24px;
-      color: var(--ink);
-    }
-
-    .wyg-section p {
-      font-size: 0.95rem;
-      color: var(--gray);
-      line-height: 1.8;
-      margin-bottom: 14px;
-    }
-
-    /* ── VIDEO GRID ── */
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      margin-bottom: 56px;
-    }
-
-    .video-card {
-      background: var(--bg-card);
-      border: 1px solid var(--bg-card-border);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(16,22,35,0.06);
-      transition: border-color 0.3s;
-    }
-
-    .video-card:hover {
-      border-color: rgba(16,22,35,0.15);
-    }
-
-    .video-card video {
-      width: 100%;
-      display: block;
-      background: #000;
-    }
-
-    .video-card-body {
-      padding: 16px;
-    }
-
-    .video-card-body h3 {
-      font-size: 1rem;
-      margin-bottom: 4px;
-      color: var(--ink);
-      font-weight: 600;
-    }
-
-    .video-card-body span {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--gray-dark);
-    }
-
-    /* ── TESTIMONIAL ── */
-    .testimonial {
-      background: var(--bg-card);
-      border: 1px solid var(--bg-card-border);
-      border-radius: 12px;
-      padding: 36px;
-      margin-bottom: 56px;
-      box-shadow: 0 10px 30px rgba(16,22,35,0.06);
-    }
-
-    .testimonial blockquote {
-      font-size: 1.1rem;
-      color: var(--gray);
-      line-height: 1.8;
-      font-style: italic;
-      margin-bottom: 20px;
-    }
-
-    .testimonial .attribution {
-      font-size: 0.9rem;
-      color: var(--ink);
-      font-weight: 600;
-    }
-
-    .testimonial .attribution span {
-      font-weight: 400;
-      color: var(--gray-dark);
-    }
-
-    /* ── CLOSING ── */
-    .wyg-closing {
-      text-align: center;
-      padding: 40px 0;
-    }
-
-    .wyg-closing p {
-      font-size: 1.1rem;
-      color: var(--gray);
-      margin-bottom: 8px;
-    }
-
-    .wyg-closing .team {
-      font-family: var(--font-heading);
-      font-size: 1rem;
-      color: var(--gray-dark);
-    }
-
-    .wyg-divider {
-      border: none;
-      border-top: 1px solid rgba(16,22,35,0.08);
-      margin: 40px 0;
-    }
-
-    /* ── FOOTER ── */
-    .footer {
-      background: #0A0F22;
-      border-top: 1px solid rgba(76,139,249,0.14);
-      padding: 32px 40px;
-    }
-    .footer-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      color: var(--gray-dark);
-    }
-    .footer-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .footer-links {
-      display: flex;
-      gap: 24px;
-    }
-    .footer-links a {
-      color: var(--gray-dark);
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--ink); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1024px) {
-      .nav { height: 70px; }
-      .nav-logo-icon { height: 50px; }
-      .nav-logo-wordmark { height: 30px; }
-      .nav-btn { padding: 8px 16px; font-size: 0.8rem; }
-    }
-    @media (max-width: 960px) {
-      .nav-center { display: none; }
-      .nav-toggle { display: block; }
-    }
-    @media (max-width: 640px) {
-      .nav { height: 60px; }
-      .nav-logo-icon { height: 40px; }
-      .nav-logo-wordmark { height: 22px; }
-      /* keep the label small, but hold the tappable area at the 44px min: extra
-         padding + min-height expand the hit target without a chunkier pill */
-      .nav-btn { padding: 8px 14px; font-size: 0.75rem; min-height: 44px; }
-      .wyg-page { padding: 100px 20px 60px; }
-      .wyg-page h1 { font-size: 1.8rem; }
-      .video-grid { grid-template-columns: 1fr; }
-      .testimonial { padding: 24px; }
-      .footer-inner { flex-direction: column; text-align: center; gap: 12px; }
-      .footer-links { justify-content: center; }
-    }
-
-    /* light-theme chrome overrides */
-    .nav .nav-center a { color: rgba(255,255,255,0.72); }
-    .nav .nav-center a:hover, .nav .nav-center a.active { color: #fff; }
-    .nav-toggle { color: #fff; }
-    .mobile-menu a { color: rgba(255,255,255,0.78); }
-    .mobile-menu a:hover { color: #fff; }
-    .mobile-close { color: #fff; }
-    .footer .footer-links a { color: rgba(255,255,255,0.6); }
-    .footer .footer-links a:hover { color: #fff; }
-    .footer .footer-left span:last-child { color: rgba(255,255,255,0.6); }
-    /* Nav CTA sits on the dark nav bar -> inverse (light) button so it stands out */
-    .nav-btn { background: #fff; color: var(--blue-hover); box-shadow: 0 2px 10px rgba(0,0,0,0.30); }
-    .nav-btn:hover { background: var(--blue-wash); color: var(--blue-deep); box-shadow: 0 4px 14px rgba(0,0,0,0.36); }
-    /* the same pill also renders inside the mobile menu, where `.mobile-menu a`
-       (0,1,1) outranks `.nav-btn` (0,1,0) and would paint the label white-on-white */
-    .mobile-menu .nav-btn { color: var(--blue-hover); }
-    .mobile-menu .nav-btn:hover { color: var(--blue-deep); }
-
-    /* ── FOCUS RING ──
-       There was no :focus-visible styling anywhere on the site, and the contact
-       input additionally set outline:none — keyboard users had no indicator at
-       all. The brand blue doubles as the ring; it inverts to white on the dark
-       chrome and the blue panels, where a blue ring would vanish. */
-    :focus-visible {
-      outline: 2px solid var(--blue);
-      outline-offset: 3px;
-    }
-    .nav :focus-visible,
-    .mobile-menu :focus-visible,
-    .footer :focus-visible,
-    #hero .hero-card :focus-visible,
-    .cta-inner :focus-visible {
-      outline-color: #fff;
-    }
-  </style>
+.statement{ text-align:center; }
+.statement p{
+  margin:0 auto; max-width:44ch;
+  font-family:var(--display); font-size:clamp(1.3rem,2.3vw,1.95rem);
+  line-height:1.24; letter-spacing:-.02em;
+}
+.signoff{ margin-top:36px; font-size:14.5px; color:var(--ink-soft); }
+.signoff b{ display:block; font-size:16px; color:var(--ink); font-weight:600; }
+</style>
 </head>
 <body>
 
-  <div class="grain-overlay"></div>
+<!-- ================= NAV ================= -->
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="mameon — home">
+    <img class="brand-ink nav-mark-img" src="logo.png" alt="" width="32" height="32">
+    <img class="brand-ink nav-word" src="wordmark.png" alt="mameon" width="70" height="18">
+  </a>
+  <a class="link" aria-current="page">What you Can Make</a>
+  <a class="link" href="how-mameon-works.html">How mameon Works</a>
+  <a class="link" href="meet-our-team.html">Meet Our Team</a>
+  <a class="cta" href="https://app.mameon.com" aria-label="Log in or sign up for free"><span class="cta-full">Log in / Sign up for free</span><span class="cta-short">Sign up free</span></a>
+  <button class="nav-toggle" id="navToggle" type="button"
+          aria-expanded="false" aria-controls="navPanel" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 
-  <!-- ── NAV ── -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <img src="logo.png" alt="mameon logo" class="nav-logo-icon" />
-        <img src="wordmark.png" alt="mameon" class="nav-logo-wordmark" />
-      </a>
-      <div class="nav-center">
-        <a href="whatyouget.html" class="active">What You Can Make</a>
-        <a href="video-tutorials.html">Video Tutorials</a>
-        <a href="meet-our-team.html">Meet Our Team</a>
-      </div>
-      <a href="https://app.mameon.com" class="nav-btn" data-location="navbar">Log in / Sign Up for Free</a>
-      <button class="nav-toggle" onclick="toggleMenu()" aria-label="Menu">
-        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
+  <div class="nav-panel" id="navPanel">
+    <a aria-current="page">What you Can Make</a>
+    <a href="how-mameon-works.html">How mameon Works</a>
+    <a href="meet-our-team.html">Meet Our Team</a>
+  </div>
+</nav>
+
+<!-- ================= MASTHEAD ================= -->
+<header class="page-hero grain">
+  <div class="page-hero-bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="eyebrow">What you can make</p>
+    <h1>Sample ads made on mameon.</h1>
+    <p class="lede">Scripts made instantly on mameon, edited over 48 hours with mameon
+      editors. Every ad below started as a URL.</p>
+    <div class="tagrow">
+      <span>3 × 10s · square &amp; landscape</span>
+      <span>3 × 30s · square &amp; landscape</span>
+      <span>3 × 60s · square &amp; landscape</span>
     </div>
+  </div>
+</header>
+
+<!-- ================= SAMPLES ================= -->
+<section class="sec">
+  <div class="wrap">
+
+    <div class="run">
+      <div class="run-head">
+        <span class="num" aria-hidden="true">01</span>
+        <h2>10 second ads</h2>
+        <span class="count">3 cuts</span>
+      </div>
+      <div class="vgrid stagger">
+        <figure class="vcard">
+          <video controls preload="metadata" poster="ads_poster.png">
+            <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_10%20Sec_L.mp4" type="video/mp4">
+          </video>
+          <figcaption class="vcard-body"><span class="fmt">10s · landscape</span></figcaption>
+        </figure>
+        <figure class="vcard">
+          <video controls preload="metadata" poster="ads_poster.png">
+            <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_10%20Sec_S.mp4" type="video/mp4">
+          </video>
+          <figcaption class="vcard-body"><span class="fmt">10s · square</span></figcaption>
+        </figure>
+        <figure class="vcard">
+          <video controls preload="metadata" poster="ads_poster.png">
+            <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_10%20Sec_L_WOT.mp4" type="video/mp4">
+          </video>
+          <figcaption class="vcard-body"><span class="fmt">10s · landscape, without text</span></figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="run">
+      <div class="run-head">
+        <span class="num" aria-hidden="true">02</span>
+        <h2>30 second ads</h2>
+        <span class="count">3 cuts</span>
+      </div>
+      <div class="vgrid stagger">
+        <figure class="vcard">
+          <video controls preload="metadata" poster="ads_poster.png">
+            <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_30%20Sec_L.mp4" type="video/mp4">
+          </video>
+          <figcaption class="vcard-body"><span class="fmt">30s · landscape</span></figcaption>
+        </figure>
+        <figure class="vcard">
+          <video controls preload="metadata" poster="ads_poster.png">
+            <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_30%20Sec_S.mp4" type="video/mp4">
+          </video>
+          <figcaption class="vcard-body"><span class="fmt">30s · square</span></figcaption>
+        </figure>
+        <figure class="vcard">
+          <video controls preload="metadata" poster="ads_poster.png">
+            <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_30%20Sec_L_WOT.mp4" type="video/mp4">
+          </video>
+          <figcaption class="vcard-body"><span class="fmt">30s · landscape, without text</span></figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="run">
+      <div class="run-head">
+        <span class="num" aria-hidden="true">03</span>
+        <h2>60 second ads</h2>
+        <span class="count">3 cuts</span>
+      </div>
+      <div class="vgrid stagger">
+        <figure class="vcard">
+          <video controls preload="metadata" poster="ads_poster.png">
+            <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_60%20Sec_L.mp4" type="video/mp4">
+          </video>
+          <figcaption class="vcard-body"><span class="fmt">60s · landscape</span></figcaption>
+        </figure>
+        <figure class="vcard">
+          <video controls preload="metadata" poster="ads_poster.png">
+            <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_60%20Sec_S.mp4" type="video/mp4">
+          </video>
+          <figcaption class="vcard-body"><span class="fmt">60s · square</span></figcaption>
+        </figure>
+        <figure class="vcard">
+          <video controls preload="metadata" poster="ads_poster.png">
+            <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_60%20Sec_L_WOT.mp4" type="video/mp4">
+          </video>
+          <figcaption class="vcard-body"><span class="fmt">60s · landscape, without text</span></figcaption>
+        </figure>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= PULL QUOTE ================= -->
+<section class="sec sec-wash">
+  <div class="wrap pull">
+    <blockquote>“If you've ever made a traditional cumbersome company video, you will
+      love this new process.”</blockquote>
+    <p class="attr"><b>Chris Hanson</b> · Board Advisor at Aromyx</p>
+  </div>
+</section>
+
+<!-- ================= STATEMENT ================= -->
+<section class="sec">
+  <div class="wrap statement">
+    <p>mameon is your resource for advertising, communication and customer connection —
+      from social posts to podcasts, audio to video streaming ads.</p>
+    <p class="signoff">Happy connecting!<b>— Team mameon</b></p>
+  </div>
+</section>
+
+<!-- ================= CLOSING CTA ================= -->
+<section class="close-card grain">
+  <div class="close-bg" aria-hidden="true"></div>
+  <h2>Create campaigns for free. No credit card required.</h2>
+  <p>Paste in your URL and mameon takes it from there.</p>
+  <div class="close-btns">
+    <a class="btn btn-solid" href="https://app.mameon.com">Get started free</a>
+    <a class="btn btn-ghost" href="how-mameon-works.html">See how it works</a>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-brand">
+    <img class="brand-ink foot-word" src="wordmark.png" alt="mameon" width="94" height="24">
+    © 2026 mameon. All rights reserved.
+  </span>
+  <nav>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="index.html#contactSection">Contact</a>
   </nav>
+</footer>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" onclick="toggleMenu()">
-      <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="6" x2="22" y2="22"/><line x1="22" y1="6" x2="6" y2="22"/></svg>
-    </button>
-    <a href="whatyouget.html" onclick="toggleMenu()">What You Can Make</a>
-    <a href="video-tutorials.html" onclick="toggleMenu()">Video Tutorials</a>
-    <a href="meet-our-team.html" onclick="toggleMenu()">Meet Our Team</a>
-    <a href="https://app.mameon.com" class="nav-btn" data-location="mobile-menu" onclick="toggleMenu()">Log in / Sign Up for Free</a>
-  </div>
-
-  <!-- ══════════ PAGE CONTENT ══════════ -->
-  <div class="wyg-page">
-    <h1>sample ads made on mameon</h1>
-    <p class="wyg-footnote">scripts made instantly on mameon, editing over 48 hrs with mameon editors</p>
-
-    <!-- Ad Format Tags -->
-    <div class="wyg-formats">
-      <div class="wyg-format-tag">3 x 10s ads &middot; square &amp; landscape</div>
-      <div class="wyg-format-tag">3 x 30s ads &middot; square &amp; landscape</div>
-      <div class="wyg-format-tag">3 x 60s ads &middot; square &amp; landscape</div>
-    </div>
-
-    <!-- Video Samples - 10s Ads -->
-    <div class="wyg-section">
-      <h2>10 Second Ads</h2>
-    </div>
-    <div class="video-grid">
-      <div class="video-card">
-        <div class="video-card-body">
-          <h3>10s &middot; landscape</h3>
-        </div>
-        <video controls preload="metadata">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_10%20Sec_L.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="video-card">
-        <div class="video-card-body">
-          <h3>10s &middot; square</h3>
-        </div>
-        <video controls preload="metadata">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_10%20Sec_S.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="video-card">
-        <div class="video-card-body">
-          <h3>10s &middot; landscape (without text)</h3>
-        </div>
-        <video controls preload="metadata">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_10%20Sec_L_WOT.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-
-    <!-- Video Samples - 30s Ads -->
-    <div class="wyg-section">
-      <h2>30 Second Ads</h2>
-    </div>
-    <div class="video-grid">
-      <div class="video-card">
-        <div class="video-card-body">
-          <h3>30s &middot; landscape</h3>
-        </div>
-        <video controls preload="metadata" poster="ads_poster.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_30%20Sec_L.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="video-card">
-        <div class="video-card-body">
-          <h3>30s &middot; square</h3>
-        </div>
-        <video controls preload="metadata" poster="ads_poster.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_30%20Sec_S.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="video-card">
-        <div class="video-card-body">
-          <h3>30s &middot; landscape (without text)</h3>
-        </div>
-        <video controls preload="metadata" poster="ads_poster.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_30%20Sec_L_WOT.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-
-    <!-- Video Samples - 60s Ads -->
-    <div class="wyg-section">
-      <h2>60 Second Ads</h2>
-    </div>
-    <div class="video-grid">
-      <div class="video-card">
-        <div class="video-card-body">
-          <h3>60s &middot; landscape</h3>
-        </div>
-        <video controls preload="metadata" poster="ads_poster.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_60%20Sec_L.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="video-card">
-        <div class="video-card-body">
-          <h3>60s &middot; square</h3>
-        </div>
-        <video controls preload="metadata" poster="ads_poster.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_60%20Sec_S.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="video-card">
-        <div class="video-card-body">
-          <h3>60s &middot; landscape (without text)</h3>
-        </div>
-        <video controls preload="metadata" poster="ads_poster.png">
-          <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_60%20Sec_L_WOT.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-
-    <hr class="wyg-divider" />
-
-    <!-- Testimonial -->
-    <div class="testimonial">
-      <blockquote>"If you've ever made a traditional cumbersome company video, you will love this new process."</blockquote>
-      <p class="attribution">Chris Hanson <span>&middot; Board Advisor at Aromyx</span></p>
-    </div>
-
-    <hr class="wyg-divider" />
-
-    <!-- Brand Statement -->
-    <div class="wyg-section">
-      <p>mameon is your comprehensive resource for advertising, communication, and customer connection. From social posts to podcasts, audio to video streaming advertisements, we've got you covered.</p>
-    </div>
-
-    <!-- Closing -->
-    <div class="wyg-closing">
-      <p>Happy connecting!</p>
-      <span class="team">&mdash; Team mameon</span>
-    </div>
-  </div>
-
-  <!-- ══════════ FOOTER ══════════ -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-left">
-        <span class="nav-logo">
-          <img src="logo.png" alt="mameon logo" class="nav-logo-icon" />
-          <img src="wordmark.png" alt="mameon" class="nav-logo-wordmark" />
-        </span>
-        <span>&copy; 2026 mameon. All rights reserved.</span>
-      </div>
-      <div class="footer-links">
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-        <a href="index.html#contactSection">Contact</a>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    function toggleMenu() {
-      document.getElementById('mobileMenu').classList.toggle('open');
-    }
-  </script>
-  <!-- GA4: track signup / login CTA clicks (delegated, so buttons added later are covered too) -->
-  <script>
-    document.addEventListener('click', function (e) {
-      if (!e.target || !e.target.closest) return;
-      var btn = e.target.closest('a[href^="https://app.mameon.com"]');
-      if (!btn) return;
-      gtag('event', 'signup_click', {
-        button_location: btn.dataset.location || 'unknown',
-        link_text: (btn.textContent || '').trim(),
-        transport_type: 'beacon'
-      });
-    });
-  </script>
 </body>
 </html>
