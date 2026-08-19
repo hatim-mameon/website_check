@@ -873,8 +873,6 @@ footer a:hover{ color:#FFFFFF; }
       <span class="mq"><img src="platforms/official/facebook.png" alt="" width="24" height="24" decoding="async">Facebook</span>
       <span class="mq"><img src="platforms/official/x.png" alt="" width="24" height="24" decoding="async">X</span>
       <span class="mq"><img src="platforms/official/pinterest.png" alt="" width="24" height="24" decoding="async">Pinterest</span>
-      <span class="mq"><img src="platforms/official/linkedin.svg" alt="" width="24" height="24" decoding="async">LinkedIn</span>
-      <span class="mq"><img src="platforms/official/reddit.svg" alt="" width="24" height="24" decoding="async">Reddit</span>
       <span class="mq"><img src="platforms/official/telegram.svg" alt="" width="24" height="24" decoding="async">Telegram</span>
       <span class="mq"><img src="platforms/official/bluesky.svg" alt="" width="24" height="24" decoding="async">Bluesky</span>
     </div>
@@ -1504,6 +1502,8 @@ if (!reduced && window.gsap && window.ScrollTrigger) {
   const form    = document.getElementById("contactForm");
   if (!section || !form) return;
 
+  const isOpen = () => section.classList.contains("open");
+
   const openContact = () => {
     section.classList.add("open");
     // opening changes the document height under the pinned stages
@@ -1515,11 +1515,20 @@ if (!reduced && window.gsap && window.ScrollTrigger) {
     }, 50);
   };
 
+  // Closing collapses the section, which shortens the document again — the same
+  // reason opening refreshes ScrollTrigger. No scrollIntoView here: the reader
+  // is already looking at this part of the page and moving them would be rude.
+  const closeContact = () => {
+    section.classList.remove("open");
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  };
+
   document.addEventListener("click", (e) => {
     const link = e.target.closest && e.target.closest('a[href="#contactSection"]');
     if (!link) return;
     e.preventDefault();
-    openContact();
+    // "Talk to us" toggles: a second click puts the email card away again.
+    isOpen() ? closeContact() : openContact();
   });
 
   // Landing on index.html#contactSection from another page opens the panel.
