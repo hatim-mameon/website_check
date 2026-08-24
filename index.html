@@ -622,13 +622,6 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
 /* A wide lockup capped at the square marks' width shrinks to a stamp, so give
    the horizontal ones room to read as a name. */
 .tcard img.mark.wide{ width:64%; max-width:236px; }
-/* Aromyx's mark is black ink on transparency: on a black card it would vanish
-   outright. A light plate keeps the orange in the flower, where flattening it to
-   a white silhouette would not. SPSV already carries its own coloured pill. */
-.tcard img.mark.plate{
-  background:#FFFFFF; padding:13px 17px; border-radius:14px;
-  filter:none; box-shadow:0 12px 30px rgba(0,0,0,.45);
-}
 .tcard.logo-card{ background:#000000; }
 /* Same contrast ramp as the photo scrim, drained of its navy so the card stays
    black all the way down instead of tinting under the quote. */
@@ -1024,8 +1017,8 @@ footer a:hover{ color:#FFFFFF; }
           </div>
         </figure>
 
-        <figure class="tcard logo-card">
-          <img class="mark wide plate" src="logos/Aromyx-Logo - Copy.png" alt="" width="1222" height="285" loading="lazy" decoding="async">
+        <figure class="tcard">
+          <img class="photo" src="mameon-mvp-launch-images/aromyx.webp" alt="" width="436" height="512" loading="lazy" decoding="async">
           <figcaption class="tcard-top"><b>03</b> · <span>Aromyx</span></figcaption>
           <div class="tcard-body">
             <blockquote>“The team quickly gave us several versions of our video and it
