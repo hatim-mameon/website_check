@@ -1166,10 +1166,11 @@ const CARDS = [
   // `pos` is object-position. The card face is portrait (0.65) while the launch
   // images are square, so cover trims the sides and only the X value matters —
   // each is set so the subject lands in the middle of the visible 65% band.
+  // Ad Campaigns keeps its own landscape poster, which needs Y steering too.
   { title:"Social Posts",   cap:"On-brand copy and creative for every platform.",
     img:LAUNCH + "Social%20posts.jpg",    w:1024, h:1024, pos:"36% 50%" },
   { title:"Ad Campaigns",   cap:"Killer campaigns for Google Ads, created and optimized.",
-    img:LAUNCH + "Ad%20campaigns.jpg",    w:1024, h:1024, pos:"50% 50%" },
+    img:"ads_poster.png",              w:1896, h:972,  pos:"54% 45%" },
   { title:"Video",          cap:"Tell the whole world your story in short form video.",
     img:LAUNCH + "Video.jpg",             w:474,  h:474,  pos:"72% 50%" },
   { title:"Audio Ads",      cap:"Make audio ads with just a few clicks.",
