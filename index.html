@@ -534,7 +534,9 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
 }
 .tcar-view::-webkit-scrollbar{ display:none; }
 .tcar-view.drag{ scroll-snap-type:none; cursor:grabbing; }
-.tcar-track{ display:flex; gap:3vmin; }
+/* The gutter is φ-derived as well — about a sixth of a card's width — so the
+   rhythm between cards belongs to the same system as the cards themselves. */
+.tcar-track{ display:flex; gap:4.2vmin; }
 
 /* Scroll-driven mode, built the way the reference builds it: the fold pins to
    the viewport, an opaque full-screen strip panel rises over the title, and the
@@ -566,7 +568,7 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
 #customers.pinned .tcar{
   position:absolute; inset:0; z-index:2; margin:0;
   display:flex; flex-direction:column;
-  padding:clamp(34px,6vh,58px) 0 clamp(30px,5vh,50px);
+  padding:clamp(42px,7.4vh,74px) 0 clamp(38px,6.4vh,64px);
   background:var(--brand-wash);
 }
 #customers.pinned .tcar-head{
@@ -584,7 +586,7 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
   height:100%; will-change:transform;
   padding-left:max(var(--gutter), calc(50% - 590px));
 }
-/* Height-led now: the card fills the panel and the 3/4 ratio gives its width. */
+/* Height-led: the card fills the panel and the golden ratio gives its width. */
 .tcar.scrolldriven .tcard{ flex:0 0 auto; height:100%; width:auto; }
 
 /* Act 3 — the last card grows out of the strip into the closing CTA, so the
@@ -593,9 +595,14 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
 .tcar.scrolldriven .tcard:last-child{ z-index:5; will-change:transform; }
 
 
+/* Golden ratio, not 3:4. At 3:4 the card is 0.75 as wide as it is tall, which
+   reads as a square with the corners knocked off; φ puts it at 0.618 and the
+   card becomes a portrait. Because the scroll-driven card is height-led, this
+   single number is what narrows it — and the narrower card leaves more of the
+   wash showing between and around the strip, which is the point. */
 .tcard{
-  position:relative; flex:0 0 clamp(268px,30vw,430px);
-  aspect-ratio:3/4; border-radius:var(--radius-lg); overflow:hidden;
+  position:relative; flex:0 0 clamp(236px,25vw,372px);
+  aspect-ratio:1/1.618; border-radius:var(--radius-lg); overflow:hidden;
   scroll-snap-align:start; background:var(--hero-grad);
   isolation:isolate; backface-visibility:hidden;
 }
@@ -603,11 +610,32 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
   position:absolute; inset:0; width:100%; height:100%;
   object-fit:cover; display:block;
 }
-/* Placeholder until real photos land: the company mark on the brand gradient. */
+/* Where no photo exists yet, the company mark stands in on a flat black ground.
+   Black rather than the brand gradient because these marks are drawn for a dark
+   field — Mesh's metallic strokes disappear into the blue — and because it reads
+   as a deliberate second card type beside the photo ones, not a missing image. */
 .tcard img.mark{
   position:absolute; left:50%; top:42%; transform:translate(-50%,-50%);
   width:42%; max-width:150px; height:auto; opacity:.92;
   filter:drop-shadow(0 12px 30px rgba(0,0,0,.45));
+}
+/* A wide lockup capped at the square marks' width shrinks to a stamp, so give
+   the horizontal ones room to read as a name. */
+.tcard img.mark.wide{ width:64%; max-width:236px; }
+/* Aromyx's mark is black ink on transparency: on a black card it would vanish
+   outright. A light plate keeps the orange in the flower, where flattening it to
+   a white silhouette would not. SPSV already carries its own coloured pill. */
+.tcard img.mark.plate{
+  background:#FFFFFF; padding:13px 17px; border-radius:14px;
+  filter:none; box-shadow:0 12px 30px rgba(0,0,0,.45);
+}
+.tcard.logo-card{ background:#000000; }
+/* Same contrast ramp as the photo scrim, drained of its navy so the card stays
+   black all the way down instead of tinting under the quote. */
+.tcard.logo-card::after{
+  background:linear-gradient(to top,
+    rgba(0,0,0,.92) 0%, rgba(0,0,0,.74) 34%,
+    rgba(0,0,0,.28) 66%, rgba(0,0,0,.42) 100%);
 }
 /* Scrim guarantees the overlaid text keeps AA contrast on any photo.
    --scrim lets the morph fade it with the rest of the card copy. */
@@ -631,7 +659,7 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
 }
 .tcard-body blockquote{
   margin:0; font-family:var(--display); font-weight:400;
-  font-size:clamp(1.12rem,1.45vw,1.5rem); line-height:1.22;
+  font-size:clamp(1.04rem,1.2vw,1.32rem); line-height:1.26;
   letter-spacing:-.015em; color:#FFFFFF;
 }
 .tcard-who{
@@ -641,7 +669,9 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
 .tcard-who b{ color:#FFFFFF; font-weight:600; }
 
 @media (max-width:760px){
-  .tcard{ flex:0 0 82vw; }
+  /* One card at a time on a phone, with the next one's edge showing. Narrower
+     than before so the taller φ card still clears a short viewport. */
+  .tcard{ flex:0 0 74vw; }
 }
 
 /* platform strip */
@@ -952,9 +982,11 @@ footer a:hover{ color:#FFFFFF; }
     </div>
   </div>
 
-    <!-- Filmstrip carousel. Cards show the company mark on the brand gradient
-         until real photos land — swap <img class="mark"> for
-         <img class="photo" src="..."> and the card fills edge to edge. -->
+    <!-- Filmstrip carousel, two card types. Where a photo exists it fills the
+         card edge to edge (<img class="photo">); the rest fall back to the
+         company mark on flat black (<figure class="tcard logo-card"> plus
+         <img class="mark">). To promote one, swap the image and drop the
+         logo-card class. -->
     <div class="tcar" id="tcar" aria-roledescription="carousel" aria-label="Customer stories">
       <div class="tcar-head">
         <div class="tcar-progress" aria-hidden="true"><i id="tcarBar"></i></div>
@@ -971,7 +1003,7 @@ footer a:hover{ color:#FFFFFF; }
       <div class="tcar-view" id="tcarView" tabindex="0" role="group" aria-label="Customer stories, scrollable">
        <div class="tcar-track" id="tcarTrack">
         <figure class="tcard">
-          <img class="mark" src="logos/Tigre_motor_club.png" alt="" width="220" height="220" loading="lazy" decoding="async">
+          <img class="photo" src="story_tigre.jpg" alt="" width="1152" height="2048" loading="lazy" decoding="async">
           <figcaption class="tcard-top"><b>01</b> · <span>Tigre</span></figcaption>
           <div class="tcard-body">
             <blockquote>“We just pasted in our URL and mameon understood our brand
@@ -981,8 +1013,8 @@ footer a:hover{ color:#FFFFFF; }
           </div>
         </figure>
 
-        <figure class="tcard">
-          <img class="mark" src="logos/MESH.jpeg" alt="" width="220" height="220" loading="lazy" decoding="async">
+        <figure class="tcard logo-card">
+          <img class="mark wide" src="logos/mesh_transparent.png" alt="" width="3264" height="1312" loading="lazy" decoding="async">
           <figcaption class="tcard-top"><b>02</b> · <span>Mesh Bioplastics</span></figcaption>
           <div class="tcard-body">
             <blockquote>“Their storytelling tools helped us communicate our mission with
@@ -992,8 +1024,8 @@ footer a:hover{ color:#FFFFFF; }
           </div>
         </figure>
 
-        <figure class="tcard">
-          <img class="mark" src="logos/Aromyx-Logo - Copy.png" alt="" width="220" height="220" loading="lazy" decoding="async">
+        <figure class="tcard logo-card">
+          <img class="mark wide plate" src="logos/Aromyx-Logo - Copy.png" alt="" width="1222" height="285" loading="lazy" decoding="async">
           <figcaption class="tcard-top"><b>03</b> · <span>Aromyx</span></figcaption>
           <div class="tcard-body">
             <blockquote>“The team quickly gave us several versions of our video and it
@@ -1003,8 +1035,8 @@ footer a:hover{ color:#FFFFFF; }
           </div>
         </figure>
 
-        <figure class="tcard">
-          <img class="mark" src="logos/SPSV.jpeg" alt="" width="220" height="220" loading="lazy" decoding="async">
+        <figure class="tcard logo-card">
+          <img class="mark wide" src="logos/SPSV7.png" alt="" width="1862" height="348" loading="lazy" decoding="async">
           <figcaption class="tcard-top"><b>04</b> · <span>SPSV Pro Training</span></figcaption>
           <div class="tcard-body">
             <blockquote>“mameon makes it easier to turn complex messaging into clear,
@@ -1015,7 +1047,7 @@ footer a:hover{ color:#FFFFFF; }
         </figure>
 
         <figure class="tcard">
-          <img class="mark" src="logos/Mara Botanics Transparent Logo.png" alt="" width="220" height="220" loading="lazy" decoding="async">
+          <img class="photo" src="story_mara.jpg" alt="" width="1200" height="1600" loading="lazy" decoding="async">
           <figcaption class="tcard-top"><b>05</b> · <span>Mara Botanics</span></figcaption>
           <div class="tcard-body">
             <blockquote>“Running a startup isn't one hard thing. It's twenty easy things
