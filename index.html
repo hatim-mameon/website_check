@@ -108,17 +108,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* Carousel geometry. Single source of truth — the cards' translateZ reads
      --ring-r directly, and the morph math measures these rather than
      re-deriving them, so CSS and JS can never drift apart.
-     --ring-r must be >= (--card-w / 2) / tan(180deg/6) = 0.866 * --card-w. */
+     --ring-r must be >= (--card-w / 2) / tan(180deg/6) = 0.866 * --card-w.
+
+     The reference's 42x62vmin was too big here once it was on the page: six
+     cards need a wider radius than its four, a wider radius sits closer to the
+     camera, and the extra magnification compounded the extra size. What is
+     kept from it is the 0.677 proportion, which is the part that reads.
+
+     The radius still carries the reference's spacing generosity rather than
+     its number — 1.29x the minimum the card count allows, which is what its
+     27vmin is for four cards at 90deg. Six at 60deg need 0.866 * --card-w
+     before neighbours start cutting through each other. */
   --card-w: 34vmin;
-  --card-h: 52vmin;
-  --ring-r: 33vmin;    /* min 29.4vmin */
+  --card-h: 50vmin;
+  --ring-r: 38vmin;    /* min 29.4vmin */
 }
 @media (max-width:760px){
   :root{
-    /* vmin-based cards collapse to ~133px on a phone. Switch to vw. */
+    /* vmin-based cards collapse to ~164px on a phone, so these stay in vw.
+       The 0.677 ratio is the reference's, held exactly; only the unit and the
+       amount change, because a 42vw card cannot hold its own copy on a phone. */
     --card-w: 62vw;
-    --card-h: 94vw;
-    --ring-r: 58vw;    /* min 53.7vw */
+    --card-h: 92vw;
+    --ring-r: 69vw;    /* min 53.7vw */
   }
 }
 
@@ -380,6 +392,11 @@ a.btn{ display:inline-block; text-decoration:none; text-align:center; }
    Scoped to .motion so a no-JS / no-GSAP render still shows the whole page. */
 .motion .marquee,
 .motion .ring-card > *{ opacity:0; }
+/* The panels too, not just their copy. The cards sit at their full radius from
+   the first frame, which puts the front of the ring in front of the hero — so
+   they have to be genuinely absent, not merely behind, until the roll has
+   landed and they are meant to arrive. */
+.motion .ring-card{ opacity:0; }
 
 /* Fallback: without the timeline the hero must not sit on top of the ring
    forever, so it returns to normal flow and the stage stops being a track. */
@@ -410,7 +427,10 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
    descender like the "y" in Bluesky — shearing it against the flush edge. */
 .marquee .mq:last-child{ margin-right:0; padding-right:.04em; }
 
-.ring-wrap{ position:relative; z-index:3; perspective:1400px; }
+/* 1500px is the reference carousel's camera distance. Kept in step with
+   PERSPECTIVE in the stage script, which divides it back out when sizing the
+   hero to land on card 01. */
+.ring-wrap{ position:relative; z-index:3; perspective:1500px; }
 .ring{
   position:relative; width:var(--card-w); height:var(--card-h);
   transform-style:preserve-3d; will-change:transform;
@@ -420,6 +440,25 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
 .ring-probe{
   position:absolute; width:var(--ring-r); height:0;
   visibility:hidden; pointer-events:none;
+}
+/* The hero, once the script has promoted it into the ring (see the stage
+   timeline). It becomes a face of the carousel, a quarter turn ahead of card
+   01, so the turn that brings card 01 to the front is the turn that carries
+   the hero away.
+
+   It sits at the ring's axis rather than out on its radius. A face on the
+   radius does not turn in place — it swings, and swinging a viewport-sized
+   panel around a 33vmin circle throws it at the lens: measured at half again
+   the height of the viewport before it left the frame. On the axis it simply
+   turns, which is the whole of the effect and none of the lunge.
+
+   Position only. Everything transformed on it — the pitch it is held at, the
+   centring, the size it shrinks to — belongs to the timeline, because a
+   transform written here would be the first thing GSAP overwrote. */
+.ring > .hero{
+  inset:auto; left:50%; top:50%; z-index:auto;
+  transform-origin:50% 50%;
+  backface-visibility:hidden;
 }
 .ring-card{
   position:absolute; inset:0; border-radius:22px; overflow:hidden;
@@ -489,7 +528,31 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
 }
 @media (max-width:860px){
   .steps-grid{ grid-template-columns:1fr; }
+
+  /* The oversized counter is a two-column device. It reads opposite the list,
+     with a column of its own to stand in, and there is no honest way to carry
+     that into a single column: left in flow it scrolls away during step 1, and
+     pinned it becomes a slab across the top with the steps sliding underneath.
+
+     So it stands down here, and each step carries its own number instead. That
+     is what the counter was ever for — knowing which step you are reading —
+     and attached to the words it cannot be scrolled away from them. The
+     existing .on treatment still lifts the current step out of the others, so
+     the number you are reading is also the one at full strength. */
   .steps-sticky{ position:static; }
+  .step-num{ display:none; }
+
+  #stepList{ counter-reset:step; }
+  .step h3::before{
+    counter-increment:step;
+    content:counter(step, decimal-leading-zero);
+    display:block; margin-bottom:9px;
+    font-family:var(--display); font-size:1.3rem;
+    line-height:1; letter-spacing:.01em;
+    /* deep, not tint: the tint carries an 11rem numeral and is about 1.9:1
+       against paper, which is nowhere near enough at this size. */
+    color:var(--brand-deep);
+  }
 }
 
 /* testimonials — horizontal filmstrip of tall photo cards, matching the
@@ -660,9 +723,15 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
 .tcard-who b{ color:#FFFFFF; font-weight:600; }
 
 @media (max-width:760px){
-  /* One card at a time on a phone, with the next one's edge showing. Narrower
-     than before so the taller φ card still clears a short viewport. */
+  /* One card at a time on a phone, with the next one's edge showing. */
   .tcard{ flex:0 0 74vw; }
+  /* Height-led sizing does not survive a phone. A ~700px-tall panel turns a φ
+     card into 433px of width on a 390px screen: wider than the rail, so no card
+     is ever fully visible and the rule above never gets a say. Go width-led
+     here instead and let the ratio set the height, which a tall viewport has
+     room for. The card no longer fills the panel, so centre it in one. */
+  .tcar.scrolldriven .tcard{ width:74vw; height:auto; }
+  .tcar.scrolldriven .tcar-track{ align-items:center; }
 }
 
 /* platform strip */
@@ -1030,8 +1099,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </figure>
 
-        <figure class="tcard logo-card">
-          <img class="mark wide" src="logos/SPSV7.png" alt="" width="1862" height="348" loading="lazy" decoding="async">
+        <!-- Promoted from a logo card. The shot is 2.12:1 against a 0.618 card
+             face, so cover shows a 29% band of its width and only the X in
+             object-position does anything: 73% centres that band on the driver
+             (he sits at 66%) and keeps the street through the windscreen. -->
+        <figure class="tcard">
+          <img class="photo" src="mameon-mvp-launch-images/sprv.png" alt="" width="1930" height="912"
+               style="object-position:73% 50%" loading="lazy" decoding="async">
           <figcaption class="tcard-top"><b>04</b> · <span>SPSV Pro Training</span></figcaption>
           <div class="tcard-body">
             <blockquote>“mameon makes it easier to turn complex messaging into clear,
@@ -1337,60 +1411,175 @@ steps.forEach(s => stepIO.observe(s));
   sec.appendChild(close);
 
   const RISE  = 0.8;   // viewports of scroll spent bringing the panel up
-  const MORPH = 1.1;   // viewports spent growing the last card into the CTA
+  /* Viewports spent on the whole closing move. The grow and the dissolve run
+     on top of each other again, so this no longer has to cover two movements
+     end to end — but it stays generous, because a slow fade is the point. */
+  const MORPH = 1.1;
   /* Viewports held on the last card — still, opaque, fully legible — after the
      strip stops and before the morph starts. Phones need far more of it. There
      the strip runs about three times longer (one 74vw card per screen instead
      of three side by side), so the reader reaches the final quote already
      scrolling hard, and a short tail dissolves it out from under them
-     mid-sentence. Read live rather than captured: it has to follow a rotation. */
-  const tail = () => innerHeight * (innerWidth <= 760 ? 0.62 : 0.3);
+     mid-sentence.
+
+     Longer than the lead at the other end, and deliberately so: this quote has
+     to be read against the reader's own momentum off a long run of cards, and
+     it is the last thing on the site before the page turns into a call to
+     action — there is no second chance at it further down. */
+  const tail = () => vh * (narrow ? 0.88 : 0.46);
+  /* And the same held at the other end, on the first card, before the strip
+     has moved at all. The panel used to finish rising and the strip start in
+     the same breath, so card 01 was already sliding by the time it had
+     finished arriving — there was nowhere in the scroll to simply read it.
+     Smaller than the tail: at the end the reader is coming in at speed off a
+     long run of cards, whereas here they have just arrived and are still
+     settling, so it takes less to give them the same pause. */
+  const lead = () => vh * (narrow ? 0.42 : 0.24);
+
+  /* Snapshotted at refresh, never read live inside onUpdate.
+
+     ScrollTrigger fixes the pin's length from totalPx() once, at refresh. Every
+     act boundary inside the pin used to be measured against innerHeight on the
+     frame it was needed — and on a phone innerHeight changes mid-scroll, when
+     the URL bar collapses. The pin then held one idea of how long it was and
+     the acts inside it another: at RISE 0.8 and a 0.62-viewport tail, sixty
+     pixels of height moved the boundaries by about ninety pixels of scroll,
+     and it came out of the end of the strip run, which is where the last two
+     cards are. A desktop browser never resizes mid-scroll, so it never showed.
+
+     measure() already runs on refreshInit, which is exactly when a real
+     resize is allowed to change the answer. */
+  let vh = innerHeight, narrow = innerWidth <= 760;
   const LIFT = 14;     // % of its own height the title drifts up as it goes
   // The title finishes clearing before the panel reaches it, so it is never
   // seen being cut off by the panel's edge — it leaves under its own steam.
   const FADE_BY = 0.78;
   const fadeCurve = gsap.parseEase("power2.in");   // lingers, then goes
 
+  const PAGE_INSET = 14;   // matches .close-card's page margin
+
+  /* The closing card is grown by re-laying its box out, not by scaling it.
+
+     A transform is cheaper, but it does not re-lay out: the card travels about
+     4x across against 1.16x down on a desktop, and the other way round on a
+     phone, so anything inside gets stretched by the difference between those
+     two numbers. Writing width and height instead makes it a real box at every
+     step — the photo re-crops through object-fit, the type re-wraps, nothing
+     distorts. That is what lets the card keep its face for most of the move and
+     hand over to the CTA in a crossfade, rather than having to empty itself
+     first and grow as a blank rectangle. One flex item re-flows per frame; it
+     is the last item in the row, so none of its neighbours move. */
+  let travelPx = 0;
+  const startBox = { x: 0, y: 0, w: 0, h: 0, r: 0 };
+  let   topAnchor = 0;   // top edge the card grows down from, once anchored
+  const CLOSE_R  = parseFloat(getComputedStyle(close).borderRadius) || 0;
+  const glide = { v: 0 };
+  const lerp  = (a, b, t) => a + (b - a) * t;
+  const paint = () => {
+    const g = glide.v, s = lastCard.style;
+    if (g <= 0) {                     // plain card in the strip again
+      s.removeProperty("width");
+      s.removeProperty("height");
+      s.removeProperty("align-self");
+      s.removeProperty("border-radius");
+      gsap.set(lastCard, { x: 0, y: 0, rotationZ: 0 });
+      return;
+    }
+    // Anchored top-left so the growth has a fixed corner to come out of: with
+    // flex-start the top edge stays put however tall the card gets, which the
+    // phone's align-items:center would otherwise move by half of every pixel
+    // added. The translate is then written against that anchor rather than
+    // against the resting position, so the moment the anchor takes effect it
+    // is already cancelled out and the card does not jump.
+    const el    = document.documentElement;
+    const pageW = el.clientWidth  - PAGE_INSET * 2;
+    const pageH = el.clientHeight - PAGE_INSET * 2;
+    /* The opening roll, run backwards. The hero turns a quarter clockwise and
+       shrinks page-to-card; this turns a quarter back the other way and grows
+       card-to-page, so the site opens and closes on the same gesture.
+
+       The targets are crossed for the same reason they are crossed there: a
+       quarter turn puts the layout width up the screen, so the box has to
+       arrive on its side to end up covering the page the right way round. */
+    const w = lerp(startBox.w, pageH, g);
+    const h = lerp(startBox.h, pageW, g);
+    s.alignSelf    = "flex-start";
+    s.width        = w + "px";
+    s.height       = h + "px";
+    s.borderRadius = lerp(startBox.r, CLOSE_R, g) + "px";
+    /* Placed by its centre now, not its corner. A rotation leaves the centre
+       alone and moves every corner, so the centre is the only handle that
+       still means the same thing at both ends of the turn. */
+    const cx = lerp(startBox.x + startBox.w / 2, el.clientWidth  / 2, g);
+    const cy = lerp(startBox.y + startBox.h / 2, el.clientHeight / 2, g);
+    gsap.set(lastCard, {
+      x: cx - (startBox.x + w / 2),
+      y: cy - (topAnchor + h / 2),
+      rotationZ: -90 * g,
+    });
+  };
+
   /* Measured on refresh, never inside onUpdate. Reading layout (scrollWidth and
      friends) between GSAP's writes forces a synchronous reflow on every frame,
      which makes a scrubbed section feel gritty however well the numbers ease. */
-  let travelPx = 0;
-  const morph = { dx: 0, dy: 0, sx: 1, sy: 1 };
-  const PAGE_INSET = 14;   // matches .close-card's page margin
   const measure = () => {
+    glide.v = 0; paint();            // natural layout first, then read it
+    vh = innerHeight; narrow = innerWidth <= 760;
     travelPx = Math.max(0, track.scrollWidth - rail.clientWidth);
-    // Last card's end-of-run box -> the CTA's page box. Transforms are backed
-    // out (track x, panel y) so this is layout truth at any breakpoint.
-    gsap.set(lastCard, { x: 0, y: 0, scaleX: 1, scaleY: 1 });
-    const r    = lastCard.getBoundingClientRect();
-    const tx   = Number(gsap.getProperty(track, "x")) || 0;
-    const left = r.left - tx - travelPx;
-    const top  = r.top - root.getBoundingClientRect().top;
-    morph.sx = (innerWidth  - PAGE_INSET * 2) / r.width;
-    morph.sy = (innerHeight - PAGE_INSET * 2) / r.height;
-    morph.dx = innerWidth  / 2 - (left + r.width  / 2);
-    morph.dy = innerHeight / 2 - (top  + r.height / 2);
+    // Where the last card sits once the strip has fully run and the panel is
+    // up. The live transforms are backed out (track x, panel y) so this is
+    // layout truth at any breakpoint, whatever GSAP is mid-glide on.
+    const r  = lastCard.getBoundingClientRect();
+    const tx = Number(gsap.getProperty(track, "x")) || 0;
+    startBox.w = r.width;
+    startBox.h = r.height;
+    startBox.x = r.left - tx - travelPx;
+    startBox.y = r.top - root.getBoundingClientRect().top;
+    startBox.r = parseFloat(getComputedStyle(lastCard).borderRadius) || 0;
+    // Where the top edge sits once the card is top-anchored. Independent of
+    // how tall the card has grown, so a single read here covers every frame.
+    lastCard.style.alignSelf = "flex-start";
+    topAnchor = lastCard.getBoundingClientRect().top - root.getBoundingClientRect().top;
+    lastCard.style.removeProperty("align-self");
   };
   measure();
   ScrollTrigger.addEventListener("refreshInit", measure);
 
-  const risePx  = () => innerHeight * RISE;
-  const morphPx = () => innerHeight * MORPH;
-  const totalPx = () => risePx() + travelPx + tail() + morphPx();
+  const risePx  = () => vh * RISE;
+  const morphPx = () => vh * MORPH;
+  const totalPx = () => risePx() + lead() + travelPx + tail() + morphPx();
 
   const ease = { duration: 0.45, ease: "power3" };
   const panelTo = gsap.quickTo(root,  "yPercent", ease);
   const titleTo = gsap.quickTo(title, "yPercent", ease);
   const fadeTo  = gsap.quickTo(title, "opacity",  ease);
   const zoomTo  = gsap.quickTo(title, "scale",    ease);
-  const trackTo = gsap.quickTo(track, "x", { duration: 0.55, ease: "power3" });
-  const cardX   = gsap.quickTo(lastCard, "x",      ease);
-  const cardY   = gsap.quickTo(lastCard, "y",      ease);
-  const cardSX  = gsap.quickTo(lastCard, "scaleX", ease);
-  const cardSY  = gsap.quickTo(lastCard, "scaleY", ease);
-  const growCurve = gsap.parseEase("power2.inOut");
-  const cardBits  = lastCard.querySelectorAll(".tcard-top, .tcard-body, .mark, .photo");
+  /* The strip's real position, not merely the position it is heading for.
+
+     It is eased, and until now nothing downstream knew that. A wheel never
+     moves far enough in one go for the difference to show, so this only ever
+     went wrong on a phone: a flick jumps the scroll a thousand pixels at once,
+     the strip eases after it, and Act 3 — reading the scroll position alone —
+     concluded the strip had arrived and started dissolving the cards. The last
+     two were still sliding in when they were faded out, which is exactly the
+     length of time they were never seen for. */
+  const strip = { run: 0 };
+  const stripTo = gsap.quickTo(strip, "run", {
+    duration: 0.55, ease: "power3",
+    onUpdate: () => gsap.set(track, { x: -strip.run }),
+  });
+  // Gentle at both ends, even through the middle — what a slow dissolve wants.
+  // power2.in would sit still and then bolt, which is what read as a lurch.
+  const softCurve = gsap.parseEase("power1.inOut");
+  /* Split, because the two halves of the card face want different exits. The
+     words have to be gone before the panel is tilted enough to make them hard
+     work; the picture does not, and pulling it as early as the text would take
+     the card's whole face off before the move had really started. */
+  const cardText = lastCard.querySelectorAll(".tcard-top, .tcard-body");
+  const cardArt  = lastCard.querySelectorAll(".photo, .mark");
   const otherCards = Array.from(track.children).filter(c => c !== lastCard);
+  // One eased scalar drives the whole grow; `paint` writes the box from it.
+  const glideTo = gsap.quickTo(glide, "v", { ...ease, onUpdate: paint });
 
   gsap.set(root, { yPercent: 100 });   // parked one screen below, title clear
 
@@ -1412,40 +1601,65 @@ steps.forEach(s => stepIO.observe(s));
       fadeTo(1 - gone);
       zoomTo(1 - 0.07 * gone);
 
-      // Act 2 — the strip runs. Clamped, so the tail holds on the last card.
-      const run = Math.min(travelPx, Math.max(0, px - risePx()));
-      trackTo(-run);
+      // Act 2 — the strip runs, between the two holds: lead() keeps it still
+      // on the first card, tail() keeps it still on the last.
+      const run = Math.min(travelPx, Math.max(0, px - risePx() - lead()));
+      stripTo(run);
       bar.style.width = `${12 + 88 * (travelPx ? run / travelPx : 1)}%`;
 
       panelTo((1 - rise) * 100);
 
-      // Act 3 — the hero morph, reversed: the card copy clears, the last card
-      // grows to page size, and the closing CTA fades in on top of it.
+      // Act 3 — the hero morph, reversed. One continuous movement now: the
+      // card grows for the whole of it while everything around it dissolves.
+      /* Held back by whatever the strip still owes. On a wheel that is always
+         nothing and this term vanishes. On a phone it is the whole difference
+         between seeing the last two cards and not: the morph waits out the
+         strip's debt, and the debt repays itself as the strip lands, so the
+         hold is exactly as long as it needs to be and never longer. */
+      const owed = Math.max(0, travelPx - strip.run);
       const m = Math.min(1, Math.max(0,
-        (px - risePx() - travelPx - tail()) / morphPx()));
+        (px - risePx() - lead() - travelPx - tail() - owed) / morphPx()));
       root.classList.toggle("morphing", m > 0);
-      const grow = growCurve(m);
-      cardX(morph.dx * grow);
-      cardY(morph.dy * grow);
-      cardSX(1 + (morph.sx - 1) * grow);
-      cardSY(1 + (morph.sy - 1) * grow);
-      /* Nothing dissolves while the quote is still the thing on screen. The
-         card grows on its own for the first fifth of the morph, and only then
-         does the stage clear, in two passes: the neighbouring cards and the
-         section head leave first, the last card's own copy follows a beat
-         later. Running all of it from m=0 was the bug — the neighbour went
-         transparent (reading as white against the paper) and the last card
-         sank into the gradient while the quote was still being read. */
-      const ramp   = (a, b) => Math.min(1, Math.max(0, (m - a) / (b - a)));
-      const around = ramp(0.20, 0.44);
-      const copy   = ramp(0.28, 0.54);
-      gsap.set(cardBits, { opacity: 1 - copy });
+      const ramp = (a, b) => Math.min(1, Math.max(0, (m - a) / (b - a)));
+
+      /* Everything overlaps, and that is the point — the previous pass ran the
+         clear and the grow back to back, and the seam between them is what
+         read as a stutter. The neighbours now fade the long way, underneath
+         the whole grow, so they are leaving while the card is moving rather
+         than before it. The card's own face leaves late and hands straight
+         over to the CTA, so the screen is never holding an empty rectangle.
+         Only the grow finishes early (0.86), to settle before the pin lets go. */
+      /* Proportioned off the opening, so the two bookends run at the same
+         rhythm: the roll takes the same share of the move that the hero's
+         takes of its own, and the card's face clears over the same fraction of
+         the roll that the hero's copy clears of that one. Linear, like the
+         hero — the roll and the growth are one gesture, and easing them reads
+         as the panel hesitating mid-turn.
+
+         The CTA is held back until the roll has landed, which is the opening's
+         "cards only after the flip" rule seen from the other end. */
+      const ROLL   = 0.68;
+      const around = softCurve(ramp(0, 0.55));   // neighbours + section head
+      /* The quote leaves the moment the move does, on its own eased curve.
+         It is the one thing on the card that has to be read, and reading stops
+         the instant the panel starts to turn — so it goes cleanly at the start
+         rather than dissolving through the whole roll and being half-legible
+         at an angle for most of it. Eased at both ends so it is a fade and not
+         a cut. The picture holds well past it: a photograph on the turn is
+         still a photograph, a sentence on the turn is not. */
+      const words  = softCurve(ramp(0, 0.26));   // kicker, quote, attribution
+      const art    = ramp(0.12, ROLL * 0.72);    // the photograph behind them
+      const cta    = ramp(ROLL, 0.94);           // only once the panel has landed
+      glideTo(ramp(0, ROLL));
+      gsap.set(cardText, { opacity: 1 - words });
+      gsap.set(cardArt,  { opacity: 1 - art });
       gsap.set(head, { opacity: 1 - around });
       if (otherCards.length) gsap.set(otherCards, { opacity: 1 - around });
-      lastCard.style.setProperty("--scrim", String(1 - copy));
-      // CTA copy arrives once the card is near its full size
-      gsap.set(close, { opacity: Math.min(1, Math.max(0, (m - 0.62) / 0.30)) });
-      close.classList.toggle("on", m > 0.62);
+      // The scrim exists to hold the words off the photograph, so it leaves
+      // with them — which lets the picture come up clean for its last moment.
+      lastCard.style.setProperty("--scrim", String(1 - words));
+      gsap.set(close, { opacity: cta });
+      close.classList.toggle("on", cta > 0);
     },
   });
 })();
@@ -1460,22 +1674,52 @@ if (!reduced && window.gsap && window.ScrollTrigger) {
   document.documentElement.classList.add("motion");
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ---------- hero card morphs into the front carousel card ----------
-     Card 01 rests at translateZ(--ring-r), which the shared 1400px
-     perspective magnifies. Matching scale alone would land it too small,
-     so the cover scale is divided by that magnification.
-     All three inputs are measured from the DOM, so this stays correct at
-     any breakpoint. offsetWidth is layout size, unaffected by transforms. */
-  const PERSPECTIVE = 1400;
-  const mag    = () => PERSPECTIVE / (PERSPECTIVE - ringProbe.offsetWidth);
-  const coverX = () => (innerWidth  - 28) / (ring.offsetWidth  * mag());
-  const coverY = () => (innerHeight - 28) / (ring.offsetHeight * mag());
+  /* ---------- the hero flips into the front carousel card ----------
+     The hero used to be an overlay that dissolved to uncover card 01 sitting
+     behind it, pre-scaled to cover. Nothing actually transformed: one card
+     faded, another was revealed. It is now a face of the ring itself, so the
+     turn that brings card 01 to the front is the same turn that carries the
+     hero away — the hero becomes the carousel rather than handing over to it.
+
+     The hero turns on the ring's axis, at z 0, so perspective neither
+     magnifies nor shrinks it: at the start its layout size is simply the page
+     box. It ends the turn at card 01's size instead, so that going edge-on and
+     card 01 arriving face-on happen to the same rectangle — the hero becomes
+     the card rather than getting out of its way. Card 01 rides the radius and
+     is magnified by it, so the size to land on is its layout size times that
+     magnification. The probe reports the radius in px in whatever unit the
+     current breakpoint writes it in. */
+  const PERSPECTIVE = 1500;   // matches .ring-wrap's camera distance
+  const ringR = () => ringProbe.offsetWidth;
+  const mag   = () => PERSPECTIVE / (PERSPECTIVE - ringR());
+  const hero  = document.querySelector(".hero");
+
+  /* Promoted in script, not in the markup: the hero keeps its place in the
+     document (and its h1 with it) for anything that reads the page without
+     running this, and the no-JS fallback rules still find it where they
+     expect. Only a browser that is actually going to run the turn moves it. */
+  ring.appendChild(hero);
+  /* clientWidth, not innerWidth: innerWidth counts the scrollbar, and the ring
+     is centred in the content box, so sizing off the window puts the hero half
+     a scrollbar out of true — 7px left of where it belongs on a desktop. */
+  const heroW = () => document.documentElement.clientWidth  - 28;
+  const heroH = () => document.documentElement.clientHeight - 28;
+  const cardW = () => ring.offsetWidth  * mag();
+  const cardH = () => ring.offsetHeight * mag();
+
+  /* Centred on the ring's axis by its own half-size rather than by margins, so
+     the centring survives the size changing under it, and pitched a quarter
+     turn back so that the ring's opening quarter brings it square to us. */
+  gsap.set(hero, {
+    xPercent: -50, yPercent: -50,
+    width: heroW, height: heroH, transformOrigin: "50% 50%",
+  });
 
   const mq = document.getElementById("marquee");
 
   /* One timeline over the whole stage.
-     Act 1 (0 -> MORPH_END): the hero uncovers ring card 01, which is already
-     sitting behind it scaled up to fill the viewport, then shrinks to size.
+     Act 1 (0 -> MORPH_END): the hero rolls a quarter turn and shrinks into
+     card 01's box, and only then do the carousel's cards come up behind it.
      Act 2 (MORPH_END -> 1): the ring rotates through all six cards. */
   const MORPH_END = 0.28;
 
@@ -1489,16 +1733,50 @@ if (!reduced && window.gsap && window.ScrollTrigger) {
     },
   });
 
-  // Ring starts at cover scale. Anisotropic, so no rotation runs during Act 1 —
-  // rotating a non-uniformly scaled parent shears the cards.
-  tl.fromTo(ring,
-      { scaleX: coverX, scaleY: coverY, rotateY: 0, rotateX: 0 },
-      { scaleX: 1, scaleY: 1, ease: "power2.inOut", duration: MORPH_END }, 0)
-    // hero copy clears, then the hero card itself dissolves off the front card
-    .to(".hero-inner, .hero-foot", { opacity: 0, y: -30, ease: "power1.in", duration: MORPH_END * .30 }, 0)
-    .to(".hero", { opacity: 0, ease: "none", duration: MORPH_END * .22 }, MORPH_END * .16)
-    // card copy and stage chrome arrive once the card is near its real size
-    .to(".ring-card > *", { opacity: 1, ease: "none", duration: MORPH_END * .28 }, MORPH_END * .72)
+  /* The hero rolls. Not a flip: it turns a quarter clockwise in the plane of
+     the screen, on rotateZ, while its box shrinks from the page down to a
+     card. Nothing rotates in depth, and the ring itself holds still until the
+     roll is over — the carousel's own turn starts where this ends.
+
+     The two target dimensions are deliberately crossed: the width goes to the
+     card's HEIGHT and the height to the card's WIDTH. A quarter roll puts the
+     element's own width axis up the screen, so the box has to arrive on its
+     side to read the right way up once it lands. Feed it the same way round
+     and the card finishes landscape.
+
+     Linear, on purpose. The roll and the shrink are the one gesture and any
+     easing on them reads as the panel hesitating mid-turn. */
+  /* ROLL_END — where the roll lands and the carousel is allowed to exist.
+     Nothing of the ring is on screen before it: the cards come up afterwards,
+     so the roll is watched on its own rather than against six other things
+     arriving. The ring sits at its full radius the whole time, which costs
+     nothing while the cards are transparent and means card 01 fades up at
+     exactly the size and place the hero just landed on, with no growth of its
+     own to give the join away. */
+  const ROLL_END = MORPH_END * .68;
+
+  tl.fromTo(hero,
+      { rotationZ: 0, width: heroW, height: heroH,
+        borderRadius: () => getComputedStyle(hero).borderRadius },
+      { rotationZ: 90, width: cardH, height: cardW, borderRadius: 22,
+        ease: "none", duration: ROLL_END }, 0)
+    // The copy goes early, so the type is never read at a steep angle.
+    .to(".hero-inner, .hero-foot", { opacity: 0, ease: "power1.in", duration: ROLL_END * .66 }, 0)
+    // Panels first, then their copy — the carousel arrives as objects that
+    // then fill in, rather than as six blocks of text switching on at once.
+    .to(".ring-card", { opacity: 1, ease: "none", duration: MORPH_END * .20 }, ROLL_END)
+    /* Handed over, not faded out. A roll never turns the hero away from the
+       viewer the way a flip would, so it has to be taken off deliberately or
+       it sits there through the whole carousel. By this point it has landed on
+       card 01's box exactly, and card 01 is at that box at full opacity, so
+       swapping one for the other changes nothing on screen.
+
+       Visibility rather than autoAlpha, and with no opacity tween anywhere on
+       the hero to write the same property from the other direction — that
+       combination is what left it stuck invisible on a scrub back up. */
+    .set(hero, { visibility: "hidden", pointerEvents: "none" }, MORPH_END)
+    // card copy last of all, once the panels it sits on are solid
+    .to(".ring-card > *", { opacity: 1, ease: "none", duration: MORPH_END * .14 }, MORPH_END * .86)
     .to(mq, { opacity: .92, ease: "none", duration: MORPH_END * .30 }, MORPH_END * .70)
     // Act 2 — the existing carousel, now at its natural size
     // Positive sweep (the original direction). Note the side effect: a card
