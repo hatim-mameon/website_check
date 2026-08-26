@@ -4,15 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5YZHC5Z63S"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-5YZHC5Z63S');
-    gtag('config', 'AW-10802565257');
-  </script>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NCGPXT5P');</script>
+  <!-- End Google Tag Manager -->
 
   <title>mameon - Page Not Found</title>
   <link rel="icon" type="image/png" href="/logo.png" />
@@ -187,6 +185,10 @@
   </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NCGPXT5P"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
   <a href="/" class="logo">
     <img src="/logo.png" alt="mameon logo" />
     <img src="/wordmark.png" alt="mameon" />
@@ -195,16 +197,17 @@
   <h1>Page not found</h1>
   <p>The page you're looking for doesn't exist or has been moved. Let's get you back on track.</p>
   <a href="/" class="btn">Back to mameon.com</a>
-  <!-- GA4: track signup / login CTA clicks (delegated, so buttons added later are covered too) -->
+  <!-- GTM: track signup / login CTA clicks (delegated, so buttons added later are covered too) -->
   <script>
     document.addEventListener('click', function (e) {
       if (!e.target || !e.target.closest) return;
       var btn = e.target.closest('a[href^="https://app.mameon.com"]');
       if (!btn) return;
-      gtag('event', 'signup_click', {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'signup_click',
         button_location: btn.dataset.location || 'unknown',
-        link_text: (btn.textContent || '').trim(),
-        transport_type: 'beacon'
+        link_text: (btn.textContent || '').trim()
       });
     });
   </script>
