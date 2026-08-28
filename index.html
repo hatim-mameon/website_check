@@ -427,6 +427,26 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
    descender like the "y" in Bluesky — shearing it against the flush edge. */
 .marquee .mq:last-child{ margin-right:0; padding-right:.04em; }
 
+/* On a phone the strip stops being a backdrop and becomes a caption under the
+   carousel, so it is measured from the cards rather than from the viewport.
+   Anchoring it to the bottom edge instead looks fine on a tall screen and
+   fails on a short one: the ring is centred and sized in vw, so on a 375x667
+   it reaches within 13px of a bottom-pinned strip. Here top:50% puts the top
+   edge on the ring's centre and the translate walks it down past the front
+   card, which stands half of --card-h tall times the perspective
+   magnification P/(P - --ring-r) -- 55.6vw at 375 wide, 57.3vw at 430, so 56vw
+   holds the gap to within 6px of the 26px asked for. The type comes down with
+   it: 4rem of it standing alone under the cards reads as a second headline
+   rather than as a list of the platforms. translateY survives the timeline for
+   the same reason the -50% does on desktop, the x tween inheriting whatever y
+   the computed matrix already carries. */
+@media (max-width:760px){
+  .marquee{
+    transform:translateY(calc(56vw + 26px));
+    font-size:clamp(2rem,9vw,3rem); letter-spacing:-.03em;
+  }
+}
+
 /* 1500px is the reference carousel's camera distance. Kept in step with
    PERSPECTIVE in the stage script, which divides it back out when sizing the
    hero to land on card 01. */
@@ -512,7 +532,13 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
 .step-num{
   font-family:var(--display); font-size:clamp(5rem,14vw,11rem);
   line-height:.8; letter-spacing:-.05em; color:var(--brand-tint);
+  transition:opacity .22s ease;
 }
+/* The numeral is swapped at the bottom of a fade rather than under the
+   reader's eye. An 11rem figure changing by cut is a flicker at the edge of
+   vision; the same change on a fade is the page keeping pace with you. Timed
+   to land inside the .45s the step opposite takes to come up to full. */
+.step-num.swapping{ opacity:0; }
 .step{
   padding:clamp(30px,5vh,58px) 0; border-bottom:1px solid rgba(15,20,32,.10);
   opacity:.42; transition:opacity .45s ease;
@@ -526,6 +552,22 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
   padding:5px 11px; border-radius:999px;
   background:var(--brand-wash); color:var(--brand-deep);
 }
+/* The list sets the pace of the counter beside it, and at its natural height
+   it set far too quick a one: a step passed in about 200px, two notches of a
+   wheel, so all four numbers turned over inside a single screen and the
+   counter read as a flicker rather than as a place marker. Roughly 40vh a step
+   gives a number long enough to be read before it is replaced.
+
+   Bought with padding rather than a min-height and centring, because the
+   padding is already symmetric — so the words stay centred in the taller box
+   for free, and the tag keeps its pill instead of being stretched by a flex or
+   grid stretch. Desktop only: below 860px the counter is per-step and travels
+   with the words, so there is no cadence to slow down and the extra height
+   would only be a longer scroll. */
+@media (min-width:861px){
+  .step{ padding:clamp(56px,18vh,190px) 0; }
+}
+
 @media (max-width:860px){
   .steps-grid{ grid-template-columns:1fr; }
 
@@ -683,7 +725,17 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
 /* A wide lockup capped at the square marks' width shrinks to a stamp, so give
    the horizontal ones room to read as a name. */
 .tcard img.mark.wide{ width:64%; max-width:236px; }
-.tcard.logo-card{ background:#000000; }
+/* The black ground is painted as a layer rather than set on the card, because
+   the last card is also the one that grows into the closing CTA. Set on the
+   card it would survive the mark fading out, and the panel would cross most of
+   its travel as a black slab before the blue arrives on top. As a layer it
+   leaves on the same ramp as the mark, uncovering the brand gradient
+   underneath — which is what the photo cards have always handed over. */
+.tcard.logo-card{ background:var(--hero-grad); }
+.tcard.logo-card::before{
+  content:""; position:absolute; inset:0; z-index:0;
+  background:#000000; opacity:var(--ground,1);
+}
 /* Same contrast ramp as the photo scrim, drained of its navy so the card stays
    black all the way down instead of tinting under the quote. */
 .tcard.logo-card::after{
@@ -1077,14 +1129,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </figure>
 
-        <figure class="tcard logo-card">
-          <img class="mark wide" src="logos/mesh_transparent.png" alt="" width="3264" height="1312" loading="lazy" decoding="async">
-          <figcaption class="tcard-top"><b>02</b> · <span>Mesh Bioplastics</span></figcaption>
+        <figure class="tcard">
+          <img class="photo" src="story_mara.jpg" alt="" width="1200" height="1600" loading="lazy" decoding="async">
+          <figcaption class="tcard-top"><b>02</b> · <span>Mara Botanics</span></figcaption>
           <div class="tcard-body">
-            <blockquote>“Their storytelling tools helped us communicate our mission with
-              greater clarity and consistency, while significantly improving efficiency
-              in our content creation process.”</blockquote>
-            <p class="tcard-who"><b>Shane Hannan</b><br>CEO, Mesh Bioplastics</p>
+            <blockquote>“Running a startup isn't one hard thing. It's twenty easy things
+              and five impossibly hard things at once. mameon looks after all of social
+              and advertising for me.”</blockquote>
+            <p class="tcard-who"><b>Cian Mahony</b><br>Mara Botanics</p>
           </div>
         </figure>
 
@@ -1115,14 +1167,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </figure>
 
-        <figure class="tcard">
-          <img class="photo" src="story_mara.jpg" alt="" width="1200" height="1600" loading="lazy" decoding="async">
-          <figcaption class="tcard-top"><b>05</b> · <span>Mara Botanics</span></figcaption>
+        <figure class="tcard logo-card">
+          <img class="mark wide" src="logos/mesh_transparent.png" alt="" width="3264" height="1312" loading="lazy" decoding="async">
+          <figcaption class="tcard-top"><b>05</b> · <span>Mesh Bioplastics</span></figcaption>
           <div class="tcard-body">
-            <blockquote>“Running a startup isn't one hard thing. It's twenty easy things
-              and five impossibly hard things at once. mameon looks after all of social
-              and advertising for me.”</blockquote>
-            <p class="tcard-who"><b>Cian Mahony</b><br>Mara Botanics</p>
+            <blockquote>“Their storytelling tools helped us communicate our mission with
+              greater clarity and consistency, while significantly improving efficiency
+              in our content creation process.”</blockquote>
+            <p class="tcard-who"><b>Shane Hannan</b><br>CEO, Mesh Bioplastics</p>
           </div>
         </figure>
        </div>
@@ -1295,20 +1347,80 @@ const steps = Array.from(document.querySelectorAll("#stepList .step"));
 const numEl = document.getElementById("stepNum");
 steps[0].classList.add("on");
 
-const stepIO = new IntersectionObserver((entries) => {
-  // pick the entry nearest the 62% line
-  const visible = entries.filter(e => e.isIntersecting);
-  if (!visible.length) return;
-  const best = visible.reduce((a, b) =>
-    Math.abs(a.boundingClientRect.top - innerHeight * .38) <
-    Math.abs(b.boundingClientRect.top - innerHeight * .38) ? a : b);
-  const i = steps.indexOf(best.target);
+/* The numeral turns over when a step actually reaches it, so the number and
+   the step it counts are level with each other on the page.
+
+   The observer this replaces fired off a fixed -30%/-45% band and picked
+   whichever step sat nearest 38% of the viewport, which is only the same thing
+   by coincidence. The counter is sticky at 22vh and its own height is clamped
+   type, so where it really sits depends on the viewport, and on anything the
+   percentages were not tuned against the two drifted apart — the number moving
+   on while its step was still well below it. Measuring the numeral makes the
+   answer "the step level with the number" by construction rather than by
+   tuning. */
+const numLine = () => {
+  const r = numEl.getBoundingClientRect();
+  /* Nothing to measure under 860px, where the counter is display:none and each
+     step carries its own. The line still has to pick an active step for the
+     .on emphasis, so it falls back to a fixed reading height. */
+  return r.height ? r.top + r.height / 2 : innerHeight * .38;
+};
+
+/* The fade is a real state, so the pending value is held outside the timer and
+   the timer only ever writes the newest one. Scrolling through three steps
+   inside one fade therefore lands on the third, and scrolling back to where you
+   started cancels the change instead of queueing a second one. */
+const softSwap = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+let pendingNum = numEl.textContent;
+let swapTimer = 0;
+const showNum = (txt) => {
+  if (txt === pendingNum) return;
+  pendingNum = txt;
+  // Scrolled back to the number already showing: cancel the fade rather than
+  // finish it, so a step crossed and recrossed costs nothing at all.
+  if (txt === numEl.textContent) {
+    clearTimeout(swapTimer);
+    numEl.classList.remove("swapping");
+    return;
+  }
+  if (!softSwap) { numEl.textContent = txt; return; }
+  numEl.classList.add("swapping");
+  clearTimeout(swapTimer);
+  swapTimer = setTimeout(() => {
+    numEl.textContent = pendingNum;
+    numEl.classList.remove("swapping");
+  }, 220);
+};
+
+const syncStep = () => {
+  const line = numLine();
+  /* No straddling step means no change. The steps are flush — their padding is
+     inside the box — so that only happens above the first and below the last,
+     where holding the last value is what keeps the number from snapping back
+     to 01 as the section leaves. */
+  const i = steps.findIndex(s => {
+    const r = s.getBoundingClientRect();
+    return r.top <= line && r.bottom > line;
+  });
+  /* No index cache here on purpose. Holding one beside showNum's would be two
+     records of the same fact, and they only have to disagree once — a value
+     written by anything but this function — for the early return to start
+     suppressing the update that would have corrected it. The writes below are
+     both idempotent, so recomputing costs four class toggles a frame. */
   if (i < 0) return;
-  steps.forEach(s => s.classList.remove("on"));
-  best.target.classList.add("on");
-  numEl.textContent = String(i + 1).padStart(2, "0");
-}, { rootMargin: "-30% 0px -45% 0px", threshold: 0 });
-steps.forEach(s => stepIO.observe(s));
+  steps.forEach((s, k) => s.classList.toggle("on", k === i));
+  showNum(String(i + 1).padStart(2, "0"));
+};
+
+let stepQueued = false;
+const queueStep = () => {
+  if (stepQueued) return;
+  stepQueued = true;
+  requestAnimationFrame(() => { stepQueued = false; syncStep(); });
+};
+addEventListener("scroll", queueStep, { passive: true });
+addEventListener("resize", queueStep);
+syncStep();
 
 /* ------------------------------------------------------------
    Testimonial filmstrip.
@@ -1658,6 +1770,10 @@ steps.forEach(s => stepIO.observe(s));
       // The scrim exists to hold the words off the photograph, so it leaves
       // with them — which lets the picture come up clean for its last moment.
       lastCard.style.setProperty("--scrim", String(1 - words));
+      // A logo card's black ground is part of its picture, not part of the
+      // card, so it leaves on the picture's ramp. Inert on a photo card, which
+      // has no such layer to fade.
+      lastCard.style.setProperty("--ground", String(1 - art));
       gsap.set(close, { opacity: cta });
       close.classList.toggle("on", cta > 0);
     },
