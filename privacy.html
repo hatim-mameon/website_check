@@ -79,7 +79,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a class="link" href="whatyouget.html">What you Can Make</a>
   <a class="link" href="how-mameon-works.html">How mameon Works</a>
   <a class="link" href="meet-our-team.html">Meet Our Team</a>
-  <a class="cta" href="https://app.mameon.com" aria-label="Log in or sign up for free"><span class="cta-full">Log in / Sign up for free</span><span class="cta-short">Sign up free</span></a>
+  <a class="cta" href="https://app.mameon.com" data-location="navbar" aria-label="Log in or sign up for free"><span class="cta-full">Log in / Sign up for free</span><span class="cta-short">Sign up free</span></a>
   <button class="nav-toggle" id="navToggle" type="button"
           aria-expanded="false" aria-controls="navPanel" aria-label="Open menu">
     <span></span><span></span><span></span>
@@ -270,5 +270,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </nav>
 </footer>
 
+<!-- GTM: track signup / login CTA clicks (delegated, so buttons added later are covered too) -->
+<script>
+document.addEventListener('click', function (e) {
+  if (!e.target || !e.target.closest) return;
+  var btn = e.target.closest('a[href^="https://app.mameon.com"]');
+  if (!btn) return;
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'signup_click',
+    button_location: btn.dataset.location || 'unknown',
+    link_text: (btn.textContent || '').trim()
+  });
+});
+</script>
 </body>
 </html>
