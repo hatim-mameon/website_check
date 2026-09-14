@@ -318,6 +318,167 @@ a:focus-visible, button:focus-visible{
   position:relative; z-index:3; max-width:1180px; width:100%;
   margin:auto auto 0;
 }
+/* ---- the photo that fills the card ----
+   A full-bleed layer rather than a framed picture beside the copy: it covers
+   the whole hero and is faded out across the left half so the headline, the
+   sub and the CTA sit on clean gradient and nothing is read over the picture.
+
+   z 1 puts it under the grain (z 2) and the copy (z 3), and the hero's own
+   overflow:hidden + radius clip it to the card's rounded corners. */
+.hero-figure{
+  position:absolute; inset:0; z-index:1; margin:0; pointer-events:none;
+}
+.hero-figure img{
+  display:block; width:100%; height:100%;
+  object-fit:cover;
+  /* The subject sits right of centre in the frame, which is the half that
+     stays opaque — anchor the crop there so she survives every aspect ratio
+     the viewport can be. */
+  object-position:72% 38%;
+  /* The fade, cut on the diagonal rather than straight down the card.
+     A vertical edge has to clear the headline, which is the widest thing in
+     the copy, and so it clears the sub, the CTA and the proof row by a great
+     deal more — a column of empty gradient down the middle of the card. At
+     135deg the edge runs at 45 degrees instead, out past the headline at the
+     top and back in over the copy's narrow end at the bottom, which is the
+     shape the type actually makes.
+
+     Where the stops go is a question about one thing only: where her face
+     lands on the gradient axis. Measured off the frame (the face occupies
+     x .61-.74, y .19-.42 of it) the diagonal carries the whole face between
+     44% and 61%, its centre at 52% — so a transition ending at 60%, as this
+     one used to, runs straight across it and leaves her behind half a veil.
+     These stops are for the cropped case below; the uncropped one, where the
+     whole frame is on screen and the numbers hold exactly, retunes them.
+     Both properties: Safari wants the prefix. */
+  -webkit-mask-image:linear-gradient(135deg,
+     transparent 0%, transparent 43%, rgba(0,0,0,.22) 48%,
+     rgba(0,0,0,.70) 52%, rgba(0,0,0,.95) 55%, #000 58%);
+          mask-image:linear-gradient(135deg,
+     transparent 0%, transparent 43%, rgba(0,0,0,.22) 48%,
+     rgba(0,0,0,.70) 52%, rgba(0,0,0,.95) 55%, #000 58%);
+}
+/* ---- how much of the frame is on screen ----
+   Filling the card by width crops the photo hard from top and bottom on a wide
+   monitor — two thirds of the frame at 1920, which reads as standing too close
+   to her. Above 981px the photo is sized by the card's HEIGHT instead and hung
+   off the right edge: the whole frame is in view, the room around her comes
+   back, and what it no longer reaches on the left is the end of the fade,
+   which is plain gradient anyway. On a card taller than the photo's 3:2 it
+   still overflows to the left and is clipped, exactly as cover would.
+
+   Hence the aspect gate as well as the width one: 3/2 is the photo's own
+   proportion, so above it the frame fits inside the card and below it a tall
+   desktop window would be hanging the photo off the right edge and clipping
+   everything but the far end of the room — which has no subject in it. Those
+   windows keep the cover crop the base rule gives them. */
+@media (min-width:981px) and (min-aspect-ratio:3/2){
+  .hero-figure img{
+    position:absolute; top:0; right:0;
+    width:auto; height:100%; max-width:none;
+
+    /* Two fixed points decide this ramp, and the whole frame being on screen
+       is what makes both of them measurable.
+
+       Where it starts: the vertical fade this replaced began a third of the
+       way across the photo, and that starting edge was right. A 135deg line
+       through that same point at the top of the card sits at 0.33W/(W+H) of
+       the gradient axis, which for a 3:2 frame is 20% — so 20% is where the
+       photograph starts coming up, exactly where it used to.
+
+       Where it finishes: the face occupies x .61-.74, y .19-.42 of the frame,
+       which the diagonal carries between 44% and 61%, centre at 52%. Solid by
+       48% clears it whole.
+
+       In between the ramp is deliberately slow to start — a sixth of its
+       strength spent over its first third. The headline's last letter lands
+       anywhere from 25% to 39% along, depending on how tall the window is,
+       and the gentle opening is what keeps the type clear of the picture on
+       the tall end of that range while still beginning where it must. */
+    -webkit-mask-image:linear-gradient(135deg,
+       transparent 20%, rgba(0,0,0,.06) 30%, rgba(0,0,0,.22) 38%,
+       rgba(0,0,0,.55) 43%, rgba(0,0,0,.85) 46%, #000 48%);
+            mask-image:linear-gradient(135deg,
+       transparent 20%, rgba(0,0,0,.06) 30%, rgba(0,0,0,.22) 38%,
+       rgba(0,0,0,.55) 43%, rgba(0,0,0,.85) 46%, #000 48%);
+  }
+  /* The photo does not reach the left side of the card here, and starting the
+     diagonal at 20% is what makes its own left edge show: the corners of that
+     edge project onto 0% at the top but 39.5% at the bottom, so the bottom of
+     it is still a quarter visible when the picture simply stops — a soft
+     diagonal that ends in a hard vertical line down the bottom-left.
+
+     So a second mask layer, a short fade across the photo's leading edge,
+     multiplied into the first. It costs nothing anywhere the diagonal has
+     already gone to zero, and dissolves the one corner where it has not. */
+  .hero-figure img{
+    -webkit-mask-image:
+      linear-gradient(135deg,
+        transparent 20%, rgba(0,0,0,.06) 30%, rgba(0,0,0,.22) 38%,
+        rgba(0,0,0,.55) 43%, rgba(0,0,0,.85) 46%, #000 48%),
+      linear-gradient(90deg,
+        transparent 0%, rgba(0,0,0,.30) 6%, rgba(0,0,0,.78) 11%, #000 16%);
+            mask-image:
+      linear-gradient(135deg,
+        transparent 20%, rgba(0,0,0,.06) 30%, rgba(0,0,0,.22) 38%,
+        rgba(0,0,0,.55) 43%, rgba(0,0,0,.85) 46%, #000 48%),
+      linear-gradient(90deg,
+        transparent 0%, rgba(0,0,0,.30) 6%, rgba(0,0,0,.78) 11%, #000 16%);
+    -webkit-mask-composite:source-in;
+            mask-composite:intersect;
+  }
+  /* The wash clears with it — a tint that outlasted the mask would be the
+     same veil over her face by another route. */
+  .hero-figure::after{
+    background:
+      linear-gradient(135deg,
+        rgba(20,42,84,.78) 0%, rgba(24,48,95,.46) 26%,
+        rgba(28,54,106,.20) 38%, rgba(32,60,118,.06) 47%,
+        rgba(36,66,127,.02) 100%),
+      linear-gradient(0deg,
+        rgba(16,34,70,.62) 0%, rgba(20,42,84,.20) 26%, rgba(20,42,84,0) 52%);
+  }
+}
+
+/* Two washes of the card's own blues over the photo: one along the same
+   diagonal as the mask, which carries the fade the rest of the way into the
+   gradient, and one up from the bottom, which keeps the footer note and the
+   proof pill on a dark enough ground to hold their contrast over the bright
+   office windows. */
+.hero-figure::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:
+    linear-gradient(135deg,
+      rgba(20,42,84,.80) 0%, rgba(24,48,95,.50) 40%,
+      rgba(32,60,118,.14) 56%, rgba(36,66,127,.03) 100%),
+    linear-gradient(0deg,
+      rgba(16,34,70,.62) 0%, rgba(20,42,84,.20) 26%, rgba(20,42,84,0) 52%);
+}
+
+/* Narrow screens have no empty right-hand half to put a picture in — the copy
+   runs the full width of the card. So the fade turns diagonal: the photograph
+   holds the top-right corner, where nothing is set, and falls away toward the
+   bottom-left, which is where the headline, the CTA and the proof row live.
+   The subject's head sits in the corner that stays. */
+@media (max-width:980px){
+  .hero-figure img{
+    object-position:76% 26%;
+    -webkit-mask-image:linear-gradient(38deg,
+       transparent 0%, transparent 26%, rgba(0,0,0,.30) 48%,
+       rgba(0,0,0,.72) 68%, #000 88%);
+            mask-image:linear-gradient(38deg,
+       transparent 0%, transparent 26%, rgba(0,0,0,.30) 48%,
+       rgba(0,0,0,.72) 68%, #000 88%);
+  }
+  .hero-figure::after{
+    background:
+      linear-gradient(38deg,
+        rgba(20,42,84,.82) 0%, rgba(22,46,92,.56) 34%,
+        rgba(32,60,118,.26) 62%, rgba(36,66,127,.10) 100%),
+      linear-gradient(0deg,
+        rgba(16,34,70,.70) 0%, rgba(20,42,84,.26) 30%, rgba(20,42,84,0) 56%);
+  }
+}
 .hero h1{
   /* ramp reduced from 6.4rem — the keyword-bearing headline runs three lines */
   font-size:clamp(2.3rem, 5.5vw, 4.9rem);
@@ -329,6 +490,17 @@ a:focus-visible, button:focus-visible{
   max-width:34ch; font-size:clamp(15px,1.15vw,17px);
   color:rgba(255,255,255,.80); margin-bottom:26px;
 }
+
+/* The headline ramp was set against a plain gradient, where a line could run
+   as far right as it liked. It cannot now: at its old cap the first line
+   reaches the middle of the subject's face, which is both the brightest part
+   of the photo and the part worth seeing. Capping the ramp holds the three
+   authored lines clear of her, on the widths where they would otherwise reach.
+   Below the base rule on purpose — same specificity, so order is what decides. */
+@media (min-width:981px){
+  .hero h1{ font-size:clamp(2.3rem,4.15vw,3.95rem); }
+}
+
 .hero-btns{ display:flex; gap:11px; flex-wrap:wrap; }
 /* CTAs are anchors now — keep them rendering exactly like the buttons */
 a.btn{ display:inline-block; text-decoration:none; text-align:center; }
@@ -349,11 +521,14 @@ a.btn{ display:inline-block; text-decoration:none; text-align:center; }
 .btn-solid{ background:#fff; color:var(--ink); }
 .btn-solid:hover{ background:var(--brand-wash); }
 
+/* No rule above this row any more. A full-width hairline is a device for a
+   flat panel: it cut straight across the photograph and across the diagonal
+   the fade is cut on, and read as a seam rather than as a division. The
+   margin alone separates the row from the CTA. */
 .hero-foot{
   position:relative; z-index:3; max-width:1180px; width:100%;
   margin:clamp(36px,6vh,80px) auto 0;
   padding-top:26px;
-  border-top:1px solid var(--hairline);
   display:flex; align-items:center; justify-content:space-between;
   gap:24px; flex-wrap:wrap;
 }
@@ -370,9 +545,16 @@ a.btn{ display:inline-block; text-decoration:none; text-align:center; }
   border:2px solid rgba(255,255,255,.85); margin-left:-9px;
 }
 .avatars img:first-child{ margin-left:0; }
+/* This note is the one piece of copy that sits on the solid end of the
+   photograph, over the laptop lid and her sleeve. Rather than put a ground
+   behind it, the type itself does the work: near-white instead of 70%, a step
+   of weight, and a shadow tight enough to be an edge rather than a glow — it
+   is what separates the letterforms from whatever is behind them, pale or
+   dark, without putting a shape on the picture. 500 is loaded already. */
 .hero-foot-note{
   text-align:right; max-width:46ch; font-size:13.5px; line-height:1.6;
-  color:rgba(255,255,255,.70);
+  font-weight:500; color:rgba(255,255,255,.95);
+  text-shadow:0 1px 2px rgba(5,9,18,.62), 0 2px 10px rgba(5,9,18,.48);
 }
 @media (max-width:760px){
   .hero-foot-note{ text-align:left; }
@@ -896,6 +1078,11 @@ footer a:hover{ color:#FFFFFF; }
    CSS-driven so content is never left invisible by a failed script.
    ============================================================ */
 @keyframes rise{ from{ opacity:0; transform:translateY(26px);} to{ opacity:1; transform:none; } }
+/* The photo is a ground, not an element of the layout: it washes in where the
+   copy rises, because a full-bleed layer travelling 26px would show the card's
+   bare gradient under its bottom edge on the way. */
+@keyframes wash{ from{ opacity:0; } to{ opacity:1; } }
+.js .hero-figure{ animation:wash 1.5s ease .04s backwards; }
 
 .js .hero h1,
 .js .hero-sub,
@@ -980,6 +1167,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="stage-pin">
 
   <header class="hero grain">
+    <!-- Full-bleed photographic ground for the card, under the grain (z 2) and
+         under the copy (z 3). Decorative: it carries no information the copy
+         on top of it does not already give, so an alt text would only be read
+         out twice. -->
+    <figure class="hero-figure">
+      <img src="founder.jpg" alt="" width="1292" height="844"
+           decoding="async" fetchpriority="high">
+    </figure>
+
     <div class="hero-inner">
       <!-- Keeps the keywords the live site ranks for ("AI-powered social media
            & advertising campaigns", "in minutes") in a single H1, set as two
@@ -1878,6 +2074,11 @@ if (!reduced && window.gsap && window.ScrollTrigger) {
         ease: "none", duration: ROLL_END }, 0)
     // The copy goes early, so the type is never read at a steep angle.
     .to(".hero-inner, .hero-foot", { opacity: 0, ease: "power1.in", duration: ROLL_END * .66 }, 0)
+    /* The photo goes over the whole roll rather than with the copy: it is the
+       card's ground, and the card has to arrive as plain blue — card 01 is a
+       gradient panel with no photograph in it, and the handover at MORPH_END
+       only reads as nothing happening if what it swaps out matches. */
+    .to(".hero-figure", { opacity: 0, ease: "power1.in", duration: ROLL_END }, 0)
     // Panels first, then their copy — the carousel arrives as objects that
     // then fill in, rather than as six blocks of text switching on at once.
     .to(".ring-card", { opacity: 1, ease: "none", duration: MORPH_END * .20 }, ROLL_END)
