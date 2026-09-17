@@ -185,16 +185,39 @@ a:focus-visible, button:focus-visible{
 .page-hero{
   position:relative; overflow:hidden; margin:14px 14px 0;
   border-radius:var(--radius-xl); background:var(--brand-abyss); color:#fff;
-  padding:clamp(120px,20vh,190px) clamp(28px,5vw,64px) clamp(56px,9vh,96px);
+  /* Top padding was 20vh/190px, set when the h1 was a 5.2rem poster and needed
+     the room. With a smaller title it left a gulf between the floating nav bar
+     — which ends around 70px down — and the eyebrow, and the block sat low in
+     its own card. Pulled back so the space above the copy and the space below
+     it are in the same family. */
+  padding:clamp(100px,13.5vh,142px) clamp(28px,5vw,64px) clamp(52px,8vh,84px);
 }
+/* Opt-in full-height card, for the pages whose masthead should open the way
+   the home page's hero does rather than at the shorter sub-page height. 28px
+   is the card's own top and bottom margin, so the two read as the same object.
+   svh first so a phone's collapsing address bar cannot make the card taller
+   than the screen; vh behind it for anything without svh. The copy centres in
+   the extra room instead of staying pinned to the top of it. */
+.page-hero.tall{
+  min-height:calc(100vh - 28px);
+  min-height:calc(100svh - 28px);
+  display:flex; align-items:center;
+}
+.page-hero.tall .wrap{ width:100%; }
+
 .page-hero-bg{
   position:absolute; inset:-16% 0; z-index:0; background:var(--hero-grad);
 }
 .page-hero .wrap{ position:relative; z-index:3; }
 .page-hero .eyebrow{ color:rgba(255,255,255,.72); }
+/* Ramp pulled back from 6.4vw/5.2rem. That was set for a masthead standing on
+   its own; at 5.2rem a title like "Sample ads made on mameon." fills most of
+   the panel and reads as a poster rather than as the head of a page — and on a
+   phone the 2.5rem floor was taking four lines. This sits just under the home
+   page's headline, which is the size relationship these pages want. */
 .page-hero h1{
-  font-size:clamp(2.5rem,6.4vw,5.2rem); line-height:1.01;
-  letter-spacing:-.033em; max-width:20ch;
+  font-size:clamp(1.9rem,3.9vw,3.05rem); line-height:1.06;
+  letter-spacing:-.03em; max-width:20ch;
 }
 .page-hero .lede{
   margin-top:22px; max-width:56ch; font-size:clamp(15px,1.15vw,18px);
@@ -203,6 +226,12 @@ a:focus-visible, button:focus-visible{
 
 /* pill row — formats, counts, anything that labels the page at a glance */
 .tagrow{ display:flex; flex-wrap:wrap; gap:10px; margin-top:30px; }
+/* Same slot as .tagrow, for the pages whose masthead ends in the sign-up CTA
+   rather than in a row of tags. */
+/* More air above it than the tag row gets: a button is a heavier object than a
+   row of labels, and at 30px it sat too close to the lede to read as its own
+   step. */
+.hero-btns{ display:flex; flex-wrap:wrap; gap:11px; margin-top:38px; }
 .tagrow span{
   padding:8px 15px; border-radius:999px; font-size:13px; letter-spacing:.01em;
   background:var(--glass); border:1px solid var(--glass-border); color:#fff;
@@ -333,11 +362,13 @@ footer nav [aria-current="page"]:hover{ color:#9A9994; cursor:default; }
 .js .page-hero .eyebrow,
 .js .page-hero h1,
 .js .page-hero .lede,
-.js .page-hero .tagrow{ animation:rise .95s cubic-bezier(.22,.8,.3,1) backwards; }
+.js .page-hero .tagrow,
+.js .page-hero .hero-btns{ animation:rise .95s cubic-bezier(.22,.8,.3,1) backwards; }
 .js .page-hero .eyebrow{ animation-delay:.10s; }
 .js .page-hero h1{ animation-delay:.17s; }
 .js .page-hero .lede{ animation-delay:.26s; }
-.js .page-hero .tagrow{ animation-delay:.34s; }
+.js .page-hero .tagrow,
+.js .page-hero .hero-btns{ animation-delay:.34s; }
 
 .js .reveal{ opacity:0; transform:translateY(22px); }
 .js .reveal.in{

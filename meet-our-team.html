@@ -46,11 +46,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .member:hover{ transform:translateY(-3px); box-shadow:0 18px 40px -22px rgba(15,20,32,.5); }
 
 .portrait{ position:relative; background:var(--hero-grad); }
+/* The photograph does not stop, it runs out: a short wash of the card's own
+   white over the foot of the frame, so the picture and the words under it read
+   as one object rather than as a photo with a caption stuck beneath it. */
+.portrait::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:30%;
+  pointer-events:none;
+  background:linear-gradient(to bottom,
+    rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 55%, var(--paper-pure) 100%);
+}
 /* --focus-x is the per-portrait art direction: lowering it slides the subject
    rightwards in the frame, raising it slides them left. */
+/* 4/5 gave each portrait ~460px of height at this column width, which made the
+   picture the whole card and pushed the bio below the fold of it. Square is
+   enough to read a face and leaves the words their share of the card. */
 .portrait img{
-  width:100%; aspect-ratio:4/5; object-fit:cover;
-  object-position:var(--focus-x, 50%) 22%;
+  /* height:auto matters: the <img> carries width/height attributes, and with a
+     definite height from those the aspect-ratio below is ignored — which is
+     why these were rendering at their intrinsic 800px all along. */
+  width:100%; height:auto; aspect-ratio:1/1; object-fit:cover;
+  object-position:var(--focus-x, 50%) 20%;
 }
 .member-hatim .portrait img{ --focus-x:36%; }
 .member-body{ padding:22px clamp(18px,1.6vw,24px) 26px; display:flex; flex-direction:column; flex:1; }
@@ -80,8 +95,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .member.wide{ grid-column:span 3; }
 @media (min-width:901px){
   .member.wide{ flex-direction:row; }
-  .member.wide .portrait{ flex:0 0 42%; }
+  .member.wide .portrait{ flex:0 0 34%; }
   .member.wide .portrait img{ height:100%; aspect-ratio:auto; }
+  /* Side by side, the join to the words is vertical, so the wash turns with
+     it — off the right edge of the picture instead of its foot. */
+  .member.wide .portrait::after{
+    top:0; bottom:0; left:auto; width:34%; height:auto;
+    background:linear-gradient(to right,
+      rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 55%, var(--paper-pure) 100%);
+  }
   .member.wide .member-body{ padding:clamp(24px,2.4vw,34px); }
   .member.wide h2{ font-size:clamp(1.3rem,1.8vw,1.7rem); }
 }
@@ -108,7 +130,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="brand-ink nav-mark-img" src="logo.png" alt="" width="32" height="32">
     <img class="brand-ink nav-word" src="wordmark.png" alt="mameon" width="70" height="18">
   </a>
-  <a class="link" href="whatyouget.html">What you Can Make</a>
+  <a class="link" href="whatyouget.html">What You Can Make</a>
   <a class="link" href="how-mameon-works.html">How mameon Works</a>
   <a class="link" aria-current="page">Meet Our Team</a>
   <a class="cta" href="https://app.mameon.com" data-location="navbar" aria-label="Log in or sign up for free"><span class="cta-full">Log in / Sign up for free</span><span class="cta-short">Sign up free</span></a>
@@ -118,20 +140,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </button>
 
   <div class="nav-panel" id="navPanel">
-    <a href="whatyouget.html">What you Can Make</a>
+    <a href="whatyouget.html">What You Can Make</a>
     <a href="how-mameon-works.html">How mameon Works</a>
     <a aria-current="page">Meet Our Team</a>
   </div>
 </nav>
 
 <!-- ================= MASTHEAD ================= -->
-<header class="page-hero grain">
+<header class="page-hero tall grain">
   <div class="page-hero-bg" aria-hidden="true"></div>
   <div class="wrap">
     <p class="eyebrow">Our team</p>
     <h1>Meet our team.</h1>
     <p class="lede">We're a small crew with big hearts, and bigger ambition. We want to
-      make storytelling effortless — and we're just getting started.</p>
+      make storytelling effortless and we're just getting started.</p>
     <div class="tagrow">
       <span>Ireland · Morocco · San Francisco</span>
       <span>Documentary, engineering &amp; fintech backgrounds</span>

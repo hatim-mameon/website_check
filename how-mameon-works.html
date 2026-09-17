@@ -47,6 +47,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 /* The opening walkthrough is the one to watch first, so it gets the full
    width rather than being one tile among nine. */
+/* This heading is 38 characters and the 20ch measure on .sec h2 — which is
+   there to keep the long ones to two or three lines — broke it in the middle
+   of "for every". Wide enough to stay on one line at desktop sizes; it still
+   wraps on its own once the clamp brings the type down on a narrow screen. */
+.sec h2.oneline{ max-width:42ch; }
+
 .feature{ margin-top:44px; }
 .feature .vcard{ display:grid; grid-template-columns:1fr; }
 @media (min-width:901px){
@@ -59,6 +65,59 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .feature .vcard-body h3{ font-size:clamp(1.5rem,2.2vw,2.1rem); }
   .feature .vcard-body p{ font-size:16px; }
 }
+
+/* ============================================================
+   MASTHEAD FLIP
+   The masthead and the four steps are two faces of one card, and scrolling
+   turns it to the right — the hero goes edge-on and the steps arrive face-on
+   in its place, so the page opens by turning over rather than by scrolling
+   past.
+
+   Every rule here is gated on .flip-on, which the script puts on <html> only
+   when it is actually going to run the turn: wide enough, tall enough to hold
+   the steps in one viewport, and motion not asked to be reduced. Without it
+   .flip-stage, .flip-pin and .flip-card are styleless divs and the two faces
+   are ordinary blocks in ordinary flow — which is also the no-JS rendering.
+   ============================================================ */
+.flip-on .flip-stage{ height:230vh; }
+.flip-on .flip-pin{
+  position:sticky; top:0; height:100vh;
+  display:grid; place-items:center;
+  /* The camera, and the clip. Far enough back that a half-turn reads as a turn
+     rather than as the card lunging at the viewer — the near edge of a
+     viewport-wide card at 20deg is already a good 9% oversize at this
+     distance, and overflow keeps that off the rest of the page. */
+  perspective:2800px; overflow:hidden;
+}
+.flip-on .flip-card{
+  position:relative;
+  /* 28px is the 14px margin the card would have had on each side, so it turns
+     in exactly the box it sits in when it is still. */
+  width:calc(100% - 28px); height:calc(100vh - 28px);
+  transform-style:preserve-3d; will-change:transform;
+}
+.flip-on .flip-face{
+  position:absolute; inset:0; margin:0; min-height:0;
+  border-radius:var(--radius-xl); overflow:hidden;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+}
+/* Mounted already turned, so the one rotation that takes the masthead away is
+   the same rotation that brings this square to us. */
+.flip-on .flip-back{
+  transform:rotateY(180deg);
+  /* flex, not grid: a single grid item sizes its track to its own content and
+     the steps row came out half the width of the card. */
+  display:flex; align-items:center;
+  padding:clamp(36px,6vh,72px) clamp(28px,5vw,64px);
+  background:var(--paper-pure); border:1px solid rgba(15,20,32,.08);
+}
+.flip-on .flip-back .wrap{ width:100%; }
+/* The section's own spacing is written for a page that scrolls; on a face that
+   has one viewport and no more, it has to fit. */
+.flip-on .flip-back h2{ font-size:clamp(1.7rem,3vw,2.5rem); }
+.flip-on .flip-back .steps{ margin-top:clamp(22px,4vh,40px); }
+.flip-on .flip-back .step{ padding:22px 20px 24px; }
+.flip-on .flip-back .step .n{ font-size:2rem; }
 </style>
 </head>
 <body>
@@ -73,7 +132,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="brand-ink nav-mark-img" src="logo.png" alt="" width="32" height="32">
     <img class="brand-ink nav-word" src="wordmark.png" alt="mameon" width="70" height="18">
   </a>
-  <a class="link" href="whatyouget.html">What you Can Make</a>
+  <a class="link" href="whatyouget.html">What You Can Make</a>
   <a class="link" aria-current="page">How mameon Works</a>
   <a class="link" href="meet-our-team.html">Meet Our Team</a>
   <a class="cta" href="https://app.mameon.com" data-location="navbar" aria-label="Log in or sign up for free"><span class="cta-full">Log in / Sign up for free</span><span class="cta-short">Sign up free</span></a>
@@ -83,61 +142,69 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </button>
 
   <div class="nav-panel" id="navPanel">
-    <a href="whatyouget.html">What you Can Make</a>
+    <a href="whatyouget.html">What You Can Make</a>
     <a aria-current="page">How mameon Works</a>
     <a href="meet-our-team.html">Meet Our Team</a>
   </div>
 </nav>
 
-<!-- ================= MASTHEAD ================= -->
-<header class="page-hero grain">
-  <div class="page-hero-bg" aria-hidden="true"></div>
-  <div class="wrap">
-    <p class="eyebrow">How mameon works</p>
-    <h1>From your URL to a live campaign.</h1>
-    <p class="lede">Guided walkthroughs for every workflow on mameon — brand kit,
-      campaigns, insights and everything in between. Campaign creation is free.</p>
-    <div class="tagrow">
-      <span>9 walkthroughs</span>
-      <span>Campaigns · brand · insights</span>
-      <span>Step by step</span>
+<!-- ============ MASTHEAD / FOUR STEPS — ONE CARD, TWO FACES ============
+     Scrolling turns the card to the right: the masthead goes edge-on and the
+     four steps arrive face-on in its place. Both faces are ordinary blocks in
+     ordinary flow until the script decides it is going to run the turn. -->
+<section class="flip-stage">
+  <div class="flip-pin">
+    <div class="flip-card" id="flipCard">
+
+      <header class="page-hero tall grain flip-face flip-front">
+        <div class="page-hero-bg" aria-hidden="true"></div>
+        <div class="wrap">
+          <p class="eyebrow">How mameon works</p>
+          <h1>From URLs to campaigns.</h1>
+          <p class="lede">Easy instructional videos for every workflow. Campaign creation is free.</p>
+          <div class="hero-btns">
+            <a class="btn btn-solid" href="https://app.mameon.com" data-location="hero">Create Your First Campaign Today</a>
+          </div>
+        </div>
+      </header>
+
+      <section class="sec flip-face flip-back">
+        <div class="wrap">
+          <p class="eyebrow">The short version</p>
+          <h2>Just four short steps to creating killer campaigns.</h2>
+
+          <div class="steps stagger">
+            <div class="step">
+              <span class="n" aria-hidden="true">01</span>
+              <h3>Paste your URL</h3>
+              <p>We examine your site and build a brand profile just for you. </p>
+            </div>
+            <div class="step">
+              <span class="n" aria-hidden="true">02</span>
+              <h3>Check your brand profile</h3>
+              <p>Adjust anything that isn’t quite you. Your brand profile governs all campaigns.</p>
+            </div>
+            <div class="step">
+              <span class="n" aria-hidden="true">03</span>
+              <h3>Create a campaign</h3>
+              <p>You can create audio, video, text or image based posts in minutes and publish instantly.</p>
+            </div>
+            <div class="step">
+              <span class="n" aria-hidden="true">04</span>
+              <h3>Publish everywhere</h3>
+              <p>Push your campaigns across all platforms including Google ads, FB, IG, YT and many more.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   </div>
-</header>
+</section>
 
-<!-- ================= THE FOUR STEPS ================= -->
+<!-- ================= LEAD WALKTHROUGH ================= -->
 <section class="sec">
   <div class="wrap">
-    <p class="eyebrow">The short version</p>
-    <h2>Four steps, and the first one is a paste.</h2>
-
-    <div class="steps stagger">
-      <div class="step">
-        <span class="n" aria-hidden="true">01</span>
-        <h3>Paste your URL</h3>
-        <p>mameon reads your site and picks up your brand — voice, colours, what you
-          actually do.</p>
-      </div>
-      <div class="step">
-        <span class="n" aria-hidden="true">02</span>
-        <h3>Check your brand profile</h3>
-        <p>Adjust anything that isn't quite you. It becomes the brief for everything
-          that follows.</p>
-      </div>
-      <div class="step">
-        <span class="n" aria-hidden="true">03</span>
-        <h3>Create a campaign</h3>
-        <p>Scripts, posts and ads across every format, generated in minutes rather
-          than weeks.</p>
-      </div>
-      <div class="step">
-        <span class="n" aria-hidden="true">04</span>
-        <h3>Publish everywhere</h3>
-        <p>Push out across the platforms that matter, and watch what lands.</p>
-      </div>
-    </div>
-
-    <!-- ---------- lead walkthrough ---------- -->
     <div class="feature">
       <figure class="vcard">
         <video controls preload="metadata" poster="https://storage.googleapis.com/mameon-website-assets/00.%20How%20it%20Works.png">
@@ -145,8 +212,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </video>
         <figcaption class="vcard-body">
           <h3>How it works</h3>
-          <p>See how you can simply, easily and inexpensively start creating campaigns
-            on mameon in minutes. And remember — campaign creation is free.</p>
+          <p>See how to simply, easily and inexpensively create campaigns in minutes. And remember, campaign creation is free, now and forever more!</p>
         </figcaption>
       </figure>
     </div>
@@ -157,7 +223,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="sec sec-wash">
   <div class="wrap">
     <p class="eyebrow">Walkthroughs</p>
-    <h2>Every workflow, one video at a time.</h2>
+    <h2 class="oneline">Instructional videos for every workflow</h2>
 
     <div class="vgrid stagger">
       <figure class="vcard">
@@ -267,6 +333,61 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="index.html#contactSection">Contact</a>
   </nav>
 </footer>
+
+
+<!-- The turn. Plain rAF-throttled scroll maths rather than a library: one
+     element, one property, and the page carries no animation dependency. -->
+<script>
+(function () {
+  var stage = document.querySelector('.flip-stage');
+  var card  = document.getElementById('flipCard');
+  if (!stage || !card) return;
+
+  var root    = document.documentElement;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var on = false, queued = false;
+
+  /* 640px of height is the floor for the steps face: below it the four cards
+     and their heading cannot be read in one viewport, and a card that has to
+     scroll internally is worse than a section that simply follows. */
+  function eligible() {
+    return !reduced.matches && window.innerWidth >= 981 && window.innerHeight >= 640;
+  }
+
+  function render() {
+    queued = false;
+    if (!on) return;
+    var travel = stage.offsetHeight - window.innerHeight;   // the pinned run
+    var p = travel > 0
+      ? Math.min(Math.max(-stage.getBoundingClientRect().top / travel, 0), 1)
+      : 0;
+    /* A dip in scale across the turn, deepest at the edge-on frame: the card
+       reads as passing through depth rather than as a flat picture being
+       squeezed and let go. */
+    var dip = 1 - 0.07 * Math.sin(p * Math.PI);
+    card.style.transform = 'rotateY(' + (p * 180) + 'deg) scale(' + dip + ')';
+  }
+
+  function onScroll() {
+    if (!queued) { queued = true; requestAnimationFrame(render); }
+  }
+
+  function sync() {
+    var want = eligible();
+    if (want !== on) {
+      on = want;
+      root.classList.toggle('flip-on', on);
+      if (!on) card.style.transform = '';
+    }
+    if (on) render();
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', sync, { passive: true });
+  if (reduced.addEventListener) reduced.addEventListener('change', sync);
+  sync();
+})();
+</script>
 
 <!-- GTM: track signup / login CTA clicks (delegated, so buttons added later are covered too) -->
 <script>
