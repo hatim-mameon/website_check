@@ -323,7 +323,12 @@ a:focus-visible, button:focus-visible{
 .close-card h2{
   position:relative; z-index:3; margin:0 auto;
   font-size:clamp(2.2rem,5.6vw,4.6rem); line-height:1.02; letter-spacing:-.03em;
-  max-width:16ch;
+  /* 28ch, not 16: every closing heading here is written as two lines with the
+     break in it, and at 16ch each of those lines broke again before its own
+     break arrived — "Create campaigns for free" alone came out in two. This is
+     the longer written line and no more, so the authored breaks are the only
+     ones that happen. */
+  max-width:28ch;
 }
 .close-card p{
   position:relative; z-index:3;
