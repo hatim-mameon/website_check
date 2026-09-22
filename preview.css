@@ -205,6 +205,31 @@ a:focus-visible, button:focus-visible{
 }
 .page-hero.tall .wrap{ width:100%; }
 
+/* Opt-in handoff: the card holds still and everything after it rides up over
+   it as one sheet, so the page turns from the masthead to its content instead
+   of cutting between them. No script — a sticky card, an opaque sheet above it
+   in the stacking order, and the scroll does the rest. The sheet is addressed
+   as the card's next sibling so only the page that opts in is affected.
+
+   Wide screens only: on a phone the card is most of the screen and pinning it
+   costs more than the transition is worth. */
+@media (min-width:981px) and (min-height:640px){
+  .page-hero.handoff{ position:sticky; top:14px; z-index:1; }
+  .page-hero.handoff + .sheet{
+    position:relative; z-index:2;
+    background:var(--paper);
+    /* The join is what softens, not either card. The sheet fades in over its
+       own first 130px, so where the two meet is a gradient from the blue into
+       the page rather than an edge — and since that join sits below the fold
+       while the card is at rest, nothing of it shows until scrolling has
+       started to bring it up. */
+    -webkit-mask-image:linear-gradient(to bottom,
+       transparent 0, rgba(0,0,0,.35) 52px, rgba(0,0,0,.82) 96px, #000 130px);
+            mask-image:linear-gradient(to bottom,
+       transparent 0, rgba(0,0,0,.35) 52px, rgba(0,0,0,.82) 96px, #000 130px);
+  }
+}
+
 .page-hero-bg{
   position:absolute; inset:-16% 0; z-index:0; background:var(--hero-grad);
 }
@@ -381,6 +406,14 @@ footer nav [aria-current="page"]:hover{ color:#9A9994; cursor:default; }
   transition:opacity .8s cubic-bezier(.22,.8,.3,1), transform .8s cubic-bezier(.22,.8,.3,1);
 }
 /* cards in a grid cascade rather than arriving as one slab */
+/* Replayable reveals (see preview.js) fade back out when they leave. The
+   resting state needs its own transition for that — without one, removing .in
+   snaps the element out mid-screen. Sits above the .in rules on purpose: same
+   specificity, so the entrance still takes its own easing and cascade. */
+.js [data-reveal-replay] .reveal,
+.js [data-reveal-replay] .stagger > *{
+  transition:opacity .45s ease, transform .45s ease;
+}
 .js .stagger > *{ opacity:0; transform:translateY(18px) scale(.985); }
 .js .stagger.in > *{
   opacity:1; transform:none;

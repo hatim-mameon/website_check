@@ -116,6 +116,123 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .team{ grid-template-columns:1fr; }
   .member, .member.wide{ grid-column:auto; }
 }
+
+/* ============================================================
+   MASTHEAD WIPE
+   Scrolling does not move the card. It is pinned, and the scroll takes it
+   away from the left and right edges together; the two edges close on the
+   middle and meet there as the card goes completely. The team rises from
+   below through the second half of it, so by the time the card is gone the
+   page is already there instead of an empty screen.
+
+   The mask is two layers, one per half — a single left-to-right gradient
+   cannot eat inward from both ends without its stops crossing and leaving a
+   sliver. Each half fades from its own outer edge, the feather travelling in
+   with it; --e is how far each side has been taken, from -18% (whole, the
+   feather parked outside the card) to 100% (that half gone). 51% each rather
+   than 50% so there is no hairline seam where they meet.
+
+   All of it gated on .wipe-on, which the script sets only when it will run
+   the wipe: wide, tall enough, and motion not asked to be reduced.
+   ============================================================ */
+.wipe-on .wipe-stage{
+  position:relative; z-index:2; height:190vh;
+  /* the stage is a tall transparent box over the top of the team section;
+     only the card itself may take clicks, and only while it is still there */
+  pointer-events:none;
+}
+/* flow-root so the card's 14px top margin stays inside the pin instead of
+   collapsing through it and knocking the sticky box out of true */
+.wipe-on .wipe-pin{ position:sticky; top:0; height:100vh; display:flow-root; }
+.wipe-on .wipe-card{
+  pointer-events:auto;
+  --e:-18%;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0, transparent var(--e), #000 calc(var(--e) + 18%)),
+    linear-gradient(to left,  transparent 0, transparent var(--e), #000 calc(var(--e) + 18%));
+          mask-image:
+    linear-gradient(to right, transparent 0, transparent var(--e), #000 calc(var(--e) + 18%)),
+    linear-gradient(to left,  transparent 0, transparent var(--e), #000 calc(var(--e) + 18%));
+  -webkit-mask-size:51% 100%, 51% 100%;
+          mask-size:51% 100%, 51% 100%;
+  -webkit-mask-position:left top, right top;
+          mask-position:left top, right top;
+  -webkit-mask-repeat:no-repeat, no-repeat;
+          mask-repeat:no-repeat, no-repeat;
+}
+/* The words go with the card rather than being cut by it: --fade runs 0 → 1
+   through the first 60% of the scroll, so the copy has dissolved before the
+   closing edges get anywhere near it. Opacity carries it; the small lift and
+   blur are what make it read as dissolving rather than as a dimmer switch.
+   On .wrap, not on the lines themselves, so it never touches their own
+   entrance animations. */
+.wipe-on .wipe-card{ --fade:0; }
+.wipe-on .wipe-card .wrap{
+  opacity:calc(1 - var(--fade));
+  transform:translateY(calc(var(--fade) * -14px));
+  filter:blur(calc(var(--fade) * 3px));
+}
+
+/* ---- the white card ----
+   Its stage is pulled up by one viewport, which puts the card's top at 14px —
+   exactly where the blue card sits — at the moment the blue card finishes
+   going. It sticks there for the spacer's 70vh while it opens, then scrolls on
+   as the page. The whole time the blue card is going it is already there
+   underneath, fully masked, so there is nothing to see until it opens.
+
+   The mask is the blue card's, reversed: the same two halves, each now opaque
+   from the middle outward with the feather at its leading edge. --r is how
+   far each half has opened, -18% (shut, the feather parked at the centre
+   line) to 100% (open). */
+.wipe-on .white-stage{ position:relative; z-index:1; margin-top:-100vh; padding-top:14px; }
+/* 140vh: the first half of it is the opening, the second half is a hold. The
+   members come in as the card finishes opening, and without the hold the card
+   let go of its pin at that same moment — so they appeared already moving and
+   were gone past the top before they could be read. Now they arrive onto a
+   card that stays still for another 70vh of scrolling before the page moves
+   on. */
+.wipe-on .white-spacer{ height:140vh; }
+.wipe-on .team-card{
+  position:sticky; top:14px;
+  margin:0 14px; border-radius:var(--radius-xl);
+  /* White on the warm paper is a quiet difference, so the edge does the
+     work of showing the card's shape while it is opening. */
+  background:var(--paper-pure); border:1px solid rgba(15,20,32,.11);
+  pointer-events:none;
+  --r:-18%;
+  -webkit-mask-image:
+    linear-gradient(to left,  #000 0, #000 var(--r), transparent calc(var(--r) + 18%)),
+    linear-gradient(to right, #000 0, #000 var(--r), transparent calc(var(--r) + 18%));
+          mask-image:
+    linear-gradient(to left,  #000 0, #000 var(--r), transparent calc(var(--r) + 18%)),
+    linear-gradient(to right, #000 0, #000 var(--r), transparent calc(var(--r) + 18%));
+  -webkit-mask-size:51% 100%, 51% 100%;
+          mask-size:51% 100%, 51% 100%;
+  -webkit-mask-position:left top, right top;
+          mask-position:left top, right top;
+  -webkit-mask-repeat:no-repeat, no-repeat;
+          mask-repeat:no-repeat, no-repeat;
+}
+/* Fully open: no mask left to composite over a card this tall, and it takes
+   clicks again. */
+.wipe-on .team-card.open{ pointer-events:auto; -webkit-mask-image:none; mask-image:none; }
+
+/* White members on a white card need a little depth to stay separate. */
+.wipe-on .team-card .member{ box-shadow:0 14px 34px -24px rgba(15,20,32,.35); }
+
+/* ---- the members, one by one ----
+   Hidden until the white card is fully open, then shown in order by the
+   script, a beat apart. Those still below the fold wait until they are
+   scrolled to. This sits after preview.css, so at equal specificity it
+   overrides the grid's own stagger reveal, which would otherwise play out
+   unseen behind the closed card. */
+.wipe-on .team .member{
+  opacity:0; transform:translateY(22px);
+  transition:opacity .6s cubic-bezier(.22,.8,.3,1),
+             transform .6s cubic-bezier(.22,.8,.3,1), box-shadow .25s ease;
+}
+.wipe-on .team .member.shown{ opacity:1; transform:none; }
+.wipe-on .team .member.shown:hover{ transform:translateY(-3px); }
 </style>
 </head>
 <body>
@@ -147,7 +264,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </nav>
 
 <!-- ================= MASTHEAD ================= -->
-<header class="page-hero tall grain">
+<!-- ============ MASTHEAD — WIPED AWAY WHERE IT STANDS ============
+     The card holds still while the page scrolls, and is taken away from both
+     sides at once until the two edges meet in the middle and nothing is left.
+     Until the script decides it is going to run this, the stage and the pin are
+     styleless and the card is an ordinary block in ordinary flow. -->
+<div class="wipe-stage">
+  <div class="wipe-pin">
+<header class="page-hero tall grain wipe-card" id="wipeCard">
   <div class="page-hero-bg" aria-hidden="true"></div>
   <div class="wrap">
     <p class="eyebrow">Our team</p>
@@ -159,9 +283,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </header>
+  </div>
+</div>
 
-<!-- ================= TEAM ================= -->
-<section class="sec">
+
+<!-- ================= TEAM — THE WHITE CARD ================= -->
+<!-- The white card takes the blue card's place once that has gone: it holds
+     still in the same spot and opens from the middle out to both sides — the
+     blue card's wipe, run backwards — and then the members come in one by
+     one. The spacer after it is the scroll it stays still for. -->
+<div class="white-stage">
+<section class="sec team-card" id="teamCard">
   <div class="wrap">
     <div class="team stagger">
 
@@ -280,6 +412,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
+<div class="white-spacer" aria-hidden="true"></div>
+</div>
+
 <!-- ================= CLOSING CTA ================= -->
 <section class="close-card grain">
   <div class="close-bg" aria-hidden="true"></div>
@@ -302,6 +437,128 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="index.html#contactSection">Contact</a>
   </nav>
 </footer>
+
+
+<!-- The wipe. rAF-throttled scroll maths on one custom property. -->
+<script>
+(function () {
+  var stage  = document.querySelector('.wipe-stage');
+  var card   = document.getElementById('wipeCard');
+  var wstage = document.querySelector('.white-stage');
+  var white  = document.getElementById('teamCard');
+  var spacer = document.querySelector('.white-spacer');
+  if (!stage || !card || !wstage || !white || !spacer) return;
+  var members = [].slice.call(white.querySelectorAll('.member'));
+
+  var root    = document.documentElement;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var FEATHER = 18;            // % of each half; matches the mask's own ramp
+  var on = false, queued = false, open = false;
+
+  /* ---- members: shown in order once the white card is open ----
+     An observer keeps track of which members are on screen; they are shown a
+     beat apart, and only once the card is open. Closing the card again (by
+     scrolling back up) hides them, so the next pass plays it all again. */
+  var inView = [], timers = [];
+  var mio = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var i = members.indexOf(e.target);
+      if (i > -1) inView[i] = e.isIntersecting;
+    });
+    showMembers();
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  members.forEach(function (m) { mio.observe(m); });
+
+  function showMembers() {
+    if (!on) return;
+    if (!open) {
+      timers.forEach(clearTimeout); timers = [];
+      members.forEach(function (m) { m.classList.remove('shown'); m.dataset.q = ''; });
+      return;
+    }
+    var k = 0;
+    members.forEach(function (m, i) {
+      if (!inView[i] || m.classList.contains('shown') || m.dataset.q) return;
+      m.dataset.q = '1';
+      timers.push(setTimeout(function () {
+        m.dataset.q = '';
+        if (open) m.classList.add('shown');
+      }, 140 * k++));
+    });
+  }
+
+  function eligible() {
+    return !reduced.matches && window.innerWidth >= 981 && window.innerHeight >= 640;
+  }
+
+  function render() {
+    queued = false;
+    if (!on) return;
+    var travel = stage.offsetHeight - window.innerHeight;
+    var p = travel > 0
+      ? Math.min(Math.max(-stage.getBoundingClientRect().top / travel, 0), 1)
+      : 0;
+    /* Eased in and out: the first bite from the edges is gentle, and so is the
+       last of it closing on the middle. */
+    var t = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+    card.style.setProperty('--e', (-FEATHER + t * (100 + FEATHER)).toFixed(2) + '%');
+    /* The copy fades on its own, shorter curve — done by 60% of the scroll,
+       smoothstepped so it neither lurches off at the start nor hangs on at
+       the end. */
+    var f = Math.min(p / 0.6, 1);
+    card.style.setProperty('--fade', (f * f * (3 - 2 * f)).toFixed(3));
+    /* Once it has started going it stops taking clicks — a mask hides the
+       card but does not stop it catching the pointer over the team. */
+    card.style.pointerEvents = p > 0.12 ? 'none' : '';
+
+    /* The white card: pinned for the spacer's length. It opens across the
+       first half of that, with the same easing the blue card closed on, and
+       holds still, open, through the second half while the members come in
+       and can be read. */
+    var run = spacer.offsetHeight;
+    var q = run > 0
+      ? Math.min(Math.max(-wstage.getBoundingClientRect().top / run, 0), 1)
+      : 0;
+    var o = Math.min(q / 0.5, 1);
+    var u = o < .5 ? 2 * o * o : 1 - Math.pow(-2 * o + 2, 2) / 2;
+    white.style.setProperty('--r', (-FEATHER + u * (100 + FEATHER)).toFixed(2) + '%');
+    var isOpen = o >= 0.985;
+    if (isOpen !== open) {
+      open = isOpen;
+      white.classList.toggle('open', open);
+      showMembers();
+    }
+  }
+
+  function onScroll() {
+    if (!queued) { queued = true; requestAnimationFrame(render); }
+  }
+
+  function sync() {
+    var want = eligible();
+    if (want !== on) {
+      on = want;
+      root.classList.toggle('wipe-on', on);
+      if (!on) {
+        card.style.removeProperty('--e');
+        card.style.removeProperty('--fade');
+        card.style.pointerEvents = '';
+        white.style.removeProperty('--r');
+        white.classList.remove('open');
+        open = false;
+        timers.forEach(clearTimeout); timers = [];
+        members.forEach(function (m) { m.classList.remove('shown'); m.dataset.q = ''; });
+      }
+    }
+    if (on) render();
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', sync, { passive: true });
+  if (reduced.addEventListener) reduced.addEventListener('change', sync);
+  sync();
+})();
+</script>
 
 <!-- GTM: track signup / login CTA clicks (delegated, so buttons added later are covered too) -->
 <script>

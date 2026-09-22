@@ -31,7 +31,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
    reads as a contents list rather than one long scroll of video.
    ============================================================ */
 .run{ margin-top:clamp(56px,8vh,96px); }
-.run:first-of-type{ margin-top:44px; }
+.run:first-of-type{ margin-top:155px; }
 .run-head{
   display:flex; align-items:baseline; gap:16px;
   padding-bottom:16px; border-bottom:1px solid rgba(15,20,32,.12);
@@ -66,6 +66,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .signoff{ margin-top:36px; font-size:14.5px; color:var(--ink-soft); }
 .signoff b{ display:block; font-size:16px; color:var(--ink); font-weight:600; }
 
+
+/* ============================================================
+   CLEARANCE UNDER THE HANDOFF
+   The sheet fades in over its first 130px, and at the section's own top
+   padding the "10 second ads" rule was starting just past the end of that
+   fade — the heading arrived at the very moment the edge finished dissolving,
+   with nothing between the two. A little more room so the fade reads as the
+   edge of the sheet and the first heading as the start of its content.
+   Same conditions as the handoff itself: without it there is no fade to clear.
+   ============================================================ */
+@media (min-width:981px) and (min-height:640px){
+  .sheet > .sec:first-child{ padding-top:calc(clamp(72px,11vh,132px) + 64px); }
+}
 </style>
 </head>
 <body>
@@ -97,7 +110,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </nav>
 
 <!-- ================= MASTHEAD ================= -->
-<header class="page-hero tall grain">
+<header class="page-hero tall handoff grain">
   <div class="page-hero-bg" aria-hidden="true"></div>
   <div class="wrap">
     <p class="eyebrow">What you can make</p>
@@ -110,11 +123,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </header>
 
+<!-- The sheet: everything after the masthead on one opaque surface, so it
+     rides up over the blue card as a single sheet rather than in pieces. -->
+<div class="sheet">
+
 <!-- ================= SAMPLES ================= -->
-<section class="sec">
+<section class="sec" data-reveal-replay>
   <div class="wrap">
 
-    <div class="run">
+    <div class="run" data-reveal-late>
       <div class="run-head">
         <span class="num" aria-hidden="true">01</span>
         <h2>10 second ads</h2>
@@ -241,6 +258,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="index.html#contactSection">Contact</a>
   </nav>
 </footer>
+
+</div><!-- /.sheet -->
 
 <!-- GTM: track signup / login CTA clicks (delegated, so buttons added later are covered too) -->
 <script>

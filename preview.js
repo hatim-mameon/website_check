@@ -37,13 +37,31 @@
   document.querySelectorAll(".sec .wrap > *:not(.stagger)")
     .forEach(el => el.classList.add("reveal"));
 
-  const io = new IntersectionObserver(entries => {
+  /* Reveals are one-shot by default: shown once, then unobserved so nothing
+     keeps firing. Inside a [data-reveal-replay] container they stay observed
+     instead, and lose .in again when they leave — so scrolling back up hides
+     them and the next pass down plays the entrance again. */
+  const reveal = (entries, obs) => {
     entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      e.target.classList.add("in");
-      io.unobserve(e.target);
+      const replay = e.target.closest("[data-reveal-replay]");
+      if (e.isIntersecting) {
+        e.target.classList.add("in");
+        if (!replay) obs.unobserve(e.target);
+      } else if (replay) {
+        e.target.classList.remove("in");
+      }
     });
-  }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
+  };
+  const io = new IntersectionObserver(reveal, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
 
-  document.querySelectorAll(".reveal, .stagger").forEach(el => io.observe(el));
+  /* data-reveal-late: for content that arrives while something else on the
+     page is moving — a sheet riding up over the masthead, say. At the normal
+     trigger it rises at the bottom edge of the screen while the eye is still on
+     the moving edge above it, and the rise is over before anyone looks down.
+     This one waits until the element's top is two-thirds of the way up the
+     viewport, so the rise happens where it is being looked at. */
+  const late = new IntersectionObserver(reveal, { rootMargin: "0px 0px -34% 0px", threshold: 0 });
+
+  document.querySelectorAll(".reveal, .stagger").forEach(el =>
+    (el.closest("[data-reveal-late]") ? late : io).observe(el));
 })();
