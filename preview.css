@@ -99,7 +99,7 @@ img{ max-width:100%; display:block; }
 }
 .nav-brand:hover .brand-ink{ opacity:1; }
 .nav-mark-img{ width:32px; height:32px; }
-.nav-word{ width:70px; height:auto; }
+.nav-word{ font-size:14.5px; font-weight:600; color:#E5E4E2; white-space:nowrap; }
 @media (max-width:420px){ .nav-word{ display:none; } }
 .nav a.link{
   padding:8px 13px; border-radius:999px; font-size:14.5px;
