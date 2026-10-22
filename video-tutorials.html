@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google Tag Manager -->
+  <!-- Google Tag Manager — the standard snippet, started once the page has
+       loaded instead of in the head, so its scripts do not compete with the
+       page for bandwidth or main-thread time on a phone. -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  new Date().getTime(),event:'gtm.js'});var go=function(){var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);};
+  if(d.readyState==='complete')go();else w.addEventListener('load',go,{once:true});
   })(window,document,'script','dataLayer','GTM-NCGPXT5P');</script>
   <!-- End Google Tag Manager -->
 
@@ -32,7 +35,9 @@
   <link rel="icon" type="image/png" href="logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Loaded without blocking first paint; display=swap swaps the faces in when they land. -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -271,7 +276,7 @@
       padding: 16px;
     }
 
-    .video-card-body h3 {
+    .video-card-body h2 {
       font-size: 1rem;
       margin-bottom: 6px;
       color: var(--ink);
@@ -387,8 +392,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <nav class="nav">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
-        <img src="logo.png" alt="mameon logo" class="nav-logo-icon" />
-        <img src="wordmark.png" alt="mameon" class="nav-logo-wordmark" />
+        <img src="img/logo-mameon-small.png" alt="mameon logo" class="nav-logo-icon" />
+        <img src="img/wordmark-mameon-small.png" alt="mameon" class="nav-logo-wordmark" />
       </a>
       <div class="nav-center">
         <a href="whatyouget.html">What You Can Make</a>
@@ -426,91 +431,91 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="video-grid">
       <div class="video-card">
-        <video controls preload="metadata" poster="https://storage.googleapis.com/mameon-website-assets/00.%20How%20it%20Works.png">
+        <video controls preload="none" poster="img/posters/how-it-works.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/00.%20How%20it%20Works.mp4" type="video/mp4">
         </video>
         <div class="video-card-body">
-          <h3>How It Works</h3>
+          <h2>How It Works</h2>
           <p>See how you can simply, easily and inexpensively start creating campaigns on mameon in minutes. And, remember, campaign creation is free!</p>
         </div>
       </div>
 
       <div class="video-card">
-        <video controls preload="metadata" poster="videos/mameon.png">
+        <video controls preload="none" poster="img/posters/mameon.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/01.%20Intro.mp4" type="video/mp4">
         </video>
         <div class="video-card-body">
-          <h3>Getting Started with mameon</h3>
+          <h2>Getting Started with mameon</h2>
           <p>Learn how to set up your brand kit, create content, and launch your first campaign step by step in just a few minutes.</p>
         </div>
       </div>
 
       <div class="video-card">
-        <video controls preload="metadata" poster="videos/campaign.png">
+        <video controls preload="none" poster="img/posters/campaign.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/02.%20Your%20Campaigns.mp4" type="video/mp4">
         </video>
         <div class="video-card-body">
-          <h3>Your First 5 Minutes on mameon</h3>
+          <h2>Your First 5 Minutes on mameon</h2>
           <p>A quick walkthrough of everything you need to know to go from login to live campaign with ease.</p>
         </div>
       </div>
 
       <div class="video-card">
-        <video controls preload="metadata" poster="videos/Your%20Brand%20Profile.png">
+        <video controls preload="none" poster="img/posters/your-brand-profile.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/04.%20Your%20Brand%20Profile.mp4" type="video/mp4">
         </video>
         <div class="video-card-body">
-          <h3>Your Brand Profile</h3>
+          <h2>Your Brand Profile</h2>
           <p>Understand and manage your Brand Profile setup in mameon.</p>
         </div>
       </div>
 
       <div class="video-card">
-        <video controls preload="metadata" poster="videos/Your%20Info.png">
+        <video controls preload="none" poster="img/posters/your-info.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/06.%20Your%20Info.mp4" type="video/mp4">
         </video>
         <div class="video-card-body">
-          <h3>Your Info</h3>
+          <h2>Your Info</h2>
           <p>A walkthrough of the Your Info section and key settings.</p>
         </div>
       </div>
 
       <div class="video-card">
-        <video controls preload="metadata" poster="videos/Get%20Help.png">
+        <video controls preload="none" poster="img/posters/get-help.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/07.%20Get%20Help.mp4" type="video/mp4">
         </video>
         <div class="video-card-body">
-          <h3>Get Help</h3>
+          <h2>Get Help</h2>
           <p>Overview of the Get Help section and available support.</p>
         </div>
       </div>
 
       <div class="video-card">
-        <video controls preload="metadata" poster="videos/Your%20Chief%20Storytelling%20Officer.png">
+        <video controls preload="none" poster="img/posters/your-chief-storytelling-officer.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/08.%20Your%20Chief%20Storytelling%20Officer.mp4" type="video/mp4">
         </video>
         <div class="video-card-body">
-          <h3>Your Chief Storytelling Officer</h3>
+          <h2>Your Chief Storytelling Officer</h2>
           <p>How to use the Chief Storytelling Officer features.</p>
         </div>
       </div>
 
       <div class="video-card">
-        <video controls preload="metadata" poster="videos/Storytelling%20that%20Connects.png">
+        <video controls preload="none" poster="img/posters/storytelling-that-connects.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/09.%20Storytelling%20that%20Connects.mp4" type="video/mp4">
         </video>
         <div class="video-card-body">
-          <h3>Storytelling that Connects</h3>
+          <h2>Storytelling that Connects</h2>
           <p>Learn storytelling techniques that connect with your audience.</p>
         </div>
       </div>
 
       <div class="video-card">
-        <video controls preload="metadata" poster="videos/Your%20Story%20is%20Worth%20Telling.png">
+        <video controls preload="none" poster="img/posters/your-story-is-worth-telling.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/10.%20Your%20Story%20is%20Worth%20Telling.mp4" type="video/mp4">
         </video>
         <div class="video-card-body">
-          <h3>Your Story is Worth Telling</h3>
+          <h2>Your Story is Worth Telling</h2>
           <p>Why and how to tell your brand story effectively.</p>
         </div>
       </div>
@@ -522,8 +527,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="footer-inner">
       <div class="footer-left">
         <span class="nav-logo">
-          <img src="logo.png" alt="mameon logo" class="nav-logo-icon" />
-          <img src="wordmark.png" alt="mameon" class="nav-logo-wordmark" />
+          <img src="img/logo-mameon-small.png" alt="mameon logo" class="nav-logo-icon" />
+          <img src="img/wordmark-mameon-small.png" alt="mameon" class="nav-logo-wordmark" />
         </span>
         <span>&copy; 2026 mameon. All rights reserved.</span>
       </div>

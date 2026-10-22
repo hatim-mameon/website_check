@@ -3,21 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Google Tag Manager -->
+<!-- Google Tag Manager — the standard snippet, started once the page has
+     loaded instead of in the head, so its scripts do not compete with the
+     page for bandwidth or main-thread time on a phone. -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+new Date().getTime(),event:'gtm.js'});var go=function(){var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);};
+if(d.readyState==='complete')go();else w.addEventListener('load',go,{once:true});
 })(window,document,'script','dataLayer','GTM-NCGPXT5P');</script>
 <!-- End Google Tag Manager -->
 <title>mameon — What You Can Make</title>
+<meta name="description" content="Sample AI-made video ads in 10, 30 and 60 second cuts, plus a boutique option: 9 videos with top-class stock footage and a real human editor.">
 <link rel="canonical" href="https://mameon.com/whatyouget.html">
 <link rel="icon" type="image/png" href="logo.png">
 
 <link rel="preload" as="image" href="aengus-wordmark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Loaded without blocking first paint; display=swap swaps the faces in when they land. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 
 <link rel="stylesheet" href="preview.css">
 <script src="preview.js" defer></script>
@@ -93,17 +99,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="brand-ink nav-mark-img" src="aengus-mark.png" alt="" width="32" height="32">
     <span class="nav-word">Home</span>
   </a>
-  <a class="link" aria-current="page">What You Can Make</a>
+  <a class="link" href="whatyouget.html" aria-current="page">What You Can Make</a>
   <a class="link" href="how-mameon-works.html">How It Works</a>
   <a class="link" href="meet-our-team.html">Meet Our Team</a>
-  <a class="cta" href="https://app.mameon.com" data-location="navbar" aria-label="Log in or sign up for free"><span class="cta-full">Log in / Sign up for free</span><span class="cta-short">Sign up free</span></a>
+  <a class="cta" href="https://app.mameon.com" data-location="navbar"><span class="cta-full">Log in / Sign up for free</span><span class="cta-short">Sign up free</span></a>
   <button class="nav-toggle" id="navToggle" type="button"
           aria-expanded="false" aria-controls="navPanel" aria-label="Open menu">
     <span></span><span></span><span></span>
   </button>
 
   <div class="nav-panel" id="navPanel">
-    <a aria-current="page">What you Can Make</a>
+    <a href="whatyouget.html" aria-current="page">What you Can Make</a>
     <a href="how-mameon-works.html">How It Works</a>
     <a href="meet-our-team.html">Meet Our Team</a>
   </div>
@@ -139,19 +145,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="vgrid stagger">
         <figure class="vcard">
-          <video controls preload="metadata" poster="ads_poster.png">
+          <video controls preload="none" poster="img/ads_poster.jpg">
             <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_10%20Sec_L.mp4" type="video/mp4">
           </video>
           <figcaption class="vcard-body"><span class="fmt">10s · landscape</span></figcaption>
         </figure>
         <figure class="vcard">
-          <video controls preload="metadata" poster="ads_poster.png">
+          <video controls preload="none" poster="img/ads_poster.jpg">
             <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_10%20Sec_S.mp4" type="video/mp4">
           </video>
           <figcaption class="vcard-body"><span class="fmt">10s · square</span></figcaption>
         </figure>
         <figure class="vcard">
-          <video controls preload="metadata" poster="ads_poster.png">
+          <video controls preload="none" poster="img/ads_poster.jpg">
             <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_10%20Sec_L_WOT.mp4" type="video/mp4">
           </video>
           <figcaption class="vcard-body"><span class="fmt">10s · landscape, without text</span></figcaption>
@@ -167,19 +173,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="vgrid stagger">
         <figure class="vcard">
-          <video controls preload="metadata" poster="ads_poster.png">
+          <video controls preload="none" poster="img/ads_poster.jpg">
             <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_30%20Sec_L.mp4" type="video/mp4">
           </video>
           <figcaption class="vcard-body"><span class="fmt">30s · landscape</span></figcaption>
         </figure>
         <figure class="vcard">
-          <video controls preload="metadata" poster="ads_poster.png">
+          <video controls preload="none" poster="img/ads_poster.jpg">
             <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_30%20Sec_S.mp4" type="video/mp4">
           </video>
           <figcaption class="vcard-body"><span class="fmt">30s · square</span></figcaption>
         </figure>
         <figure class="vcard">
-          <video controls preload="metadata" poster="ads_poster.png">
+          <video controls preload="none" poster="img/ads_poster.jpg">
             <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_30%20Sec_L_WOT.mp4" type="video/mp4">
           </video>
           <figcaption class="vcard-body"><span class="fmt">30s · landscape, without text</span></figcaption>
@@ -195,19 +201,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="vgrid stagger">
         <figure class="vcard">
-          <video controls preload="metadata" poster="ads_poster.png">
+          <video controls preload="none" poster="img/ads_poster.jpg">
             <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_60%20Sec_L.mp4" type="video/mp4">
           </video>
           <figcaption class="vcard-body"><span class="fmt">60s · landscape</span></figcaption>
         </figure>
         <figure class="vcard">
-          <video controls preload="metadata" poster="ads_poster.png">
+          <video controls preload="none" poster="img/ads_poster.jpg">
             <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_60%20Sec_S.mp4" type="video/mp4">
           </video>
           <figcaption class="vcard-body"><span class="fmt">60s · square</span></figcaption>
         </figure>
         <figure class="vcard">
-          <video controls preload="metadata" poster="ads_poster.png">
+          <video controls preload="none" poster="img/ads_poster.jpg">
             <source src="https://storage.googleapis.com/mameon-website-assets/Aromyx_60%20Sec_L_WOT.mp4" type="video/mp4">
           </video>
           <figcaption class="vcard-body"><span class="fmt">60s · landscape, without text</span></figcaption>

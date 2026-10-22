@@ -3,21 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Google Tag Manager -->
+<!-- Google Tag Manager — the standard snippet, started once the page has
+     loaded instead of in the head, so its scripts do not compete with the
+     page for bandwidth or main-thread time on a phone. -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+new Date().getTime(),event:'gtm.js'});var go=function(){var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);};
+if(d.readyState==='complete')go();else w.addEventListener('load',go,{once:true});
 })(window,document,'script','dataLayer','GTM-NCGPXT5P');</script>
 <!-- End Google Tag Manager -->
 <title>mameon — How It Works</title>
+<meta name="description" content="Go from your website URL to entire social media and ad campaigns in four easy steps. Creating content and campaigns is always free.">
 <link rel="canonical" href="https://mameon.com/how-mameon-works.html">
 <link rel="icon" type="image/png" href="logo.png">
 
 <link rel="preload" as="image" href="aengus-wordmark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Loaded without blocking first paint; display=swap swaps the faces in when they land. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 
 <link rel="stylesheet" href="preview.css">
 <script src="preview.js" defer></script>
@@ -133,9 +139,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span class="nav-word">Home</span>
   </a>
   <a class="link" href="whatyouget.html">What You Can Make</a>
-  <a class="link" aria-current="page">How It Works</a>
+  <a class="link" href="how-mameon-works.html" aria-current="page">How It Works</a>
   <a class="link" href="meet-our-team.html">Meet Our Team</a>
-  <a class="cta" href="https://app.mameon.com" data-location="navbar" aria-label="Log in or sign up for free"><span class="cta-full">Log in / Sign up for free</span><span class="cta-short">Sign up free</span></a>
+  <a class="cta" href="https://app.mameon.com" data-location="navbar"><span class="cta-full">Log in / Sign up for free</span><span class="cta-short">Sign up free</span></a>
   <button class="nav-toggle" id="navToggle" type="button"
           aria-expanded="false" aria-controls="navPanel" aria-label="Open menu">
     <span></span><span></span><span></span>
@@ -143,7 +149,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div class="nav-panel" id="navPanel">
     <a href="whatyouget.html">What You Can Make</a>
-    <a aria-current="page">How It Works</a>
+    <a href="how-mameon-works.html" aria-current="page">How It Works</a>
     <a href="meet-our-team.html">Meet Our Team</a>
   </div>
 </nav>
@@ -209,7 +215,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="wrap">
     <div class="feature">
       <figure class="vcard">
-        <video controls preload="metadata" poster="https://storage.googleapis.com/mameon-website-assets/00.%20How%20it%20Works.png">
+        <video controls preload="none" poster="img/posters/how-it-works.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/00.%20How%20it%20Works.mp4" type="video/mp4">
         </video>
         <figcaption class="vcard-body">
@@ -229,7 +235,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="vgrid stagger">
       <figure class="vcard">
-        <video controls preload="metadata" poster="videos/mameon.png">
+        <video controls preload="none" poster="img/posters/mameon.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/01.%20Intro.mp4" type="video/mp4">
         </video>
         <figcaption class="vcard-body">
@@ -240,7 +246,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </figure>
 
       <figure class="vcard">
-        <video controls preload="metadata" poster="videos/campaign.png">
+        <video controls preload="none" poster="img/posters/campaign.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/02.%20Your%20Campaigns.mp4" type="video/mp4">
         </video>
         <figcaption class="vcard-body">
@@ -251,7 +257,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </figure>
 
       <figure class="vcard">
-        <video controls preload="metadata" poster="videos/Your%20Brand%20Profile.png">
+        <video controls preload="none" poster="img/posters/your-brand-profile.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/04.%20Your%20Brand%20Profile.mp4" type="video/mp4">
         </video>
         <figcaption class="vcard-body">
@@ -261,7 +267,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </figure>
 
       <figure class="vcard">
-        <video controls preload="metadata" poster="videos/Your%20Info.png">
+        <video controls preload="none" poster="img/posters/your-info.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/06.%20Your%20Info.mp4" type="video/mp4">
         </video>
         <figcaption class="vcard-body">
@@ -271,7 +277,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </figure>
 
       <figure class="vcard">
-        <video controls preload="metadata" poster="videos/Get%20Help.png">
+        <video controls preload="none" poster="img/posters/get-help.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/07.%20Get%20Help.mp4" type="video/mp4">
         </video>
         <figcaption class="vcard-body">
@@ -281,7 +287,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </figure>
 
       <figure class="vcard">
-        <video controls preload="metadata" poster="videos/Your%20Chief%20Storytelling%20Officer.png">
+        <video controls preload="none" poster="img/posters/your-chief-storytelling-officer.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/08.%20Your%20Chief%20Storytelling%20Officer.mp4" type="video/mp4">
         </video>
         <figcaption class="vcard-body">
@@ -291,7 +297,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </figure>
 
       <figure class="vcard">
-        <video controls preload="metadata" poster="videos/Storytelling%20that%20Connects.png">
+        <video controls preload="none" poster="img/posters/storytelling-that-connects.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/09.%20Storytelling%20that%20Connects.mp4" type="video/mp4">
         </video>
         <figcaption class="vcard-body">
@@ -301,7 +307,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </figure>
 
       <figure class="vcard">
-        <video controls preload="metadata" poster="videos/Your%20Story%20is%20Worth%20Telling.png">
+        <video controls preload="none" poster="img/posters/your-story-is-worth-telling.jpg">
           <source src="https://storage.googleapis.com/mameon-website-assets/10.%20Your%20Story%20is%20Worth%20Telling.mp4" type="video/mp4">
         </video>
         <figcaption class="vcard-body">
