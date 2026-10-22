@@ -3,11 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Google Tag Manager -->
+<!-- Google Tag Manager — the standard snippet, started once the page has
+     loaded instead of in the head, so its scripts (~500KB) do not compete with
+     the hero for bandwidth or main-thread time on a phone. gtm.start is still
+     stamped now, so GTM's own page timing is unchanged. -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+new Date().getTime(),event:'gtm.js'});var go=function(){var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);};
+if(d.readyState==='complete')go();else w.addEventListener('load',go,{once:true});
 })(window,document,'script','dataLayer','GTM-NCGPXT5P');</script>
 <!-- End Google Tag Manager -->
 
@@ -50,7 +54,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Loaded without blocking first paint: the fallbacks in --display/--body
+     show first and display=swap swaps the real faces in when they land. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 
 <!-- Marks that JS is alive. Reveal styles hang off this class, so if the
      script or the GSAP CDN ever fails, every section renders fully visible. -->
@@ -1092,7 +1099,10 @@ footer a:hover{ color:#FFFFFF; }
 /* The photo is a ground, not an element of the layout: it washes in where the
    copy rises, because a full-bleed layer travelling 26px would show the card's
    bare gradient under its bottom edge on the way. */
-@keyframes wash{ from{ opacity:0; } to{ opacity:1; } }
+/* .01, not 0: Chrome does not count an element at opacity 0 as painted, so
+   a fade from 0 held the hero photo's Largest Contentful Paint back until
+   the page load event. 1% is invisible and lets it count at first paint. */
+@keyframes wash{ from{ opacity:.01; } to{ opacity:1; } }
 .js .hero-figure{ animation:wash 1.5s ease .04s backwards; }
 
 .js .hero h1,
@@ -1205,11 +1215,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="hero-foot">
       <div class="proof">
         <span class="avatars">
-          <img src="team/Oussama.jpeg" alt="" width="30" height="30">
-          <img src="team/Dave.png" alt="" width="30" height="30">
-          <img src="team/Wayne.jpg" alt="" width="30" height="30">
-          <img src="team/Jason.jpg" alt="" width="30" height="30">
-          <img src="team/Hatim.jpeg" alt="" width="30" height="30">
+          <img src="img/avatar-Oussama.jpg" alt="" width="30" height="30">
+          <img src="img/avatar-Dave.jpg" alt="" width="30" height="30">
+          <img src="img/avatar-Wayne.jpg" alt="" width="30" height="30">
+          <img src="img/avatar-Jason.jpg" alt="" width="30" height="30">
+          <img src="img/avatar-Hatim.jpg" alt="" width="30" height="30">
         </span>
         Join 1000+ founders
       </div>
@@ -1222,10 +1232,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="marquee" id="marquee">
       <span class="mq"><img src="platforms/official/google-ads.svg" alt="" width="24" height="24" decoding="async">Google Ads</span>
-      <span class="mq"><img src="platforms/official/instagram.png" alt="" width="24" height="24" decoding="async">Instagram</span>
-      <span class="mq"><img src="platforms/official/facebook.png" alt="" width="24" height="24" decoding="async">Facebook</span>
-      <span class="mq"><img src="platforms/official/x.png" alt="" width="24" height="24" decoding="async">X</span>
-      <span class="mq"><img src="platforms/official/pinterest.png" alt="" width="24" height="24" decoding="async">Pinterest</span>
+      <span class="mq"><img src="img/icon-instagram.png" alt="" width="24" height="24" decoding="async">Instagram</span>
+      <span class="mq"><img src="img/icon-facebook.png" alt="" width="24" height="24" decoding="async">Facebook</span>
+      <span class="mq"><img src="img/icon-x.png" alt="" width="24" height="24" decoding="async">X</span>
+      <span class="mq"><img src="img/icon-pinterest.png" alt="" width="24" height="24" decoding="async">Pinterest</span>
       <span class="mq"><img src="platforms/official/telegram.svg" alt="" width="24" height="24" decoding="async">Telegram</span>
       <span class="mq"><img src="platforms/official/bluesky.svg" alt="" width="24" height="24" decoding="async">Bluesky</span>
     </div>
@@ -1252,10 +1262,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </p>
     <div class="platforms">
       <div><img src="platforms/official/google-ads.svg" alt="Google Ads" width="24" height="24" loading="lazy" decoding="async"></div>
-      <div><img src="platforms/official/instagram.png" alt="Instagram" width="24" height="24" loading="lazy" decoding="async"></div>
-      <div><img src="platforms/official/facebook.png" alt="Facebook" width="24" height="24" loading="lazy" decoding="async"></div>
-      <div><img src="platforms/official/x.png" alt="X" width="24" height="24" loading="lazy" decoding="async"></div>
-      <div><img src="platforms/official/pinterest.png" alt="Pinterest" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="img/icon-instagram.png" alt="Instagram" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="img/icon-facebook.png" alt="Facebook" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="img/icon-x.png" alt="X" width="24" height="24" loading="lazy" decoding="async"></div>
+      <div><img src="img/icon-pinterest.png" alt="Pinterest" width="24" height="24" loading="lazy" decoding="async"></div>
       <div><img src="platforms/official/linkedin.svg" alt="LinkedIn" width="24" height="24" loading="lazy" decoding="async"></div>
       <div><img src="platforms/official/reddit.svg" alt="Reddit" width="24" height="24" loading="lazy" decoding="async"></div>
       <div><img src="platforms/official/telegram.svg" alt="Telegram" width="24" height="24" loading="lazy" decoding="async"></div>
@@ -1326,7 +1336,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="tcar-view" id="tcarView" tabindex="0" role="group" aria-label="Customer stories, scrollable">
        <div class="tcar-track" id="tcarTrack">
         <figure class="tcard">
-          <img class="photo" src="story_tigre.jpg" alt="" width="1152" height="2048" loading="lazy" decoding="async">
+          <img class="photo" data-src="story_tigre.jpg" alt="" width="1152" height="2048" loading="lazy" decoding="async">
           <figcaption class="tcard-top"><b>01</b> · <span>Tigre</span></figcaption>
           <div class="tcard-body">
             <blockquote>“We just pasted in our URL and Aengus.ai understood our brand
@@ -1337,7 +1347,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </figure>
 
         <figure class="tcard">
-          <img class="photo" src="story_mara.jpg" alt="" width="1200" height="1600" loading="lazy" decoding="async">
+          <img class="photo" data-src="story_mara.jpg" alt="" width="1200" height="1600" loading="lazy" decoding="async">
           <figcaption class="tcard-top"><b>02</b> · <span>Mara Botanics</span></figcaption>
           <div class="tcard-body">
             <blockquote>“Running a startup isn't one hard thing. It's twenty easy things
@@ -1348,7 +1358,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </figure>
 
         <figure class="tcard">
-          <img class="photo" src="mameon-mvp-launch-images/aromyx.webp" alt="" width="436" height="512" loading="lazy" decoding="async">
+          <img class="photo" data-src="mameon-mvp-launch-images/aromyx.webp" alt="" width="436" height="512" loading="lazy" decoding="async">
           <figcaption class="tcard-top"><b>03</b> · <span>Aromyx</span></figcaption>
           <div class="tcard-body">
             <blockquote>“The team quickly gave us several versions of our video and it
@@ -1363,7 +1373,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
              object-position does anything: 73% centres that band on the driver
              (he sits at 66%) and keeps the street through the windscreen. -->
         <figure class="tcard">
-          <img class="photo" src="mameon-mvp-launch-images/sprv.png" alt="" width="1930" height="912"
+          <img class="photo" data-src="img/sprv.jpg" alt="" width="1930" height="912"
                style="object-position:73% 50%" loading="lazy" decoding="async">
           <figcaption class="tcard-top"><b>04</b> · <span>SPSV Pro Training</span></figcaption>
           <div class="tcard-body">
@@ -1375,7 +1385,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </figure>
 
         <figure class="tcard logo-card">
-          <img class="mark wide" src="logos/mesh_transparent.png" alt="" width="3264" height="1312" loading="lazy" decoding="async">
+          <img class="mark wide" data-src="img/mesh.png" alt="" width="480" height="193" loading="lazy" decoding="async">
           <figcaption class="tcard-top"><b>05</b> · <span>Mesh Bioplastics</span></figcaption>
           <div class="tcard-body">
             <blockquote>“Their storytelling tools helped us communicate our mission with
@@ -1488,7 +1498,6 @@ document.addEventListener("click", (e) => {
 });
 
 /* ---------- build the 3D card ring ---------- */
-const LAUNCH = "mameon-mvp-launch-images/";
 
 const CARDS = [
   // `pos` is object-position. The card face is portrait (0.65) while the launch
@@ -1496,17 +1505,17 @@ const CARDS = [
   // each is set so the subject lands in the middle of the visible 65% band.
   // Ad Campaigns keeps its own landscape poster, which needs Y steering too.
   { title:"Social Posts",   cap:"On-brand copy and creative for every platform.",
-    img:LAUNCH + "Social%20posts.jpg",    w:1024, h:1024, pos:"36% 50%" },
+    img:"img/social-posts.jpg",    w:1024, h:1024, pos:"36% 50%" },
   { title:"Ad Campaigns",   cap:"Killer campaigns for Google Ads, created and optimized.",
-    img:"ads_poster.png",              w:1896, h:972,  pos:"54% 45%" },
+    img:"img/ads_poster.jpg",        w:1400, h:718,  pos:"54% 45%" },
   { title:"Video",          cap:"Tell the whole world your story in short form video.",
-    img:LAUNCH + "Video.jpg",             w:474,  h:474,  pos:"72% 50%" },
+    img:"img/video.jpg",             w:474,  h:474,  pos:"72% 50%" },
   { title:"Audio Ads",      cap:"Make audio ads with just a few clicks.",
-    img:LAUNCH + "Audio%20Ads.jpg",       w:1024, h:1024, pos:"46% 50%" },
+    img:"img/audio-ads.jpg",         w:1024, h:1024, pos:"46% 50%" },
   { title:"Brand Profile",  cap:"We create a unique brand profile just for you.",
-    img:LAUNCH + "Brand%20profile.jpg",   w:1024, h:1024, pos:"54% 50%" },
+    img:"img/brand-profile.jpg",     w:1024, h:1024, pos:"54% 50%" },
   { title:"Marketing Brain",cap:"The biggest brands have entire marketing teams. Now you do too.",
-    img:LAUNCH + "Marketing%20Brain.jpg", w:1024, h:1024, pos:"38% 50%" },
+    img:"img/marketing-brain.jpg",   w:1024, h:1024, pos:"38% 50%" },
 ];
 
 const ring = document.getElementById("ring");
@@ -1520,10 +1529,11 @@ CARDS.forEach((c, i) => {
   el.style.transform = `rotateY(${angle}deg) translateZ(var(--ring-r))`;
   if (c.img) el.classList.add("has-img");
   const photo = c.img
-    // eager: lazy-loading is unreliable for children of a preserve-3d ring
-    // (rotated faces read as off-viewport), and the carousel is the first
-    // section after the hero, so these are effectively above the fold.
-    ? `<img class="card-img" src="${c.img}" alt="" width="${c.w}" height="${c.h}"
+    // Not loading="lazy": that is unreliable for children of a preserve-3d
+    // ring (rotated faces read as off-viewport). But the hero covers the whole
+    // ring until the first scroll, so the src is held back (see below) and
+    // these stay out of the way of the hero photo on a slow connection.
+    ? `<img class="card-img" data-src="${c.img}" alt="" width="${c.w}" height="${c.h}"
             style="object-position:${c.pos}" decoding="async">`
     : "";
   el.innerHTML = `
@@ -1534,6 +1544,29 @@ CARDS.forEach((c, i) => {
     </div>`;
   ring.appendChild(el);
 });
+
+/* Every image below the hero — the card photos and the story photos — carries
+   data-src instead of src, and starts downloading once the page has loaded, or
+   on the first scroll or touch if that comes sooner. Either is still well
+   before any of them can be on screen, and it keeps them from competing with
+   the hero photo on a slow connection. (loading="lazy" alone did not: the
+   pinned stage keeps the story section within the browser's lazy-load reach
+   from the start.) */
+(() => {
+  let done = false;
+  const loadCards = () => {
+    if (done) return;
+    done = true;
+    document.querySelectorAll("img[data-src]").forEach(img => {
+      img.src = img.dataset.src;
+      img.removeAttribute("data-src");
+    });
+  };
+  if (document.readyState === "complete") loadCards();
+  else addEventListener("load", loadCards, { once: true });
+  ["scroll", "wheel", "touchstart", "keydown"].forEach(t =>
+    addEventListener(t, loadCards, { once: true, passive: true }));
+})();
 
 /* ------------------------------------------------------------
    Reveals + step tracking: plain IntersectionObserver, no GSAP.
