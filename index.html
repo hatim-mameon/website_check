@@ -722,6 +722,23 @@ html:not(.motion) .ring-wrap{ display:grid; place-items:center; min-height:70vh;
   color:var(--ink-soft);
 }
 
+/* meet Aengus — the pull-quote break of What You Can Make, on the same wash,
+   between the carousel and the one-stop section */
+.sec-wash{ background:var(--brand-wash); }
+.pull{ text-align:center; }
+.pull blockquote{
+  margin:0 auto; max-width:24ch;
+  font-family:var(--display); font-weight:400;
+  font-size:clamp(1.7rem,3.6vw,3rem); line-height:1.1; letter-spacing:-.028em;
+}
+/* the story runs too long for display size, so it steps down to the
+   statement scale and the name carries the quote's full weight */
+.pull .story{
+  margin:22px auto 0; max-width:44ch;
+  font-family:var(--display); font-size:clamp(1.15rem,2vw,1.6rem);
+  line-height:1.3; letter-spacing:-.015em; color:var(--ink-soft);
+}
+
 /* how it works — pinned counter */
 .steps{ position:relative; }
 .steps-grid{
@@ -1247,6 +1264,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
 
+  </div>
+</section>
+
+<!-- ================= MEET AENGUS ================= -->
+<section class="sec sec-wash">
+  <div class="wrap pull">
+    <blockquote>Meet Aengus</blockquote>
+    <p class="story">“Aengus was the ancient Celtic god of poetry and storytelling.
+      We named our AI after him because we believe every business has a story worth
+      telling. And because we want to help them tell their stories to the world.”</p>
   </div>
 </section>
 

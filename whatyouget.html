@@ -69,7 +69,9 @@ if(d.readyState==='complete')go();else w.addEventListener('load',go,{once:true})
   font-family:var(--display); font-size:clamp(1.3rem,2.3vw,1.95rem);
   line-height:1.24; letter-spacing:-.02em;
 }
-.signoff{ margin-top:36px; font-size:14.5px; color:var(--ink-soft); }
+/* .statement p (margin:0 auto) outranks a bare .signoff, so the gap is set
+   at the same specificity */
+.statement .signoff{ margin-top:22px; font-size:14.5px; color:var(--ink-soft); }
 .signoff b{ display:block; font-size:16px; color:var(--ink); font-weight:600; }
 
 
@@ -237,8 +239,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="sec">
   <div class="wrap statement">
     <p>Aengus.ai is your resource for advertising, communication and customer connection
-      from social posts to podcasts, audio to video streaming ads.</p>
-    <p class="signoff">Happy connecting!<b>— Team Aengus.ai</b></p>
+      from social posts to podcasts, audio to video streaming ads. Happy connecting!</p>
+    <p class="signoff"><b>— Team Aengus.ai</b></p>
   </div>
 </section>
 
