@@ -1,33 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://mameon.com/</loc>
-    <lastmod>2026-03-18</lastmod>
+    <loc>https://www.aengus.ai/</loc>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://mameon.com/whatyouget.html</loc>
-    <lastmod>2026-03-18</lastmod>
+    <loc>https://www.aengus.ai/whatyouget.html</loc>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mameon.com/video-tutorials.html</loc>
-    <lastmod>2026-03-18</lastmod>
+    <loc>https://www.aengus.ai/video-tutorials.html</loc>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mameon.com/privacy.html</loc>
-    <lastmod>2026-03-18</lastmod>
+    <loc>https://www.aengus.ai/privacy.html</loc>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://mameon.com/terms.html</loc>
-    <lastmod>2026-03-18</lastmod>
+    <loc>https://www.aengus.ai/terms.html</loc>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.aengus.ai/how-mameon-works.html</loc>
+    <lastmod>2026-10-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.aengus.ai/meet-our-team.html</loc>
+    <lastmod>2026-10-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
